@@ -32,6 +32,24 @@ class Network {
 
     }
     
+    static func getImageWithURL(url: String, success:(data: NSData)->Void) {
+   
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+            
+            let session = NSURLSession.sharedSession()
+            
+            var task: NSURLSessionTask = session.dataTaskWithURL(NSURL(string: url)!, completionHandler: { (data, response, error) -> Void in
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    success(data: data)
+                })
+                
+                
+            })
+            
+        })
+    }
 }
 
 class NetworkManager {

@@ -62,7 +62,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     var isLocated:Bool = false//是否是第一次定位
     var isDeleteAnnotation: Bool = false//是否要删除当前界面上的calloutView
     var isLoadData: Bool = true//知道当前数据加载完毕,才能重新加载数据,防止用户快速移动的时候,不停的发送请求
-    
+    var currentDataIndex:Int? = -1
     
     lazy var baseAnnocationArray: NSMutableArray? = {
         
@@ -321,6 +321,12 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             callOutAnnotationView!.alpha = 1.0
             self.callOutAnnotationView = callOutAnnotationView
             
+            var contentView:YNCalloutContentView = YNCalloutContentView(frame: callOutAnnotationView!.contentView.bounds)
+            
+            contentView.dataModel = self.dataArray[self.currentDataIndex!]
+            
+            callOutAnnotationView?.contentView.addSubview(contentView)
+            
             return callOutAnnotationView
         }
         
@@ -333,13 +339,20 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         if view.annotation is YNBaseAnnotation {
        
             self.isDeleteAnnotation = false
-            var baseAnnotation: YNBaseAnnotation = view.annotation as! YNBaseAnnotation
+            let baseAnnotation: YNBaseAnnotation = view.annotation as! YNBaseAnnotation
             
-            //TODO: 纪录 baseAnnotation.index
+            self.currentDataIndex = baseAnnotation.index
             
             var callOutAnnotation = YNCallOutAnnotation(coordinate: view.annotation.coordinate)
             mapView.addAnnotation(callOutAnnotation)
+           callOutAnnotation.index = baseAnnotation.index
             self.callOutAnnotation = callOutAnnotation
+            
+        } else {
+            
+            var temp:MKAnnotation = view.annotation
+            
+            print(temp)
         }
         
     }
@@ -362,10 +375,14 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
                     self.callOutAnnotation = nil
                 }
                 
+//                self.mapView.removeAnnotation(self.callOutAnnotation)
+//                self.callOutAnnotation = nil
+
             })
             
         }
         
+       
     }
     
 //    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {

@@ -34,6 +34,7 @@
 		408E05481B7DD2DB00E22980 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 408E05471B7DD2DB00E22980 /* CoreLocation.framework */; };
 		409A168C1B86B97800D951B1 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409A168B1B86B97800D951B1 /* Restaurant.swift */; };
 		409A168F1B86D74D00D951B1 /* YNNearbyTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409A168E1B86D74D00D951B1 /* YNNearbyTitleView.swift */; };
+		409A16BF1B870EC900D951B1 /* YNCalloutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409A16BE1B870EC900D951B1 /* YNCalloutContentView.swift */; };
 		40F2EE8C1B785E1B00CB4569 /* tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F2EE8B1B785E1B00CB4569 /* tools.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		408E05471B7DD2DB00E22980 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		409A168B1B86B97800D951B1 /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		409A168E1B86D74D00D951B1 /* YNNearbyTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNNearbyTitleView.swift; sourceTree = "<group>"; };
+		409A16BE1B870EC900D951B1 /* YNCalloutContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNCalloutContentView.swift; sourceTree = "<group>"; };
 		40F2EE8B1B785E1B00CB4569 /* tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -279,6 +281,7 @@
 				408DE8CF1B816DF5004C96A5 /* YNCallOutAnnotation.swift */,
 				408DE8D11B816DF5004C96A5 /* YNLocationAnnotation.swift */,
 				408DE8D01B816DF5004C96A5 /* YNCallOutAnnotationView.swift */,
+				409A16BE1B870EC900D951B1 /* YNCalloutContentView.swift */,
 			);
 			path = location;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				408DE8D21B816DF5004C96A5 /* YNBaseAnnotation.swift in Sources */,
 				4051A10B1B73603F00D07DA5 /* YNMeViewController.swift in Sources */,
 				407C7B6A1B744A1500B92F54 /* YNSignInViewController.swift in Sources */,
+				409A16BF1B870EC900D951B1 /* YNCalloutContentView.swift in Sources */,
 				4051A10D1B73605400D07DA5 /* YNNearbyViewController.swift in Sources */,
 				409A168C1B86B97800D951B1 /* Restaurant.swift in Sources */,
 				408DE8D31B816DF5004C96A5 /* YNCallOutAnnotation.swift in Sources */,

@@ -11,9 +11,15 @@ import MapKit
 class YNCallOutAnnotationView: MKAnnotationView {
 
     let kArror_height: CGFloat = 12//气泡尖角的高度
-    let kCenterOffsetY: CGFloat = -70//中心点的Y向上偏移的高度
-    let kSelfViewWidth: CGFloat = 160//自己的宽度
-    let kSelfViewHeight: CGFloat = 70//自己的高度
+    let kCenterOffsetY: CGFloat = -72//中心点的Y向上偏移的高度
+    let kSelfViewWidth: CGFloat = 170//自己的宽度
+    let kSelfViewHeight: CGFloat = 76//自己的高度
+    
+    lazy var contentView: UIView = {
+        
+        return UIView(frame: CGRectMake(0, 0, self.kSelfViewWidth, self.kSelfViewHeight-self.kArror_height))
+        
+        }()
     
     override init!(annotation: MKAnnotation!, reuseIdentifier: String!) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -26,7 +32,6 @@ class YNCallOutAnnotationView: MKAnnotationView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         
     }
     
@@ -75,6 +80,9 @@ class YNCallOutAnnotationView: MKAnnotationView {
     override func drawRect(rect: CGRect) {
         
         drawInContext(UIGraphicsGetCurrentContext())
+        
+        self.addSubview(contentView)
+//        contentView.backgroundColor = kStyleColor
     }
     
     func drawInContext(context: CGContextRef) {
@@ -103,13 +111,9 @@ class YNCallOutAnnotationView: MKAnnotationView {
         //        CGContextAddLineToPoint(context,midx - kArror_height, maxy);
         
         
-          CGContextAddArcToPoint(context, midx + kArror_height, maxy, midx, maxy + kArror_height, 3)
-        
+        CGContextAddArcToPoint(context, midx + kArror_height, maxy, midx, maxy + kArror_height, 3)
         CGContextAddArcToPoint(context, midx, maxy + kArror_height, midx - kArror_height, maxy, 3)
         CGContextAddArcToPoint(context, midx - kArror_height, maxy, minx, maxy, 3)
-        
-
-        
         
         CGContextAddArcToPoint(context, minx, maxy, minx, miny, radius);
         CGContextAddArcToPoint(context, minx, miny, maxx, miny, radius);

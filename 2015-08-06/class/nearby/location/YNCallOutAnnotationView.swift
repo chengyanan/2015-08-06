@@ -11,7 +11,7 @@ import MapKit
 class YNCallOutAnnotationView: MKAnnotationView {
 
     let kArror_height: CGFloat = 12//气泡尖角的高度
-    let kCenterOffsetY: CGFloat = -72//中心点的Y向上偏移的高度
+    let kCenterOffsetY: CGFloat = -73//中心点的Y向上偏移的高度
     let kSelfViewWidth: CGFloat = 170//自己的宽度
     let kSelfViewHeight: CGFloat = 76//自己的高度
     
@@ -45,6 +45,8 @@ class YNCallOutAnnotationView: MKAnnotationView {
         
         animateIn()
     }
+    
+    
     
     func animateIn() {
    
@@ -82,7 +84,7 @@ class YNCallOutAnnotationView: MKAnnotationView {
         drawInContext(UIGraphicsGetCurrentContext())
         
         self.addSubview(contentView)
-//        contentView.backgroundColor = kStyleColor
+
     }
     
     func drawInContext(context: CGContextRef) {
@@ -124,5 +126,7 @@ class YNCallOutAnnotationView: MKAnnotationView {
         
     }
     
+    //消失的时候有个动画
+
     
 }

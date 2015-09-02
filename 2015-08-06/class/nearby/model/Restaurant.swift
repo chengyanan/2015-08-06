@@ -11,7 +11,7 @@ import CoreLocation
 
 struct Restaurant {
     
-    let id: Int?
+    let id: Double?
     let level: Int?
     let range: Int?
     
@@ -22,9 +22,12 @@ struct Restaurant {
     let telphone: String?
     let title: String?
     
+    //TODO:公告
+    let announcement: String?
+    
     init(dict : NSDictionary) {
    
-        id = dict["id"] as? Int
+        id = dict["id"] as? Double
         level = dict["level"] as? Int
         range = dict["range"] as? Int
         address = dict["address"] as? String
@@ -33,6 +36,8 @@ struct Restaurant {
         summary = dict["summary"] as? String
         telphone = dict["telphone"] as? String
         title = dict["title"] as? String
+        announcement = "满50减5, 满100减15"
+        
         
         let point = dict["point"] as? NSString
         let arrayStr: Array<NSString>? = point?.componentsSeparatedByString(",") as? Array

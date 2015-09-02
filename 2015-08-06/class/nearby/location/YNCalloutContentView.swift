@@ -17,7 +17,8 @@ class YNCalloutContentView: UIView {
         }()
     lazy var titleLabel:UILabel = {
         var tempLabel = UILabel()
-        tempLabel.backgroundColor = UIColor.whiteColor()
+//        tempLabel.backgroundColor = UIColor.whiteColor()//防止文字重叠
+        tempLabel.font = UIFont.systemFontOfSize(14)
         return tempLabel
         }()
     
@@ -32,17 +33,21 @@ class YNCalloutContentView: UIView {
        
             if let tempImage = dataModel?.image {
                 
-//                Network.getImageWithURL(tempImage, success: { (data) -> Void in
-//                    
-//
-//                })
-                self.imageView.image = UIImage(data: NSData(contentsOfURL: NSURL(string: tempImage)!)!)
-                                
+                Network.getImageWithURL(tempImage, success: { (data) -> Void in
+                    
+                    self.imageView.image = UIImage(data: data)
+                    
+                })
                
-           
+                    
+//                    self.imageView.image = UIImage(data: NSData(contentsOfURL: NSURL(string: tempImage)!)!)
+               
+                
+                
             }
-            
+        
             titleLabel.text = dataModel?.title
+            
         }
     }
     
@@ -52,9 +57,16 @@ class YNCalloutContentView: UIView {
         self.addSubview(imageView)
         self.addSubview(titleLabel)
         
-        imageView.frame = CGRectMake(6, 6, 50, 50)
+        let imageViewX: CGFloat = 6
+        let imageViewY: CGFloat = 6
+        let imageViewW: CGFloat = 50
+        let imageViewH: CGFloat = imageViewW
+        let span: CGFloat = 2
+        let titleX: CGFloat = imageViewX + imageViewW + span
+        let titleH: CGFloat = imageViewW * 0.6
+        imageView.frame = CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH)
         
-        titleLabel.frame = CGRectMake(6 + 50, 6, frame.size.width - 6-50, 30)
+        titleLabel.frame = CGRectMake(titleX, imageViewY, frame.size.width - titleX - 1, titleH)
     }
 
     required init(coder aDecoder: NSCoder) {

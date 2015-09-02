@@ -59,6 +59,9 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     var callOutAnnotationView: YNCallOutAnnotationView?
     var callOutAnnotation: YNCallOutAnnotation?
     
+    var callOutAnnotationViewCurrent: YNCallOutAnnotationView?
+    var callOutAnnotationCurrent: YNCallOutAnnotation?
+    
     var isLocated:Bool = false//是否是第一次定位
     var isDeleteAnnotation: Bool = false//是否要删除当前界面上的calloutView
     var isLoadData: Bool = true//知道当前数据加载完毕,才能重新加载数据,防止用户快速移动的时候,不停的发送请求
@@ -316,10 +319,32 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             if callOutAnnotationView == nil {
                 
                 callOutAnnotationView = YNCallOutAnnotationView(annotation: annotation, reuseIdentifier: callOutidentify)
+                
+            } else {
+                
+                //如果没有重新生成的话 就要删掉
+                if let tempSubViews = callOutAnnotationView?.contentView.subviews {
+               
+                    for item in tempSubViews {
+                   
+                        item.removeFromSuperview()
+                    }
+                }
+                
             }
             
             callOutAnnotationView!.alpha = 1.0
-            self.callOutAnnotationView = callOutAnnotationView
+            
+            if let temp = self.callOutAnnotationCurrent {
+           
+                self.callOutAnnotationViewCurrent = callOutAnnotationView
+                
+            } else {
+                
+                self.callOutAnnotationView = callOutAnnotationView
+                
+            }
+            
             
             var contentView:YNCalloutContentView = YNCalloutContentView(frame: callOutAnnotationView!.contentView.bounds)
             
@@ -338,7 +363,8 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         
         if view.annotation is YNBaseAnnotation {
        
-            self.isDeleteAnnotation = false
+//            self.isDeleteAnnotation = false
+            
             let baseAnnotation: YNBaseAnnotation = view.annotation as! YNBaseAnnotation
             
             self.currentDataIndex = baseAnnotation.index
@@ -346,7 +372,14 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             var callOutAnnotation = YNCallOutAnnotation(coordinate: view.annotation.coordinate)
             mapView.addAnnotation(callOutAnnotation)
            callOutAnnotation.index = baseAnnotation.index
-            self.callOutAnnotation = callOutAnnotation
+            
+            if let temp = self.callOutAnnotation {
+           
+                self.callOutAnnotationCurrent = callOutAnnotation
+            } else {
+           
+                self.callOutAnnotation = callOutAnnotation
+            }
             
         } else {
             
@@ -361,25 +394,40 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         
         if let tempCallOutAnnotation = self.callOutAnnotation {
             
-            self.isDeleteAnnotation = true
+//            self.isDeleteAnnotation = true
             
-            UIView.animateWithDuration(0.3 , animations: { () -> Void in
+            UIView.animateWithDuration(0.2 , animations: { () -> Void in
                 
                 self.callOutAnnotationView!.alpha = 0.0
                 
             }, completion: { (finished) -> Void in
                 
-                if self.isDeleteAnnotation {
-               
-                    self.mapView.removeAnnotation(self.callOutAnnotation)
-                    self.callOutAnnotation = nil
-                }
                 
-//                self.mapView.removeAnnotation(self.callOutAnnotation)
-//                self.callOutAnnotation = nil
+                self.mapView.removeAnnotation(self.callOutAnnotation)
+                self.callOutAnnotation = nil
+                
+//                if self.isDeleteAnnotation {
+//               
+//                    self.mapView.removeAnnotation(self.callOutAnnotation)
+//                    self.callOutAnnotation = nil
+//                }
 
             })
             
+        } else if let temp = self.callOutAnnotationCurrent {
+       
+            UIView.animateWithDuration(0.3 , animations: { () -> Void in
+                
+                self.callOutAnnotationViewCurrent!.alpha = 0.0
+                
+                }, completion: { (finished) -> Void in
+                    
+                    
+                    self.mapView.removeAnnotation(self.callOutAnnotationCurrent)
+                    self.callOutAnnotationCurrent = nil
+                    
+            })
+
         }
         
        

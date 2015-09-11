@@ -67,12 +67,47 @@ struct Layout {
         
     }
 
+    func addRightToLeftConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+        
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Left, multiplier: multiplier, constant: constant)
+        
+        view.superview?.addConstraint(distanceLabelConstantHeight)
+        
+    }
+
+    
     func addTopToBottomConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
         let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Bottom, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
         
+    }
+    
+    func addCenterXConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+   
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.CenterX, multiplier: multiplier, constant: constant)
+        
+        view.superview?.addConstraint(distanceLabelConstantHeight)
+    }
+    
+    func addCenterYConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+        
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.CenterY, multiplier: multiplier, constant: constant)
+        
+        view.superview?.addConstraint(distanceLabelConstantHeight)
+    }
+    
+    func addCenterXYConstraints(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+        
+        addCenterXConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
+        addCenterYConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
+    }
+    
+    func addWidthHeightConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+   
+        addHeightConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
+        addWidthConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
     }
     
 }

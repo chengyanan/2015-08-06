@@ -50,9 +50,7 @@ class Location: NSObject, CLLocationManagerDelegate {
         
         let newLocation: CLLocation = locations[locations.startIndex] as! CLLocation
         
-        
-        
-        cooridate = self.transformFromWGSToGCJ(newLocation.coordinate) 
+        cooridate = self.transformFromWGSToGCJ(newLocation.coordinate)
         
     }
     

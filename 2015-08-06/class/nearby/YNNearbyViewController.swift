@@ -229,8 +229,16 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         let latitude: Double = currentLocation.latitude - userLocation.latitude
         let longitude: Double = currentLocation.longitude - userLocation.longitude
         
-        let latitudeSatify: Bool = latitude > kAccuracy || latitude < -kAccuracy
-        let longitudeSatify: Bool = longitude > kAccuracy || longitude < -kAccuracy
+        let absoluteValueOfLatitude = fabs(latitude)
+        let absoluteValueOfLongitude = fabs(longitude)
+        
+//        let latitudeSatify: Bool = latitude > kAccuracy || latitude < -kAccuracy
+//        let longitudeSatify: Bool = longitude > kAccuracy || longitude < -kAccuracy
+        
+        let latitudeSatify: Bool = absoluteValueOfLatitude > kAccuracy
+        
+        let longitudeSatify: Bool = absoluteValueOfLongitude > kAccuracy
+        
     
         if latitudeSatify || longitudeSatify {
        

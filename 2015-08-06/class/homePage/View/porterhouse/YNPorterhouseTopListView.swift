@@ -13,11 +13,44 @@ import UIKit
      optional func topListViewButtonTapped(button: UIButton)
 }
 
+enum YNPorterhouseTopListSelected {
+    
+    case Commodity
+    case Appraisal
+    case Business
+}
+
 class YNPorterhouseTopListView: UIView {
     
    //MARK: - public proporty
     
     var delegate: YNPorterhouseTopListViewDelegate?
+    var currentSelected: YNPorterhouseTopListSelected? {
+   
+        didSet {
+       
+            if currentSelected == .Commodity {
+           
+                self.appraisalButon.selected = false
+                self.businessButon.selected = false
+                self.commodityButon.selected = true
+            }
+            
+            if currentSelected == .Appraisal {
+           
+                self.businessButon.selected = false
+                self.commodityButon.selected = false
+                self.appraisalButon.selected = true
+            }
+            
+            if currentSelected == .Business {
+           
+                self.commodityButon.selected = false
+                self.appraisalButon.selected = false
+                self.businessButon.selected = true
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,18 +91,24 @@ class YNPorterhouseTopListView: UIView {
     private lazy var commodityButon: UIButton = {
         
         var button = self.buttonWithTitle("点菜")
+        button.tag = 0
         button.selected = true
         return button
 
         }()
     private lazy var appraisalButon: UIButton = {
     
-        return self.buttonWithTitle("评价")
+        var button = self.buttonWithTitle("评价")
+        button.tag = 1
+        return button
         }()
     
     private lazy var businessButon: UIButton = {
 
-        return self.buttonWithTitle("商家")
+        var button = self.buttonWithTitle("商家")
+        button.tag = 2
+        return button
+
        }()
     
     private lazy var indicator: UIView = {

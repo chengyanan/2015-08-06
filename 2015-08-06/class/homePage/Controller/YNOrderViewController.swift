@@ -25,7 +25,9 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
    
         didSet {
        
+//            self.setupInterface()
             self.tableView.reloadData()
+            
         }
     }
     
@@ -43,9 +45,15 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
         self.title = "餐厅"
         self.view.backgroundColor = UIColor.whiteColor()
         
-        self.view.addSubview(tableView)
+        setupInterface()
     }
     
+    //MARK: - private method
+    
+    func setupInterface() {
+   
+        self.view.addSubview(tableView)
+    }
     
     //从服务器加载数据
     func getDataFromServer() {
@@ -109,17 +117,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
         if dataArray.count > 0 {
             
             var tempDataArray: Array<Restaurant> = Array()
-            
-//            for _ in 0...20 {
-//           
-//                for restaurant in dataArray {
-//                    
-//                    let tempRestaurant = Restaurant(dict: restaurant as! NSDictionary)
-//                    tempDataArray.append(tempRestaurant)
-//                    
-//                }
-//            }
-            
+                        
             for restaurant in dataArray {
                 
                 let tempRestaurant = Restaurant(dict: restaurant as! NSDictionary)

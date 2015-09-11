@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class YNHomePageViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class YNHomePageViewController: UIViewController {
     private let kVerticalSpace: CGFloat = 3
     private let kHorizontalSpace: CGFloat = 2
     private let kLeftPercent: CGFloat = 0.6
+    
     private var kLeftWith: CGFloat   {
         get {
        
@@ -172,8 +174,13 @@ class YNHomePageViewController: UIViewController {
             orderVc.cooridate = temp
             
         } else {
-       
+            
             print("\n没有定位到位置 \n")
+            
+            //***********************
+            
+            orderVc.cooridate = CLLocationCoordinate2DMake(34.784015750987791, 113.71269062975868)
+            //***********************
         }
         
         self.navigationController?.pushViewController(orderVc, animated: true)

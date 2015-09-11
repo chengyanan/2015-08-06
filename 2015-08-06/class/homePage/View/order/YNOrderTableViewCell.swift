@@ -15,45 +15,50 @@ class YNOrderTableViewCell: UITableViewCell {
    
         didSet {
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-                
-                if let tempDataModel = self.dataModel {
-               
-                    
-                    if let tempImage = tempDataModel.image {
-                        
-                        let url: NSURL? = NSURL(string: tempImage)
-                        
-                        if let tempUrl = url {
-                            
-                            let imageData: NSData? = NSData(contentsOfURL: tempUrl)
-                            
-                            if let tempData = imageData {
-                                
-                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                    
-                                    self.businessImageView.image = UIImage(data: tempData)
-                                })
-                                
-                            }
-                            
-                        } else {
-                            
-                            print("\n 图片没有URL \n")
-                        }
-                        
-                    }
-
-                    
-                }
-                
-            })
+            if let tempDataModel = self.dataModel {
             
-//            self.businessImageView.image = UIImage(named: "image")
-            self.businessTitleLabel.text = dataModel?.title
-            self.addressLabel.text = dataModel?.address
-            self.distanceLabel.text = "3.6km"
-            self.setLevel(Int(dataModel!.level!))
+            
+                self.setData()
+            }
+            
+            
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+//                
+//                if let tempDataModel = self.dataModel {
+//               
+//                    
+//                    if let tempImage = tempDataModel.image {
+//                        
+//                        let url: NSURL? = NSURL(string: tempImage)
+//                        
+//                        if let tempUrl = url {
+//                            
+//                            let imageData: NSData? = NSData(contentsOfURL: tempUrl)
+//                            
+//                            if let tempData = imageData {
+//                                
+//                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                                    
+//                                    self.businessImageView.image = UIImage(data: tempData)
+//                                })
+//                                
+//                            }
+//                            
+//                        } else {
+//                            
+//                            print("\n 图片没有URL \n")
+//                        }
+//                        
+//                    }
+//
+//                    
+//                }
+//                
+//            })
+//        
+//            
+//           
+//            
             
         }
     }
@@ -85,6 +90,49 @@ class YNOrderTableViewCell: UITableViewCell {
     
     
     //MARK: - private method
+    
+    func setData() {
+        
+        setImage()
+      
+        self.businessTitleLabel.text = dataModel?.title
+        self.addressLabel.text = dataModel?.address
+        self.distanceLabel.text = "3.6km"
+        self.setLevel(Int(dataModel!.level!))
+    }
+    
+    func setImage() {
+   
+        if let tempImage = dataModel!.image {
+            
+            let url: NSURL? = NSURL(string: tempImage)
+            
+            if let tempUrl = url {
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                    
+                    let imageData: NSData? = NSData(contentsOfURL: tempUrl)
+                    
+                    if let tempData = imageData {
+                        
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            self.businessImageView.image = UIImage(data: tempData)
+                        })
+                        
+                    }
+                    
+                })
+                
+                
+            } else {
+                
+                print("\nYNOrderTableViewCell - 图片没有URL \n")
+            }
+            
+        }
+
+    }
     
     func setLevel(level: Int) {
         

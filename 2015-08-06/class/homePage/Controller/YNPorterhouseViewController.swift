@@ -8,23 +8,73 @@
 
 import UIKit
 
-class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDelegate{
+class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDelegate, UIScrollViewDelegate{
     
     //MARK: - public proporty
     var restaurant: Restaurant?
     
+    //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loaddata()
+        
         self.title = restaurant?.title
-        self.view.backgroundColor = UIColor(red: 244/255.0, green: 244/255.0, blue: 244/255.0, alpha: 1.0)
+        self.view.backgroundColor = UIColor.whiteColor()
         
         self.view.addSubview(topListView)
         self.view.addSubview(indicator)
         self.view.addSubview(scrollView)
         
         addViewToScrollView()
+    }
+    
+    //MARK: - data
+    func loaddata() {
+   
+        let path = NSBundle.mainBundle().pathForResource("dishs", ofType: "plist")
         
+        if let tempPath = path {
+       
+            let dataDict: NSDictionary = NSDictionary(contentsOfFile: tempPath)!
+            
+            if let status: Int = dataDict["status"] as? Int{
+            
+                if status == 1 {
+               
+                    let typeArray: NSArray = dataDict["data"] as! NSArray
+                    
+                    if typeArray.count > 0 {
+                   
+                        for var i = 0; i < typeArray.count; ++i {
+                       
+                            var type: YNPorthouseType = YNPorthouseType(dict: typeArray[i] as! NSDictionary)
+                            
+                            if i == 0 {
+                           
+                               type.selected = true
+                                
+                            }
+                            
+                            self.typeArray.append(type)
+                        }
+                        
+                        
+                        
+                        
+                    } else {
+                   
+                        YNProgressHUD().showText("该商店暂未上传菜品", toView: self.view)
+                    }
+                }
+            
+            }
+        
+            
+        } else {
+       
+            print("\n --plist文件不存在 --  \n")
+        }
         
     }
     
@@ -33,22 +83,63 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         
         for var i = 0; i < Int(self.page); ++i {
        
-            var viewX = self.view.frame.size.width * CGFloat(i)
+            var viewX = self.scrollView.frame.size.width * CGFloat(i)
             
-//            if i != 0 {
-//                
-//                viewX += self.space
-//            }
+            var view: UIView = UIView()
             
-            var view: UIView = UIView(frame: CGRectMake(viewX, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height))
+            view.frame = CGRectMake(viewX, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)
             
-            var titleLabel: UILabel = UILabel(frame: CGRectMake(0, 0, 50, 50))
-            titleLabel.backgroundColor = UIColor.greenColor()
-            titleLabel.text = "hello rose"
+            var tempSubView: UIView?
             
-            view.addSubview(titleLabel)
-            view.backgroundColor = UIColor(red: 207/255.0, green: 207/255.0, blue: 207/255.0, alpha: 1.0)
+            if i == 0 {
+           
+               var orderView = YNPorterhouseOrderView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.scrollView.frame.size.height))
+                
+                orderView.data = self.typeArray
+                
+                view.addSubview(orderView)
+                
+            } else if i == 1 {
+           
+                tempSubView = YNPorterhouseValuationView()
+                
+            } else if i == 2 {
+                
+                tempSubView = YNPorterhouseDetailView()
+            }
+            
+            tempSubView?.frame = CGRectMake(0, 0, self.view.frame.size.width, self.scrollView.frame.size.height)
+            
+            if let item = tempSubView {
+           
+                view.addSubview(item)
+            }
+        
             self.scrollView.addSubview(view)
+        }
+        
+    }
+    
+    //MAEK: - UIScrollViewDelegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        let x = scrollView.contentOffset.x / 3
+        
+        self.indicator.frame = CGRectMake(x, self.indicatorY, self.indicatorWidth, self.kIndicatorHeight)
+        
+        let tempPage = scrollView.contentOffset.x / scrollView.frame.size.width
+        
+        if  tempPage == 0 {
+       
+            self.topListView.currentSelected = YNPorterhouseTopListSelected.Commodity
+            
+        } else if tempPage == 1 {
+            
+            self.topListView.currentSelected = YNPorterhouseTopListSelected.Appraisal
+            
+        } else if tempPage == 2 {
+            
+            self.topListView.currentSelected = YNPorterhouseTopListSelected.Business
         }
         
     }
@@ -56,24 +147,43 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     //MARK: - YNPorterhouseTopListViewDelegate
     func topListViewButtonTapped(button: UIButton) {
         
+        let scrollViewOffsetX = self.scrollView.frame.size.width * CGFloat(button.tag)
+        
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             
-            self.indicator.frame = CGRectMake(button.frame.origin.x, self.topListY + self.topListHeight, button.frame.size.width, self.kIndicatorHeight)
-            
+            self.scrollView.contentOffset.x = scrollViewOffsetX
         })
-        
-        
+       
     }
     
     //MARK: - private proporty
+    
+    private var typeArray: Array<YNPorthouseType> = [YNPorthouseType]()
+    
     private let topListHeight: CGFloat = 44
     private let topListY: CGFloat = 64
     private let kIndicatorHeight: CGFloat = 2
     private let page: CGFloat = 3
     private let space: CGFloat = 15
+    
+    private var indicatorWidth: CGFloat {
+   
+        get {
+       
+            return self.view.frame.size.width/self.page
+        }
+    }
+    private var indicatorY: CGFloat {
+   
+        get {
+       
+            return self.topListY + self.topListHeight
+        }
+    }
+    
     private lazy var indicator: UIView = {
         
-        var tempView = UIView(frame: CGRectMake(0, self.topListY + self.topListHeight, self.view.frame.size.width/self.page, self.kIndicatorHeight))
+        var tempView = UIView(frame: CGRectMake(0, self.indicatorY, self.indicatorWidth, self.kIndicatorHeight))
         tempView.backgroundColor = kStyleColor
         return tempView
         
@@ -89,16 +199,21 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     
     private lazy var scrollView:UIScrollView = {
         
-        var temp = UIScrollView(frame: CGRectMake(0, CGRectGetMaxY(self.indicator.frame), self.view.frame.size.width, self.view.frame.size.height - CGRectGetMaxY(self.indicator.frame)))
-        temp.pagingEnabled = true
-        temp.directionalLockEnabled = true
+        let tempWidth = kScreenWidth + self.space
+        let tempHeight = self.view.frame.size.height - CGRectGetMaxY(self.indicator.frame)
+        
+        let tempY = CGRectGetMaxY(self.indicator.frame)
+        var temp = UIScrollView(frame: CGRectMake(0, tempY, tempWidth, tempHeight))
         
         let tempPage: Int = Int(self.page)
-//        let contentWidth = self.view.frame.size.width * CGFloat(tempPage) + CGFloat(tempPage - 1) * self.space
-        let contentWidth = self.view.frame.size.width * CGFloat(tempPage)
+        let contentWidth = self.view.frame.size.width * CGFloat(tempPage) + CGFloat(tempPage) * self.space
         temp.contentSize = CGSizeMake(contentWidth, 0)
         
-//        temp.backgroundColor = UIColor(red: 207/255.0, green: 207/255.0, blue: 207/255.0, alpha: 1.0)
+        temp.pagingEnabled = true
+        temp.directionalLockEnabled = true
+        temp.delegate = self
+        temp.showsHorizontalScrollIndicator = false
+        
         return temp
         
         }()

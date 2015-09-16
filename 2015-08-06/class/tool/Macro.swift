@@ -27,5 +27,9 @@ func kIS_iPhone4() ->Bool { return kScreenHeight == 480}
 func kIS_iPhone5() ->Bool { return kScreenHeight == 568}
 func kIS_iPhone6() ->Bool {return kScreenHeight == 667}
 
+func kIOS7() ->Bool { return atof(UIDevice.currentDevice().systemVersion) < 8 }
+
+func kIS_iPhone6Plus() ->Bool {return kScreenHeight > 667}
+
 func kRGBA(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) ->UIColor { return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a)}
 

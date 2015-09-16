@@ -38,10 +38,6 @@ class YNCalloutContentView: UIView {
                     self.imageView.image = UIImage(data: data)
                     
                 })
-               
-                    
-//                    self.imageView.image = UIImage(data: NSData(contentsOfURL: NSURL(string: tempImage)!)!)
-               
                 
                 
             }

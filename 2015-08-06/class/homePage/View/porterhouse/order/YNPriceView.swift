@@ -8,9 +8,17 @@
 
 import UIKit
 
+protocol PriceViewDelegate {
+    
+    func priceViewDidClick(view: PriceView)
+}
+
 class PriceView: UIView {
     
     //public protorty
+    
+    var delegate: PriceViewDelegate?
+    
     var totalPrice: Float = 0 {
         
         didSet {
@@ -24,11 +32,22 @@ class PriceView: UIView {
         
         self.backgroundColor = UIColor(red: 56/255.0, green: 60/255.0, blue: 67/255.0, alpha: 0.9)
         
-        var tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "")
+        var tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
+        
+        self.addGestureRecognizer(tgr)
         
         self.addSubview(totalPriceLable)
         
         setupLayout()
+    }
+    
+    func viewDidClick() {
+        
+        if let tempDelegate = delegate {
+       
+            self.delegate?.priceViewDidClick(self)
+        }
+        
     }
     
     func setupLayout() {

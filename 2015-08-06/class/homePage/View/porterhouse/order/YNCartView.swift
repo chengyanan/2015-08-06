@@ -8,9 +8,17 @@
 
 import UIKit
 
+protocol YNCartViewDelegate {
+    
+    func cartViewDidClick(view: YNCartView)
+}
+
 class YNCartView: UIView {
     
     //public protorty
+    
+    var delegate:YNCartViewDelegate?
+    
     var selectedNumber: Int = 0 {
         
         didSet {
@@ -30,6 +38,9 @@ class YNCartView: UIView {
    override init(frame: CGRect) {
         super.init(frame: frame)
     
+        var tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
+        self.addGestureRecognizer(tgr)
+    
         self.addSubview(cartBackgroundView)
         self.addSubview(cartImageView)
         self.addSubview(numberLabel)
@@ -37,6 +48,17 @@ class YNCartView: UIView {
         setLayout()
     }
 
+    func viewDidClick() {
+        
+        if let tempDelegate = delegate {
+            
+            self.delegate?.cartViewDidClick(self)
+        }
+        
+    }
+
+    
+    
     func setLayout() {
    
         //cartBackgroundView

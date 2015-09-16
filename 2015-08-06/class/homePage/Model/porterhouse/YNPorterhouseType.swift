@@ -19,6 +19,17 @@ class YNPorthouseType {
     //当前类别是否被选中
     var selected: Bool = false
     
+    var firstIndex = 0 {
+   
+        didSet {
+       
+            for item in self.dataArray {
+           
+                item.firstIndex = firstIndex
+            }
+        }
+    }
+    
     //这个类别下选中了多少菜品
     var selectedNumber: Int = 0
     
@@ -30,11 +41,13 @@ class YNPorthouseType {
         
         if let tempData = dataDict {
             
-            for itemDict in tempData {
+            for var i = 0; i < tempData.count; ++i {
            
-                let data = YNPorterhouseDish(dict: itemDict)
+                let data = YNPorterhouseDish(dict: tempData[i])
+                data.secondIndex = i
                 dataArray.append(data)
             }
+            
             
         } else {
        

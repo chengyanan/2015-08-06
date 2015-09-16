@@ -168,7 +168,7 @@ class YNDishTableViewCell: UITableViewCell {
         //Layout().addRightConstraint(monthSalesLabel, toView: nameLabel, multiplier: 1, constant: 0)
         
         //addButton
-        Layout().addRightConstraint(addButton, toView: self.contentView, multiplier: 1, constant: 3)
+        Layout().addRightConstraint(addButton, toView: self.contentView, multiplier: 1, constant: 0)
         Layout().addTopToBottomConstraint(addButton, toView: monthSalesLabel, multiplier: 1, constant: -3.5)
         Layout().addWidthConstraint(addButton, toView: nil, multiplier: 0, constant: 44)
         Layout().addHeightConstraint(addButton, toView: nil, multiplier: 0, constant: 44)

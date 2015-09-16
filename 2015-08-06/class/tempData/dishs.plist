@@ -85,6 +85,8 @@
 			<key>dataArray</key>
 			<array>
 				<dict>
+					<key>price</key>
+					<integer>120</integer>
 					<key>calories</key>
 					<integer>256</integer>
 					<key>number</key>
@@ -97,6 +99,8 @@
 					<string>http://www.027eat.com/uploadfile/2011/1003/20111006124627298.jpg</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>60</integer>
 					<key>calories</key>
 					<integer>128</integer>
 					<key>number</key>
@@ -109,6 +113,8 @@
 					<string>http://img1.gtimg.com/henan/pics/hv1/206/227/1032/67163891.jpg</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>30</integer>
 					<key>calories</key>
 					<integer>64</integer>
 					<key>number</key>
@@ -121,6 +127,8 @@
 					<string>http://recipe1.hoto.cn/pic/step/m/b1/ed/1961393.jpg</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>20</integer>
 					<key>calories</key>
 					<integer>540</integer>
 					<key>number</key>
@@ -133,6 +141,8 @@
 					<string>http://www.xuefo.net/admin/editor/uploadfile/20100901123213001.jpg</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>10</integer>
 					<key>calories</key>
 					<integer>680</integer>
 					<key>number</key>
@@ -145,6 +155,8 @@
 					<string>http://picm.photophoto.cn/077/161/003/1610031518.jpg</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>30</integer>
 					<key>calories</key>
 					<integer>680</integer>
 					<key>number</key>
@@ -157,6 +169,8 @@
 					<string>http://static7.photo.sina.com.cn/bmiddle/491b33e2g712d908356b6&amp;690</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>50</integer>
 					<key>calories</key>
 					<integer>680</integer>
 					<key>number</key>
@@ -169,6 +183,8 @@
 					<string>http://bcs.duapp.com/xiachufangnew/recipe_pic/526/ba/29/1012520.1.jpg</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>10</integer>
 					<key>calories</key>
 					<integer>680</integer>
 					<key>number</key>
@@ -181,6 +197,8 @@
 					<string>http://upimg.zixun.3158.cn/7/2012/0815/13450331983267.jpg</string>
 				</dict>
 				<dict>
+					<key>price</key>
+					<integer>200</integer>
 					<key>calories</key>
 					<integer>680</integer>
 					<key>number</key>

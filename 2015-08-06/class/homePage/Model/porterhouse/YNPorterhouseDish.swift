@@ -21,6 +21,8 @@ class YNPorterhouseDish {
     //总热量
     var calories: Float?
     
+    var firstIndex = 0
+    var secondIndex = 0
     
     //被选中的数量
     var number: Int = 0

@@ -645,11 +645,9 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         tempTableView.delegate = self
         tempTableView.dataSource = self
         tempTableView.tag = 3
-        
         //iOS7使用frame的时候一定不要加这个
 //        tempTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
         tempTableView.bounces = false
-        tempTableView.backgroundColor = UIColor.redColor()
         return tempTableView
         
         }()

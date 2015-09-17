@@ -110,4 +110,10 @@ struct Layout {
         addWidthConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
     }
     
+    func addTopBottomConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+        
+        addTopConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
+        addBottomConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
+    }
+    
 }

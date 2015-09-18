@@ -12,7 +12,9 @@ protocol YNPorterhouseOrderViewDelegate {
     
     func porterhouseOrderViewCrollViewScrolledEnable(enable: Bool)
     
-    func porterhouseOrderViewDoneButtonDidClick()
+    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView)
+    
+    
 }
 
 class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate, YNDishTableViewCellDelegate, YNCartViewDelegate, PriceViewDelegate, YNOrderTableCellDelegate {
@@ -466,6 +468,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         //设置背景蒙板
         setBgView()
     
+        
         //通知父视图scrollView不能滚动
         self.delegate?.porterhouseOrderViewCrollViewScrolledEnable(false)
         
@@ -534,7 +537,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
             hideOrderView()
         }
         
-        self.delegate?.porterhouseOrderViewDoneButtonDidClick()
+        self.delegate?.porterhouseOrderViewDoneButtonDidClick(self)
     }
     
     //MARK: - private property
@@ -654,8 +657,8 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
     
     private lazy var keywindowBgView: UIView = {
    
-        var tempView = UIView()
-        tempView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        var tempView: UIView = UIView()
+        tempView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         tempView.tag = 100
         tempView.alpha = 0
         return tempView
@@ -665,7 +668,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
         var tempView = UIView()
         tempView.alpha = 0
-        tempView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+        tempView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         return tempView
         }()
     

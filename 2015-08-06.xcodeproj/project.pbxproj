@@ -51,6 +51,11 @@
 		409A168C1B86B97800D951B1 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409A168B1B86B97800D951B1 /* Restaurant.swift */; };
 		409A168F1B86D74D00D951B1 /* YNNearbyTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409A168E1B86D74D00D951B1 /* YNNearbyTitleView.swift */; };
 		409A16BF1B870EC900D951B1 /* YNCalloutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409A16BE1B870EC900D951B1 /* YNCalloutContentView.swift */; };
+		409FEEBD1BABA34800E73D8D /* YNOrderFormPayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FEEBC1BABA34800E73D8D /* YNOrderFormPayCell.swift */; };
+		409FEEBF1BABBE4200E73D8D /* YNMealTimeOrOtherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FEEBE1BABBE4200E73D8D /* YNMealTimeOrOtherCell.swift */; };
+		409FEEC11BABC4A200E73D8D /* YNOrderFormComponCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FEEC01BABC4A200E73D8D /* YNOrderFormComponCell.swift */; };
+		409FEEC31BABCA5100E73D8D /* YNOrderFormDeliveryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FEEC21BABCA5100E73D8D /* YNOrderFormDeliveryCell.swift */; };
+		409FEEC71BABFBCB00E73D8D /* YNOrderFormSelectDishCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409FEEC61BABFBCB00E73D8D /* YNOrderFormSelectDishCell.swift */; };
 		40AAEB2C1B9C2FBE009823C9 /* YNPorterhouseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AAEB2B1B9C2FBE009823C9 /* YNPorterhouseType.swift */; };
 		40AAEB2E1B9C2FDE009823C9 /* YNPorterhouseDish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AAEB2D1B9C2FDE009823C9 /* YNPorterhouseDish.swift */; };
 		40AB8CAA1B9693A000C63F2D /* dishs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40AB8CA91B9693A000C63F2D /* dishs.plist */; };
@@ -119,6 +124,11 @@
 		409A168B1B86B97800D951B1 /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		409A168E1B86D74D00D951B1 /* YNNearbyTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNNearbyTitleView.swift; sourceTree = "<group>"; };
 		409A16BE1B870EC900D951B1 /* YNCalloutContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNCalloutContentView.swift; sourceTree = "<group>"; };
+		409FEEBC1BABA34800E73D8D /* YNOrderFormPayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderFormPayCell.swift; sourceTree = "<group>"; };
+		409FEEBE1BABBE4200E73D8D /* YNMealTimeOrOtherCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNMealTimeOrOtherCell.swift; sourceTree = "<group>"; };
+		409FEEC01BABC4A200E73D8D /* YNOrderFormComponCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderFormComponCell.swift; sourceTree = "<group>"; };
+		409FEEC21BABCA5100E73D8D /* YNOrderFormDeliveryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderFormDeliveryCell.swift; sourceTree = "<group>"; };
+		409FEEC61BABFBCB00E73D8D /* YNOrderFormSelectDishCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderFormSelectDishCell.swift; sourceTree = "<group>"; };
 		40AAEB2B1B9C2FBE009823C9 /* YNPorterhouseType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNPorterhouseType.swift; sourceTree = "<group>"; };
 		40AAEB2D1B9C2FDE009823C9 /* YNPorterhouseDish.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNPorterhouseDish.swift; sourceTree = "<group>"; };
 		40AB8CA91B9693A000C63F2D /* dishs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = dishs.plist; sourceTree = "<group>"; };
@@ -223,6 +233,11 @@
 			isa = PBXGroup;
 			children = (
 				402A326B1BAA702500BA003A /* YNOrderFormAddressCell.swift */,
+				409FEEBC1BABA34800E73D8D /* YNOrderFormPayCell.swift */,
+				409FEEBE1BABBE4200E73D8D /* YNMealTimeOrOtherCell.swift */,
+				409FEEC01BABC4A200E73D8D /* YNOrderFormComponCell.swift */,
+				409FEEC21BABCA5100E73D8D /* YNOrderFormDeliveryCell.swift */,
+				409FEEC61BABFBCB00E73D8D /* YNOrderFormSelectDishCell.swift */,
 			);
 			path = "order form";
 			sourceTree = "<group>";
@@ -599,9 +614,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				409FEEBF1BABBE4200E73D8D /* YNMealTimeOrOtherCell.swift in Sources */,
 				407C7B651B74497A00B92F54 /* YNCycleRingViewController.swift in Sources */,
 				404F56111BA28170009E841C /* YNPorterhouseOrderView.swift in Sources */,
+				409FEEC71BABFBCB00E73D8D /* YNOrderFormSelectDishCell.swift in Sources */,
 				407C7B681B7449E800B92F54 /* YNSignUpViewController.swift in Sources */,
+				409FEEC11BABC4A200E73D8D /* YNOrderFormComponCell.swift in Sources */,
 				400186D31BA9604600056CD3 /* YNOrderFormViewController.swift in Sources */,
 				40AAEB2C1B9C2FBE009823C9 /* YNPorterhouseType.swift in Sources */,
 				404F56131BA28170009E841C /* YNPorterhouseValuationView.swift in Sources */,
@@ -612,9 +630,11 @@
 				4023862B1B8EEF660071AF3B /* YNHomePageViewController.swift in Sources */,
 				40AAEB2E1B9C2FDE009823C9 /* YNPorterhouseDish.swift in Sources */,
 				407C7B6C1B749CDB00B92F54 /* YNTestFiledExtension.swift in Sources */,
+				409FEEBD1BABA34800E73D8D /* YNOrderFormPayCell.swift in Sources */,
 				402A32641BAA574C00BA003A /* YNOrderTableViewCell.swift in Sources */,
 				40F1C3B31B95851A005A3BB4 /* Location.swift in Sources */,
 				400C379A1B79AD5400F815CC /* progressHUD.swift in Sources */,
+				409FEEC31BABCA5100E73D8D /* YNOrderFormDeliveryCell.swift in Sources */,
 				4051A0D31B734CDB00D07DA5 /* ViewController.swift in Sources */,
 				404F56101BA28170009E841C /* YNDishTableViewCell.swift in Sources */,
 				404F560F1BA28170009E841C /* YNPorterhouseDetailView.swift in Sources */,

@@ -17,6 +17,9 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 禁止使用系统自带的滑动手势
+        self.navigationController?.interactivePopGestureRecognizer.enabled = false
+        
         loaddata()
         
         self.title = restaurant?.title
@@ -33,18 +36,19 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         super.viewWillDisappear(animated)
         
         var window = UIApplication.sharedApplication().keyWindow!
-
+        
         
         for subview in window.subviews {
-       
+            
             if (subview as? UIView != nil) {
-           
+                
                 if subview.tag == 100 {
-               
+                    
                     subview.removeFromSuperview()
                 }
             }
         }
+
     }
     
     //MARK: - data
@@ -182,12 +186,14 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         
             self.scrollView.scrollEnabled = enable
     }
-    func porterhouseOrderViewDoneButtonDidClick() {
+    
+    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView) {
         
         var orderFormVc: YNOrderFormViewController = YNOrderFormViewController()
+        orderFormVc.selectedArray = controller.selectedArray
         self.navigationController?.pushViewController(orderFormVc, animated: true)
-        
     }
+    
     
     //MARK: - private proporty
     

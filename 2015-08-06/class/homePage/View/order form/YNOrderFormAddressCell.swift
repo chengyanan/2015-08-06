@@ -14,6 +14,8 @@ class YNOrderFormAddressCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.selectionStyle = UITableViewCellSelectionStyle.None
+        
         setupInterface()
         setupLayout()
     }

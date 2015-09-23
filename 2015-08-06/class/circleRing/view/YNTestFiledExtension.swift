@@ -15,18 +15,18 @@ extension UITextField {
         
         self.clearButtonMode = UITextFieldViewMode.WhileEditing
         self.backgroundColor = UIColor.whiteColor()
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
        
-        if let left = leftImageName {
+        if let _ = leftImageName {
             
-            var leftImageView = UIImageView(image: UIImage(named: leftImageName!))
+            let leftImageView = UIImageView(image: UIImage(named: leftImageName!))
             leftImageView.frame = CGRectMake(0, 0, 38, 30)
             self.leftView = leftImageView
             self.leftView?.contentMode = UIViewContentMode.ScaleAspectFit
             self.leftViewMode = UITextFieldViewMode.Always
         }
         
-        if let right = customRightView {
+        if let _ = customRightView {
         
             self.rightView = customRightView
             self.rightViewMode = UITextFieldViewMode.Always

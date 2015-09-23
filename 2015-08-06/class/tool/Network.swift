@@ -11,7 +11,7 @@ import UIKit
 
 class Network {
     
-    static func get(url: String, params: Dictionary <String, AnyObject>, success: (data: NSData!, response: NSURLResponse!, error: NSError!)->Void, failure: (error: NSError!)->Void) {
+    static func get(url: String, params: [String: String?], success: (data: NSData, response: NSURLResponse, error: NSError?)->Void, failure: (error: NSError)->Void) {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
             
@@ -22,7 +22,7 @@ class Network {
         
     }
     
-    static func post(url: String, params: Dictionary <String, AnyObject>, success: (data: NSData!, response: NSURLResponse!, error: NSError!)->Void, failure: (error: NSError!)->Void) {
+    static func post(url: String, params: [String: String?], success: (data: NSData!, response: NSURLResponse!, error: NSError?)->Void, failure: (error: NSError!)->Void) {
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
             
@@ -38,11 +38,11 @@ class Network {
             
             let session = NSURLSession.sharedSession()
             
-            var task: NSURLSessionTask = session.dataTaskWithURL(NSURL(string: url)!, completionHandler: { (data, response, error) -> Void in
+            session.dataTaskWithURL(NSURL(string: url)!, completionHandler: { (data, response, error) -> Void in
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
-                    success(data: data)
+                    success(data: data!)
                 })
                 
                 
@@ -55,14 +55,14 @@ class Network {
 class NetworkManager {
     let method: String!
     let url: String!
-    let params: Dictionary <String, AnyObject>
-    let success: (data: NSData!, response: NSURLResponse!, error: NSError!)->Void
-    let failure: (error: NSError!)->Void
+    let params: [String: String?]
+    let success: (data: NSData, response: NSURLResponse, error: NSError?)->Void
+    let failure: (error: NSError)->Void
     let session = NSURLSession.sharedSession()
     var request: NSMutableURLRequest!
     var task: NSURLSessionTask!
     
-    init(method: String, url: String, params: Dictionary <String, AnyObject> = Dictionary(), success: (data: NSData!, response: NSURLResponse!, error: NSError!)->Void, failure: (error: NSError!)->Void) {
+    init(method: String, url: String, params: [String: String?], success: (data: NSData, response: NSURLResponse, error: NSError?)->Void, failure: (error: NSError)->Void) {
    
         self.method = method
         self.url = url
@@ -85,11 +85,11 @@ class NetworkManager {
         task = session.dataTaskWithRequest(request, completionHandler: { (data , response, errer) -> Void in
            
             
-            if let tempError = errer {
+            if let _ = errer {
            
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
-                    self.failure(error: errer)
+                    self.failure(error: errer!)
                     
                 })
                 
@@ -97,7 +97,7 @@ class NetworkManager {
             
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
-                    self.success(data: data, response: response, error: errer)
+                    self.success(data: data!, response: response!, error: errer)
                     
                 })
                 
@@ -124,7 +124,7 @@ class NetworkManager {
        
             let tempUrl = url + "?" + buildParams(self.params)
             
-            print("\(tempUrl)\n")
+            print("\(tempUrl)\n", terminator: "")
             
             self.request = NSMutableURLRequest(URL: NSURL(string: tempUrl)!)
         }
@@ -138,14 +138,14 @@ class NetworkManager {
     }
     
     // 从 Alamofire 偷了三个函数
-    func buildParams(parameters: [String: AnyObject]) -> String {
+    func buildParams(parameters: [String: String?]) -> String {
         var components: [(String, String)] = []
-        for key in sorted(Array(parameters.keys), <) {
-            let value: AnyObject! = parameters[key]
+        for key in Array(parameters.keys).sort(<) {
+            let value: AnyObject! = parameters[key]!
             components += queryComponents(key, value)
         }
         
-        return join("&", components.map { "\($0)=\($1)" } as [String])
+        return (components.map { "\($0)=\($1)" } as [String]).joinWithSeparator("&")
     }
     
     func queryComponents(key: String, _ value: AnyObject) -> [(String, String)] {

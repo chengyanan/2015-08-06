@@ -99,7 +99,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         let lat = "\(self.coordinate!.latitude)"
         let lon = "\(self.coordinate!.longitude)"
         
-        var params = ["key":"edge5de7se4b5xd",
+        let params = ["key":"edge5de7se4b5xd",
                    "action": "getnearmark",
                      "type": "restaurant",
                       "lat": lat,
@@ -113,7 +113,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             self.isLoadData = false
             
             
-            let json: NSDictionary! =  NSJSONSerialization.JSONObjectWithData(data! , options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+            let json: NSDictionary! =  (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
            
 //                print("data - \(json)\n")
             
@@ -183,10 +183,13 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
        
             let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
             if status == CLAuthorizationStatus.NotDetermined {
-           
-                if self.locationManger.respondsToSelector("requestWhenInUseAuthorization") {
                
+                if #available(iOS 8.0, *) {
+                    
                     self.locationManger.requestAlwaysAuthorization()
+                    
+                } else {
+                        // Fallback on earlier versions
                 }
             }
             
@@ -208,13 +211,13 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     func addEnterpriseAnnotation() {
         
         let tempArray = NSArray(array: self.baseAnnocationArray!)
-        self.mapView.removeAnnotations(tempArray as [AnyObject])
+        self.mapView.removeAnnotations(tempArray as! [MKAnnotation])
         self.baseAnnocationArray?.removeAllObjects()
         
         for var index = 0; index < self.dataArray.count; ++index {
        
             let restaurant: Restaurant = self.dataArray[index]
-            var baseAnnotation: YNBaseAnnotation = YNBaseAnnotation(coordinate: restaurant.coordinate!)
+            let baseAnnotation: YNBaseAnnotation = YNBaseAnnotation(coordinate: restaurant.coordinate!)
             baseAnnotation.index = index
             self.mapView.addAnnotation(baseAnnotation)
             self.baseAnnocationArray?.addObject(baseAnnotation)
@@ -251,12 +254,12 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     
     func reverseGeocodeLocationWithUserLocation(userLocation: MKUserLocation!) {
    
-        self.geocder.reverseGeocodeLocation(userLocation.location, completionHandler: { (placemarks, error) -> Void in
+        self.geocder.reverseGeocodeLocation(userLocation.location!, completionHandler: { (placemarks, error) -> Void in
             
-            if let place = placemarks {
+            if let _ = placemarks {
            
-                 let placeMark: CLPlacemark = placemarks.first as! CLPlacemark
-                    
+                 let placeMark: CLPlacemark = placemarks!.first!
+                
                     if let thoroughfare = placeMark.thoroughfare {
                         
                         var title: String = thoroughfare
@@ -276,36 +279,36 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         
         if !self.isLocated {
             
-            showMyLocation(userLocation.location.coordinate)
+            showMyLocation(userLocation.location!.coordinate)
             self.isLocated = true
             
         }
     }
     
 //MARK: - MKMapViewDelegate
-    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
+    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         
         
-        if let tempCoorinate = self.coordinate {
+        if let _ = self.coordinate {
             
             let isUpdateLocation = self.isUpdateLocation(self.coordinate!, userLocation: userLocation.coordinate)
         
             if isUpdateLocation {
            
                 //新位置和以前不一样，设置新位置，从新加载数据
-                self.coordinate = userLocation.location.coordinate
+                self.coordinate = userLocation.location!.coordinate
                 reverseGeocodeLocationWithUserLocation(userLocation)
     
             }
             
         }else {
        
-            self.coordinate = userLocation.location.coordinate
+            self.coordinate = userLocation.location!.coordinate
             reverseGeocodeLocationWithUserLocation(userLocation)
         }
     }
     
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is YNBaseAnnotation {
        
@@ -343,7 +346,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             
             callOutAnnotationView!.alpha = 1.0
             
-            if let temp = self.callOutAnnotationCurrent {
+            if let _ = self.callOutAnnotationCurrent {
            
                 self.callOutAnnotationViewCurrent = callOutAnnotationView
                 
@@ -354,7 +357,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             }
             
             
-            var contentView:YNCalloutContentView = YNCalloutContentView(frame: callOutAnnotationView!.contentView.bounds)
+            let contentView:YNCalloutContentView = YNCalloutContentView(frame: callOutAnnotationView!.contentView.bounds)
             
             contentView.dataModel = self.dataArray[self.currentDataIndex!]
             
@@ -367,7 +370,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         return nil
     }
     
-    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         if view.annotation is YNBaseAnnotation {
        
@@ -377,11 +380,11 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             
             self.currentDataIndex = baseAnnotation.index
             
-            var callOutAnnotation = YNCallOutAnnotation(coordinate: view.annotation.coordinate)
+            let callOutAnnotation = YNCallOutAnnotation(coordinate: view.annotation!.coordinate)
             mapView.addAnnotation(callOutAnnotation)
            callOutAnnotation.index = baseAnnotation.index
             
-            if let temp = self.callOutAnnotation {
+            if let _ = self.callOutAnnotation {
            
                 self.callOutAnnotationCurrent = callOutAnnotation
             } else {
@@ -391,16 +394,16 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             
         } else {
             
-            var temp:MKAnnotation = view.annotation
+            let temp:MKAnnotation = view.annotation!
             
-            print(temp)
+            print(temp, terminator: "")
         }
         
     }
     
-    func mapView(mapView: MKMapView!, didDeselectAnnotationView view: MKAnnotationView!) {
+    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
         
-        if let tempCallOutAnnotation = self.callOutAnnotation {
+        if let _ = self.callOutAnnotation {
             
 //            self.isDeleteAnnotation = true
             
@@ -411,7 +414,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             }, completion: { (finished) -> Void in
                 
                 
-                self.mapView.removeAnnotation(self.callOutAnnotation)
+                self.mapView.removeAnnotation(self.callOutAnnotation!)
                 self.callOutAnnotation = nil
                 
 //                if self.isDeleteAnnotation {
@@ -422,7 +425,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
 
             })
             
-        } else if let temp = self.callOutAnnotationCurrent {
+        } else if let _ = self.callOutAnnotationCurrent {
        
             UIView.animateWithDuration(0.3 , animations: { () -> Void in
                 
@@ -431,7 +434,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
                 }, completion: { (finished) -> Void in
                     
                     
-                    self.mapView.removeAnnotation(self.callOutAnnotationCurrent)
+                    self.mapView.removeAnnotation(self.callOutAnnotationCurrent!)
                     self.callOutAnnotationCurrent = nil
                     
             })

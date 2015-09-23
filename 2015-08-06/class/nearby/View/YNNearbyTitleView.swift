@@ -41,7 +41,7 @@ class YNNearbyTitleView: UIView {
         titleLabel.frame = self.bounds
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -67,7 +67,7 @@ class YNNearbyTitleView: UIView {
         
         calculateIndicatorX()
         
-        if let temp = self.indicatorX {
+        if let _ = self.indicatorX {
        
             self.indicator.frame = CGRectMake(self.indicatorX!, 0, kIndicatorWidth, 44)
             
@@ -77,7 +77,7 @@ class YNNearbyTitleView: UIView {
             
         }else {
        
-            print("初始化位置不对")
+            print("初始化位置不对", terminator: "")
         }
     
     }

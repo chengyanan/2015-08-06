@@ -16,8 +16,8 @@ class YNRootTabBarController: UITabBarController {
         self.tabBar.tintColor = kStyleColor
         // Do any additional setup after loading the view.
         
-        var homepageVc = YNHomePageViewController()
-         var homepageNav = YNNavigationController(rootViewController: homepageVc)
+        let homepageVc = YNHomePageViewController()
+         let homepageNav = YNNavigationController(rootViewController: homepageVc)
          homepageVc.title = "首页"
         homepageNav.tabBarItem.image = UIImage(named: "tabBar_homePage_off")
         homepageNav.tabBarItem.title = "首页"
@@ -30,8 +30,8 @@ class YNRootTabBarController: UITabBarController {
 //        activityNav.tabBarItem.title = "活动"
         
         
-        var nearbyVc = YNNearbyViewController()
-        var nearbyNav = YNNavigationController(rootViewController: nearbyVc)
+        let nearbyVc = YNNearbyViewController()
+        let nearbyNav = YNNavigationController(rootViewController: nearbyVc)
         nearbyVc.title = "我附近的热门商家"
         nearbyNav.tabBarItem.image = UIImage(named: "tarBar_nearby_off")
         nearbyNav.tabBarItem.title = "附近"
@@ -44,8 +44,8 @@ class YNRootTabBarController: UITabBarController {
 //        cycleRingNav.tabBarItem.title = "圈子"
         
         
-        var meVc = YNMeViewController()
-        var meNav = YNNavigationController(rootViewController: meVc)
+        let meVc = YNMeViewController()
+        let meNav = YNNavigationController(rootViewController: meVc)
         meVc.title = "我"
         meNav.tabBarItem.image = UIImage(named: "tabBar_more_off")
         meNav.tabBarItem.title = "我的"

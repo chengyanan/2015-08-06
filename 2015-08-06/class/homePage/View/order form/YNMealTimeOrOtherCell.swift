@@ -4,7 +4,7 @@
 //
 //  Created by 农盟 on 15/9/18.
 //  Copyright (c) 2015年 农盟. All rights reserved.
-//
+//备注cell
 
 import UIKit
 
@@ -18,7 +18,7 @@ class YNMealTimeOrOtherCell: UITableViewCell {
         setupLayout()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -56,8 +56,8 @@ class YNMealTimeOrOtherCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        tempLabel.text = "用餐时间"
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
+        tempLabel.text = "备注"
         return tempLabel
         }()
     
@@ -65,8 +65,8 @@ class YNMealTimeOrOtherCell: UITableViewCell {
         
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        tempLabel.text = "选择时间"
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
+        tempLabel.text = "添加备注"
         tempLabel.textColor = UIColor.blackColor()
         tempLabel.textAlignment = NSTextAlignment.Right
         return tempLabel
@@ -76,7 +76,7 @@ class YNMealTimeOrOtherCell: UITableViewCell {
         
         var tempView = UIImageView(image: UIImage(named: "icon_cell_rightArrow")!)
         tempView.contentMode = UIViewContentMode.ScaleAspectFit
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
 }

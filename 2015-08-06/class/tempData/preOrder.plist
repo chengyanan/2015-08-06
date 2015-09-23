@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>status</key>
+	<integer>1</integer>
+	<key>data</key>
+	<dict>
+		<key>payWay</key>
+		<array>
+			<dict>
+				<key>selected</key>
+				<true/>
+				<key>discount</key>
+				<integer>15</integer>
+				<key>name</key>
+				<string>在线支付</string>
+				<key>id</key>
+				<string>1</string>
+			</dict>
+			<dict>
+				<key>discount</key>
+				<integer>0</integer>
+				<key>selected</key>
+				<false/>
+				<key>name</key>
+				<string>货到付款</string>
+				<key>id</key>
+				<string>2</string>
+			</dict>
+		</array>
+		<key>discount</key>
+		<integer>-15</integer>
+		<key>remark</key>
+		<string>备注</string>
+	</dict>
+</dict>
+</plist>

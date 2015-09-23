@@ -65,7 +65,7 @@ class YNCalloutContentView: UIView {
         titleLabel.frame = CGRectMake(titleX, imageViewY, frame.size.width - titleX - 1, titleH)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

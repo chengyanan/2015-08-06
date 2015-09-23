@@ -27,7 +27,7 @@ class YNSignInViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "登录"
-        self.view.backgroundColor = kRGBA(243, 240, 236, 1.0)
+        self.view.backgroundColor = kRGBA(243, g: 240, b: 236, a: 1.0)
         
         self.navigationItem.rightBarButtonItem = signInBarButtonItem
         self.navigationItem.leftBarButtonItem = backBarButtonItem
@@ -42,7 +42,7 @@ class YNSignInViewController: UIViewController {
 //MARK: event response
     func signUpItemHasClicked() {
         
-        var signUpVc = YNSignUpViewController()
+        let signUpVc = YNSignUpViewController()
 
         self.navigationController?.pushViewController(signUpVc, animated: true)
     }
@@ -60,7 +60,7 @@ class YNSignInViewController: UIViewController {
             
             if Tools().isPhoneNumber(userName) {
                 
-                if let password = self.passwordTextFiled.text {
+                if let _ = self.passwordTextFiled.text {
                
                     //向服务器发送登录请求
                     logIning()
@@ -83,12 +83,12 @@ class YNSignInViewController: UIViewController {
     
     func logIning() {
    
-        var params = ["key":"edge5de7se4b5xd",
+        let params = ["key":"edge5de7se4b5xd",
             "action": "login",
             "username": self.userNameTextFiled.text,
             "password": self.passwordTextFiled.text]
         
-        var progress = YNProgressHUD().showWaitingToView(self.view)
+        let progress = YNProgressHUD().showWaitingToView(self.view)
         self.signInButton.userInteractionEnabled = false
         
         Network.post(kURL, params: params, success: { (data, response, error) -> Void in
@@ -99,7 +99,7 @@ class YNSignInViewController: UIViewController {
 //             print(data)
             
             
-            let json: NSDictionary =  NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+            let json: NSDictionary =  (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
             
 //            print("data - \(json)")
             
@@ -179,7 +179,7 @@ class YNSignInViewController: UIViewController {
         
         button.layer.cornerRadius = 3
         button.backgroundColor = kStyleColor
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("登录", forState: UIControlState.Normal)
         button.addTarget(self, action: "signInButtonHasClicked", forControlEvents: UIControlEvents.TouchUpInside)
         

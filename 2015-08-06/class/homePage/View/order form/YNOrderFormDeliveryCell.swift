@@ -4,7 +4,7 @@
 //
 //  Created by 农盟 on 15/9/18.
 //  Copyright (c) 2015年 农盟. All rights reserved.
-//
+//配送服务cell
 
 import UIKit
 
@@ -18,7 +18,7 @@ class YNOrderFormDeliveryCell: UITableViewCell {
         setupLayout()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -58,7 +58,7 @@ class YNOrderFormDeliveryCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "配送费"
         return tempLabel
         }()
@@ -67,7 +67,7 @@ class YNOrderFormDeliveryCell: UITableViewCell {
         
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "本订单由XXX提供配送服务"
         
         return tempLabel
@@ -77,7 +77,7 @@ class YNOrderFormDeliveryCell: UITableViewCell {
         
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "¥0"
         tempLabel.textAlignment = NSTextAlignment.Right
         tempLabel.textColor = UIColor.grayColor()

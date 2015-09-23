@@ -38,7 +38,7 @@ class YNCartView: UIView {
    override init(frame: CGRect) {
         super.init(frame: frame)
     
-        var tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
+        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
         self.addGestureRecognizer(tgr)
     
         self.addSubview(cartBackgroundView)
@@ -50,7 +50,7 @@ class YNCartView: UIView {
 
     func viewDidClick() {
         
-        if let tempDelegate = delegate {
+        if let _ = delegate {
             
             self.delegate?.cartViewDidClick(self)
         }
@@ -81,7 +81,7 @@ class YNCartView: UIView {
         
     }
     
-   required init(coder aDecoder: NSCoder) {
+   required init?(coder aDecoder: NSCoder) {
        fatalError("init(coder:) has not been implemented")
    }
     
@@ -94,7 +94,7 @@ class YNCartView: UIView {
     lazy var cartBackgroundView: UIView = {
         
         var tempView = UIView()
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         tempView.backgroundColor = UIColor(red: 254/255.0, green: 188/255.0, blue: 12/255.0, alpha: 1.0)
         tempView.layer.cornerRadius = self.cartBackgroundViewWH/2
         tempView.clipsToBounds = true
@@ -107,7 +107,7 @@ class YNCartView: UIView {
         
         var tempView: UIImageView = UIImageView(image: UIImage(named: "icon_cart"))
         tempView.contentMode = UIViewContentMode.ScaleAspectFit
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         
         }()
@@ -122,7 +122,7 @@ class YNCartView: UIView {
         tempView.font = UIFont.systemFontOfSize(10)
         tempView.textColor = UIColor.whiteColor()
         tempView.hidden = true
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         
         }()

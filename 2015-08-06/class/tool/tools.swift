@@ -12,14 +12,14 @@ struct Tools {
     
    internal func isPhoneNumber(phoneNumber: String) ->Bool{
         
-        var length = phoneNumber.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let length = phoneNumber.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
         
         if  length != 11  {return false}
         let regular = "^1[3|4|5|7|8|9][0-9]{9}$"
         
-        var regex = NSRegularExpression(pattern: regular, options: NSRegularExpressionOptions.AnchorsMatchLines, error: nil)
+        let regex = try? NSRegularExpression(pattern: regular, options: NSRegularExpressionOptions.AnchorsMatchLines)
         
-        var resault: NSTextCheckingResult! =  regex?.firstMatchInString(phoneNumber, options: NSMatchingOptions.ReportProgress, range: NSMakeRange(0, length))
+        let resault: NSTextCheckingResult! =  regex?.firstMatchInString(phoneNumber, options: NSMatchingOptions.ReportProgress, range: NSMakeRange(0, length))
         
         let range = resault.range
         
@@ -28,14 +28,14 @@ struct Tools {
     
     func saveValue(value: AnyObject?, forKey: String) {
    
-        var userDefault: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefault: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         
         userDefault.setValue(value, forKey: forKey)
     }
     
     func valueForKey(forKey: String) ->AnyObject? {
    
-        var userDefault: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefault: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         
         return userDefault.valueForKey(forKey)
         
@@ -43,7 +43,7 @@ struct Tools {
     
     func removeValueForKey(forKey: String) {
    
-        var userDefault: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefault: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         userDefault.removeObjectForKey(forKey)
     }
 }

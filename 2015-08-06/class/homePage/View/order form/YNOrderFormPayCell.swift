@@ -4,12 +4,50 @@
 //
 //  Created by 农盟 on 15/9/18.
 //  Copyright (c) 2015年 农盟. All rights reserved.
-//
+//付款cell
 
 import UIKit
 
+
+protocol YNOrderFormPayCellDelegate {
+    
+    func orderFormPayCellSelectedButtonDidClick(cell: YNOrderFormPayCell)
+}
+
+
 class YNOrderFormPayCell: UITableViewCell {
 
+    //public proporty
+    var delegate:YNOrderFormPayCellDelegate?
+    var payWay: PayWay? {
+        
+        didSet {
+       
+            nameLabel.text = payWay?.name
+            
+            if payWay!.selected {
+           
+                paySelectedButton.selected = true
+                
+            } else {
+           
+                paySelectedButton.selected = false
+            }
+            
+            if payWay?.discount > 0 {
+           
+                minusLabel.hidden = false
+                minusLabel.text = "立减" + String(payWay!.discount)
+            } else {
+           
+                minusLabel.hidden = true
+            }
+        }
+        
+    }
+    
+    
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -19,7 +57,7 @@ class YNOrderFormPayCell: UITableViewCell {
         
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -54,7 +92,16 @@ class YNOrderFormPayCell: UITableViewCell {
     //MARK: - event response
     func paySelectedButtonDidClick() {
    
-        paySelectedButton.selected = !paySelectedButton.selected
+        if !paySelectedButton.selected {
+       
+            paySelectedButton.selected = !paySelectedButton.selected
+            payWay?.selected = paySelectedButton.selected
+            
+            //通知代理
+            delegate?.orderFormPayCellSelectedButtonDidClick(self)
+        }
+        
+        
     }
     
     //MARK: - private proporty
@@ -63,8 +110,8 @@ class YNOrderFormPayCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        tempLabel.text = "在线支付"
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
+//        tempLabel.text = "在线支付"
         return tempLabel
         }()
     
@@ -72,13 +119,14 @@ class YNOrderFormPayCell: UITableViewCell {
         
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        tempLabel.text = "立减15"
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
+//        tempLabel.text = "立减15"
         tempLabel.textColor = UIColor.whiteColor()
         tempLabel.backgroundColor = UIColor.redColor()
         tempLabel.layer.cornerRadius = 3
         tempLabel.clipsToBounds = true
         tempLabel.textAlignment = NSTextAlignment.Center
+        tempLabel.hidden = true
         return tempLabel
         }()
     
@@ -87,7 +135,7 @@ class YNOrderFormPayCell: UITableViewCell {
         var tempView = UIButton()
         tempView.setImage(UIImage(named: "icon_radio"), forState: UIControlState.Normal)
         tempView.setImage(UIImage(named: "icon_radio_on"), forState: UIControlState.Selected)
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         tempView.addTarget(self, action: "paySelectedButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
         return tempView
         

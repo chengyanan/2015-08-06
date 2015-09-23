@@ -61,19 +61,19 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
         let lat = "\(self.cooridate!.latitude)"
         let lon = "\(self.cooridate!.longitude)"
         
-        var params = ["key":"edge5de7se4b5xd",
+        let params: [String: String?] = ["key":"edge5de7se4b5xd",
             "action": "getnearmark",
             "type": "restaurant",
             "lat": lat,
             "lon": lon]
         
-        var progress: ProgressHUD = YNProgressHUD().showWaitingToView(self.view)
+        let progress: ProgressHUD = YNProgressHUD().showWaitingToView(self.view)
         
         Network.get(kURL, params: params  , success: { (data, response, error) -> Void in
             
             progress.hideUsingAnimation()
             
-            let json: NSDictionary! =  NSJSONSerialization.JSONObjectWithData(data! , options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+            let json: NSDictionary! =  (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
             
 //                            print("\ndata - \(json)\n")
             
@@ -137,7 +137,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
     
     //MARK: - UITableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let temparray = dataArray {
+        if let _ = dataArray {
        
             return dataArray!.count
         }
@@ -157,7 +157,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
             cell = YNOrderTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
         }
         
-        if let tempArray = self.dataArray {
+        if let _ = self.dataArray {
        
              cell?.dataModel = self.dataArray![indexPath.row]
         }
@@ -169,9 +169,9 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
     //MARK: - UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        var porterhouseVc: YNPorterhouseViewController = YNPorterhouseViewController()
+        let porterhouseVc: YNPorterhouseViewController = YNPorterhouseViewController()
         
-        if let tempArray = self.dataArray {
+        if let _ = self.dataArray {
        
             porterhouseVc.restaurant = self.dataArray![indexPath.row]
         }

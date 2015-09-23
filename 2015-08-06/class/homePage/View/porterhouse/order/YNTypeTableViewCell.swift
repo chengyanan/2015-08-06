@@ -15,7 +15,7 @@ class YNTypeTableViewCell: UITableViewCell {
    
         didSet {
        
-            if let tempData = data {
+            if let _ = data {
            
                 self.setData()
             }
@@ -74,7 +74,7 @@ class YNTypeTableViewCell: UITableViewCell {
         
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -83,7 +83,7 @@ class YNTypeTableViewCell: UITableViewCell {
         
         var tempImageView = UIImageView()
         tempImageView.contentMode = UIViewContentMode.ScaleToFill
-        tempImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempImageView.translatesAutoresizingMaskIntoConstraints = false
         return tempImageView
         
         }()
@@ -93,7 +93,7 @@ class YNTypeTableViewCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(14)
         tempLabel.textColor = UIColor(red: 76/255.0, green: 76/255.0, blue: 76/255.0, alpha: 1)
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.textAlignment = NSTextAlignment.Left
         return tempLabel
         }()
@@ -105,7 +105,7 @@ class YNTypeTableViewCell: UITableViewCell {
         tempLabel.textColor = UIColor.whiteColor()
         tempLabel.backgroundColor = kStyleColor
         tempLabel.sizeToFit()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.layer.cornerRadius = 3
         tempLabel.textAlignment = NSTextAlignment.Center
         tempLabel.clipsToBounds = true
@@ -120,7 +120,7 @@ class YNTypeTableViewCell: UITableViewCell {
         var tempView = UIView()
         tempView.backgroundColor = kStyleColor
         tempView.hidden = true
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
     }()
     
@@ -128,7 +128,7 @@ class YNTypeTableViewCell: UITableViewCell {
         
         var tempView = UIView()
         tempView.backgroundColor = UIColor(red: 220/255.0, green: 220/255.0, blue: 223/255.0, alpha: 1)
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
     

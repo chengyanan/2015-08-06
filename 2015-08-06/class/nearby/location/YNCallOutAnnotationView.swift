@@ -21,7 +21,7 @@ class YNCallOutAnnotationView: MKAnnotationView {
         
         }()
     
-    override init!(annotation: MKAnnotation!, reuseIdentifier: String!) {
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         
         self.centerOffset = CGPointMake(0, kCenterOffsetY);
@@ -35,7 +35,7 @@ class YNCallOutAnnotationView: MKAnnotationView {
         
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -81,7 +81,7 @@ class YNCallOutAnnotationView: MKAnnotationView {
     //MARK: - 画一个背景气泡
     override func drawRect(rect: CGRect) {
         
-        drawInContext(UIGraphicsGetCurrentContext())
+        drawInContext(UIGraphicsGetCurrentContext()!)
         
         self.addSubview(contentView)
 
@@ -93,7 +93,7 @@ class YNCallOutAnnotationView: MKAnnotationView {
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextSetStrokeColorWithColor(context, kStyleColor.CGColor)
         getDrawPath(context)
-        CGContextDrawPath(context, kCGPathFillStroke)
+        CGContextDrawPath(context, CGPathDrawingMode.FillStroke)
     }
     
     func getDrawPath(context: CGContextRef) {

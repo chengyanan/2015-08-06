@@ -4,7 +4,7 @@
 //
 //  Created by 农盟 on 15/9/17.
 //  Copyright (c) 2015年 农盟. All rights reserved.
-//
+//地址cell
 
 import UIKit
 
@@ -20,7 +20,7 @@ class YNOrderFormAddressCell: UITableViewCell {
         setupLayout()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -86,7 +86,7 @@ class YNOrderFormAddressCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(14)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "程亚男"
         return tempLabel
         }()
@@ -96,7 +96,7 @@ class YNOrderFormAddressCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(14)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "女士"
         return tempLabel
         }()
@@ -106,7 +106,7 @@ class YNOrderFormAddressCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(14)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "18790295312"
         return tempLabel
         }()
@@ -115,7 +115,7 @@ class YNOrderFormAddressCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(14)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "古德佳苑7号楼2单元35室"
         tempLabel.numberOfLines = 2
         return tempLabel
@@ -125,21 +125,21 @@ class YNOrderFormAddressCell: UITableViewCell {
         
         var tempView = UIImageView()
         tempView.backgroundColor = UIColor(patternImage: UIImage(named: "address_line_bg")!)
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
     private lazy var bottomImageView: UIImageView = {
         
         var tempView = UIImageView()
         tempView.backgroundColor = UIColor(patternImage: UIImage(named: "address_line_bg")!)
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
     private lazy var indicatorImageView: UIImageView = {
         
         var tempView = UIImageView(image: UIImage(named: "icon_cell_rightArrow")!)
         tempView.contentMode = UIViewContentMode.ScaleAspectFit
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
 }

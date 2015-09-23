@@ -40,19 +40,19 @@ struct Restaurant {
         
         
         let point = dict["point"] as? NSString
-        let arrayStr: Array<NSString>? = point?.componentsSeparatedByString(",") as? Array
+        let arrayStr: Array<String>? = point!.componentsSeparatedByString(",")
         
         var longitude: CLLocationDegrees = 0
         var latitude: CLLocationDegrees = 0
         
         if let lon = arrayStr?[0]{
        
-            longitude = lon.doubleValue
+            longitude = Double(lon)!
         }
         
         if let lat = arrayStr?[1] {
             
-            latitude = lat.doubleValue
+            latitude = Double(lat)!
         }
         
         coordinate = CLLocationCoordinate2DMake(latitude, longitude)

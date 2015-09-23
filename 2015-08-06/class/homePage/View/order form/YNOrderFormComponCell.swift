@@ -4,12 +4,22 @@
 //
 //  Created by 农盟 on 15/9/18.
 //  Copyright (c) 2015年 农盟. All rights reserved.
-//
+// 满减优惠cell
 
 import UIKit
 
 class YNOrderFormComponCell: UITableViewCell {
 
+    
+    //public proporty
+    var discount: String? {
+   
+        didSet {
+       
+            priceLabel.text = discount
+        }
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -18,7 +28,7 @@ class YNOrderFormComponCell: UITableViewCell {
         setupLayout()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -57,7 +67,7 @@ class YNOrderFormComponCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "满减优惠"
         return tempLabel
         }()
@@ -66,7 +76,7 @@ class YNOrderFormComponCell: UITableViewCell {
         
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "减"
         tempLabel.textColor = UIColor.whiteColor()
         tempLabel.textAlignment = NSTextAlignment.Center
@@ -81,8 +91,8 @@ class YNOrderFormComponCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor(red: 251/255.0, green: 81/255.0, blue: 9/255.0, alpha: 1)
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        tempLabel.text = "-15"
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
+//        tempLabel.text = "-15"
         tempLabel.textAlignment = NSTextAlignment.Right
         return tempLabel
         }()

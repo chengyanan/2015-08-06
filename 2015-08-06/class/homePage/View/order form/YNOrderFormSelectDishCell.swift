@@ -4,7 +4,7 @@
 //
 //  Created by 农盟 on 15/9/18.
 //  Copyright (c) 2015年 农盟. All rights reserved.
-//
+//点过的菜品cell
 
 import UIKit
 
@@ -28,7 +28,7 @@ class YNOrderFormSelectDishCell: UITableViewCell {
         setupLayout()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -70,7 +70,7 @@ class YNOrderFormSelectDishCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
@@ -80,7 +80,7 @@ class YNOrderFormSelectDishCell: UITableViewCell {
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
         tempLabel.textAlignment = NSTextAlignment.Right
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return tempLabel
         }()
@@ -90,7 +90,7 @@ class YNOrderFormSelectDishCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.textColor = kStyleColor
         tempLabel.textAlignment = NSTextAlignment.Right
         return tempLabel
@@ -101,12 +101,12 @@ class YNOrderFormSelectDishCell: UITableViewCell {
         let rectY = self.bounds.size.height/2 - 2
         let cycleRect = CGRectMake(6, rectY, 4, 4)
         
-        var context:CGContextRef = UIGraphicsGetCurrentContext()
+        let context:CGContextRef = UIGraphicsGetCurrentContext()!
         
         CGContextSetRGBFillColor(context, 71/255.0, 185/255.0, 27/255.0, 1)
         
         CGContextAddEllipseInRect(context, cycleRect)
         
-        CGContextDrawPath(context, kCGPathFill)
+        CGContextDrawPath(context, CGPathDrawingMode.Fill)
     }
 }

@@ -21,7 +21,7 @@ class YNDishTableViewCell: UITableViewCell {
    
         didSet {
        
-            if let tempData = data {
+            if let _ = data {
             
                 self.setData()
                 
@@ -41,7 +41,7 @@ class YNDishTableViewCell: UITableViewCell {
         
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -124,7 +124,7 @@ class YNDishTableViewCell: UITableViewCell {
                 
             } else {
                 
-                print("\n YNDishTableViewCell - 图片没有URL \n")
+                print("\n YNDishTableViewCell - 图片没有URL \n", terminator: "")
             }
 
             
@@ -251,8 +251,8 @@ class YNDishTableViewCell: UITableViewCell {
         
         var tempImageView = UIImageView()
         tempImageView.contentMode = UIViewContentMode.ScaleToFill
-        tempImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        tempImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempImageView.translatesAutoresizingMaskIntoConstraints = false
+        tempImageView.translatesAutoresizingMaskIntoConstraints = false
         return tempImageView
         
         }()
@@ -261,7 +261,7 @@ class YNDishTableViewCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(17)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
 
@@ -270,7 +270,7 @@ class YNDishTableViewCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(12)
         tempLabel.textColor = UIColor.grayColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
@@ -279,7 +279,7 @@ class YNDishTableViewCell: UITableViewCell {
         var tempLabel = UILabel()
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.blackColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.textColor = kStyleColor
         tempLabel.textAlignment = NSTextAlignment.Justified
         return tempLabel
@@ -291,7 +291,7 @@ class YNDishTableViewCell: UITableViewCell {
         tempLabel.font = UIFont.systemFontOfSize(13)
         tempLabel.textColor = UIColor.blackColor()
         tempLabel.textColor = UIColor.grayColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
@@ -301,7 +301,7 @@ class YNDishTableViewCell: UITableViewCell {
         tempLabel.font = UIFont.systemFontOfSize(13)
         tempLabel.textColor = UIColor.blackColor()
         tempLabel.textAlignment = NSTextAlignment.Center
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return tempLabel
         }()
@@ -312,7 +312,7 @@ class YNDishTableViewCell: UITableViewCell {
         var tempView = UIButton()
         tempView.setImage(UIImage(named: "food_icon_add"), forState: UIControlState.Normal)
         
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         
         tempView.addTarget(self, action: "addButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
         return tempView
@@ -324,7 +324,7 @@ class YNDishTableViewCell: UITableViewCell {
         // 49 * 49
         var tempView = UIButton()
         tempView.setImage(UIImage(named: "food_icon_minus"), forState: UIControlState.Normal)
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         tempView.addTarget(self, action: "minusButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
         tempView.hidden = true
         return tempView
@@ -335,7 +335,7 @@ class YNDishTableViewCell: UITableViewCell {
         
         var tempView = UIView()
         tempView.backgroundColor = UIColor(red: 220/255.0, green: 220/255.0, blue: 223/255.0, alpha: 1)
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
 

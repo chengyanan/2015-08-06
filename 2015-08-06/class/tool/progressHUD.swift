@@ -20,14 +20,14 @@ struct YNProgressHUD {
     
     internal func showText(text: String, toView: UIView) {
         
-        var progressHUD = ProgressHUD.showHudToView(toView)
+        let progressHUD = ProgressHUD.showHudToView(toView)
         progressHUD.mode = ProgressHUDMode.Text
         progressHUD.text = text
     }
     
     internal func showWaitingToView(toView: UIView) -> ProgressHUD{
         
-        var hud = ProgressHUD(frame: CGRectMake(toView.center.x-50, toView.center.y-50, 80, 80))
+        let hud = ProgressHUD(frame: CGRectMake(toView.center.x-50, toView.center.y-50, 80, 80))
         hud.mode = ProgressHUDMode.Indicator
         toView.addSubview(hud)
         return hud
@@ -42,7 +42,7 @@ class ProgressHUD: UIView {
     let margin: CGFloat = 30
     let kFont = UIFont.boldSystemFontOfSize(16)
     let kCornerRadius: CGFloat = 10
-    let kBackgroundColor = kRGBA(0, 0, 0, 0.9)
+    let kBackgroundColor = kRGBA(0, g: 0, b: 0, a: 0.9)
     
     var timer: NSTimer?
     var textRealWidth: CGFloat?
@@ -101,7 +101,7 @@ class ProgressHUD: UIView {
     
    class func showHudToView(view: UIView) ->ProgressHUD{
    
-    var hud:ProgressHUD = ProgressHUD(frame: view.bounds)
+    let hud:ProgressHUD = ProgressHUD(frame: view.bounds)
     
     view.addSubview(hud)
     
@@ -119,7 +119,7 @@ class ProgressHUD: UIView {
         
         } else if mode == ProgressHUDMode.Indicator {
             
-            self.backgroundColor = kRGBA(0, 0, 0, 0.7)
+            self.backgroundColor = kRGBA(0, g: 0, b: 0, a: 0.7)
             self.layer.cornerRadius = 12
             self.clipsToBounds = true
             self.addSubview(indicator)
@@ -138,8 +138,8 @@ class ProgressHUD: UIView {
         
             if animation {
            
-                var delay: Double = Double(min(self.textRealWidth!, self.textMaxWidth).native/174.0 * 1)
-                var realDelay = max(delay, 1)
+                let delay: Double = Double(min(self.textRealWidth!, self.textMaxWidth).native/174.0 * 1)
+                let realDelay = max(delay, 1)
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(realDelay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
                     
                     self.hideUsingAnimation()
@@ -169,7 +169,7 @@ class ProgressHUD: UIView {
         self.alpha = 0
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

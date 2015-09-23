@@ -51,7 +51,7 @@ class YNPorthouseType {
             
         } else {
        
-            print("\n --- YNPorthouseType: -- 数组转化失败 \n")
+            print("\n --- YNPorthouseType: -- 数组转化失败 \n", terminator: "")
         }
     }
 }

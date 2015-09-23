@@ -26,10 +26,15 @@ class Location: NSObject, CLLocationManagerDelegate {
             let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
             
             if status == CLAuthorizationStatus.NotDetermined {
-           
-                if self.locationManager.respondsToSelector("requestWhenInUseAuthorization") {
+        
                
+                if #available(iOS 8.0, *) {
+                    
                     self.locationManager.requestWhenInUseAuthorization()
+                    
+                } else {
+                    
+                    // Fallback on earlier versions
                 }
                 
             }
@@ -46,9 +51,9 @@ class Location: NSObject, CLLocationManagerDelegate {
     }
     
     //MARK: - CLLocationManagerDelegate
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        let newLocation: CLLocation = locations[locations.startIndex] as! CLLocation
+        let newLocation: CLLocation = locations[locations.startIndex] 
         
         cooridate = self.transformFromWGSToGCJ(newLocation.coordinate)
         

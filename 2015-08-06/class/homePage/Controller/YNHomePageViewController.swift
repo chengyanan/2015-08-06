@@ -166,7 +166,7 @@ class YNHomePageViewController: UIViewController {
     //MARK: - event responsor
     func orderOrReserveButtonHasClicked() {
    
-        var orderVc: YNOrderViewController = YNOrderViewController()
+        let orderVc: YNOrderViewController = YNOrderViewController()
         orderVc.hidesBottomBarWhenPushed = true
         
         if let temp = self.location.cooridate {
@@ -175,7 +175,7 @@ class YNHomePageViewController: UIViewController {
             
         } else {
             
-            print("\n没有定位到位置 \n")
+            print("\n没有定位到位置 \n", terminator: "")
             
             //***********************
             
@@ -210,8 +210,8 @@ class YNHomePageViewController: UIViewController {
     }
     //MARK: - custom method
     func buttonWithNormolImage(imageName: String?,title: String?, action: Selector) -> UIButton {
-        var button: UIButton = UIButton()
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        let button: UIButton = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         
         button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         

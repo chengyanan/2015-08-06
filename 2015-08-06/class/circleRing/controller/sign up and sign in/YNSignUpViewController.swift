@@ -31,7 +31,7 @@ class YNSignUpViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "注册"
-        self.view.backgroundColor = kRGBA(243, 240, 236, 1.0)
+        self.view.backgroundColor = kRGBA(243, g: 240, b: 236, a: 1.0)
         self.view.addSubview(scrollView)
         
         scrollView.addSubview(userNameTextFiled)
@@ -58,7 +58,7 @@ class YNSignUpViewController: UIViewController {
     //点击获取验证码
      internal func getCodeButtonHasClicked() {
         
-        if Tools().isPhoneNumber(self.userNameTextFiled.text) {
+        if Tools().isPhoneNumber(self.userNameTextFiled.text!) {
             
             self.getcodeButton.userInteractionEnabled = false
             self.getcodeButton.backgroundColor = UIColor.grayColor()
@@ -79,12 +79,12 @@ class YNSignUpViewController: UIViewController {
     
      func signUpButtonHasClicked() {
         
-        var allFill : Bool = (count(self.userNameTextFiled.text) != 0) && (count(self.securityCodeTextField.text) != 0) && (count(self.passwordTextFiled.text) != 0) && (count(self.passwordAgainTextFiled.text) != 0)
+        let allFill : Bool = (self.userNameTextFiled.text!.characters.count != 0) && (self.securityCodeTextField.text!.characters.count != 0) && (self.passwordTextFiled.text!.characters.count != 0) && (self.passwordAgainTextFiled.text!.characters.count != 0)
         
         if allFill {
             
             
-            if Tools().isPhoneNumber(self.userNameTextFiled.text) {
+            if Tools().isPhoneNumber(self.userNameTextFiled.text!) {
                 
                 if self.passwordTextFiled.text == self.passwordAgainTextFiled.text {
                     
@@ -124,11 +124,11 @@ class YNSignUpViewController: UIViewController {
        
             var userInfo: [NSObject: AnyObject]? = notification.userInfo
             
-            var aValue: AnyObject? = userInfo?.removeValueForKey(UIKeyboardFrameEndUserInfoKey)
+            let aValue: AnyObject? = userInfo?.removeValueForKey(UIKeyboardFrameEndUserInfoKey)
             
-            if let rect = aValue?.CGRectValue() {
+            if let rect = aValue?.CGRectValue {
                 
-                var height = rect.size.height
+                let height = rect.size.height
                 self.originalContentSize = self.scrollView.contentSize
                 
                 if kIS_iPhone4() {
@@ -208,7 +208,7 @@ class YNSignUpViewController: UIViewController {
     
      func senderCodeToServer(code: String) {
    
-        var params = ["key":"edge5de7se4b5xd",
+        let params = ["key":"edge5de7se4b5xd",
             "action": "regverify",
             "mobile": self.userNameTextFiled.text,
             "code": code]
@@ -216,9 +216,9 @@ class YNSignUpViewController: UIViewController {
         
         Network.post(kURL, params: params, success: { (data, response, error) -> Void in
             
-            let json: NSDictionary =  (NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers, error: nil)! as? NSDictionary)!
+            let json: NSDictionary =  ((try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary)!
             
-            print("data - \(json)")
+            print("data - \(json)", terminator: "")
             
             if let status = json["status"] as? Int {
                 
@@ -251,13 +251,13 @@ class YNSignUpViewController: UIViewController {
         
         self.signUpButton.userInteractionEnabled = false
         
-        var params = ["key":"edge5de7se4b5xd",
+        let params = ["key":"edge5de7se4b5xd",
             "action": "reg",
             "mobile": self.userNameTextFiled.text,
             "password": self.passwordTextFiled.text]
         
         
-        var progress: ProgressHUD = YNProgressHUD().showWaitingToView(self.view)
+        let progress: ProgressHUD = YNProgressHUD().showWaitingToView(self.view)
          
         Network.post(kURL, params: params, success: { (data, response, error) -> Void in
             
@@ -265,7 +265,7 @@ class YNSignUpViewController: UIViewController {
             
 //            print(data)
             
-            let json: NSDictionary = NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+            let json: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
 
 //            print("data - \(json)")
             
@@ -318,7 +318,7 @@ class YNSignUpViewController: UIViewController {
     
      func addTapGestureRecongizer() {
         
-        var tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapBackView")
+        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapBackView")
         self.view.addGestureRecognizer(tgr)
         
     }
@@ -327,7 +327,7 @@ class YNSignUpViewController: UIViewController {
     lazy var scrollView: UIScrollView! = {
    
         var tempscrollView = UIScrollView()
-        tempscrollView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempscrollView.translatesAutoresizingMaskIntoConstraints = false
         return tempscrollView
     }()
   
@@ -384,7 +384,7 @@ class YNSignUpViewController: UIViewController {
         
         button.layer.cornerRadius = 3
         button.backgroundColor = kStyleColor
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("注册", forState: UIControlState.Normal)
         button.addTarget(self, action: "signUpButtonHasClicked", forControlEvents: UIControlEvents.TouchUpInside)
 
@@ -396,8 +396,8 @@ class YNSignUpViewController: UIViewController {
         let scrollViewConstrantVFLH = "H:|[scrollView]|"
         let scrollViewConstrantVFLV = "V:|[scrollView]|"
         
-        var scrollViewConstrantH = NSLayoutConstraint.constraintsWithVisualFormat(scrollViewConstrantVFLH, options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views: ["scrollView": scrollView])
-        var scrollViewConstrantV = NSLayoutConstraint.constraintsWithVisualFormat(scrollViewConstrantVFLV, options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views: ["scrollView": scrollView])
+        let scrollViewConstrantH = NSLayoutConstraint.constraintsWithVisualFormat(scrollViewConstrantVFLH, options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views: ["scrollView": scrollView])
+        let scrollViewConstrantV = NSLayoutConstraint.constraintsWithVisualFormat(scrollViewConstrantVFLV, options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views: ["scrollView": scrollView])
         self.view.addConstraints(scrollViewConstrantH)
         self.view.addConstraints(scrollViewConstrantV)
         

@@ -46,7 +46,7 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
         
         tempPageControl.currentPageIndicatorTintColor = kStyleColor
         tempPageControl.pageIndicatorTintColor = UIColor.purpleColor()
-        tempPageControl.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempPageControl.translatesAutoresizingMaskIntoConstraints = false
         
         return tempPageControl
         }()
@@ -76,7 +76,7 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
         NSRunLoop.mainRunLoop().addTimer(self.timer, forMode: NSRunLoopCommonModes)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -87,7 +87,7 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        var cell: YNCycleCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(kIdentify, forIndexPath: indexPath) as! YNCycleCollectionViewCell
+        let cell: YNCycleCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(kIdentify, forIndexPath: indexPath) as! YNCycleCollectionViewCell
         cell.image = self.dataArray![indexPath.item]
         return cell
     }
@@ -95,8 +95,8 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
     //MARK: - UIScrollViewDelegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        var pageFloat: CGFloat = (scrollView.contentOffset.x + kScreenWidth/2) / kScreenWidth
-        var pageInt: Int = Int(pageFloat)
+        let pageFloat: CGFloat = (scrollView.contentOffset.x + kScreenWidth/2) / kScreenWidth
+        let pageInt: Int = Int(pageFloat)
         self.pageControl.currentPage = pageInt
     }
     
@@ -112,7 +112,7 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
     //MARK: - private method
     private func pauseTimer() {
    
-        self.timer.fireDate = NSDate.distantFuture() as! NSDate
+        self.timer.fireDate = NSDate.distantFuture() 
     }
     private func startTimer() {
    

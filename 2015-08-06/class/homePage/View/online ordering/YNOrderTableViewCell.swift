@@ -15,7 +15,7 @@ class YNOrderTableViewCell: UITableViewCell {
    
         didSet {
             
-            if let tempDataModel = self.dataModel {
+            if let _ = self.dataModel {
             
             
                 self.setData()
@@ -68,7 +68,7 @@ class YNOrderTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.autoresizingMask = UIViewAutoresizing.FlexibleHeight|UIViewAutoresizing.FlexibleWidth
+        self.contentView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
         self.contentView.addSubview(businessImageView)
@@ -84,7 +84,7 @@ class YNOrderTableViewCell: UITableViewCell {
         setLayout()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -127,7 +127,7 @@ class YNOrderTableViewCell: UITableViewCell {
                 
             } else {
                 
-                print("\nYNOrderTableViewCell - 图片没有URL \n")
+                print("\nYNOrderTableViewCell - 图片没有URL \n", terminator: "")
             }
             
         }
@@ -197,11 +197,11 @@ class YNOrderTableViewCell: UITableViewCell {
     //初始化一个星星button
     func buttonWithNormalImage(normalImage: String, selectedImage: String)-> UIButton {
         
-        var button: UIButton = UIButton()
+        let button: UIButton = UIButton()
         button.userInteractionEnabled = false
         button.setImage(UIImage(named: normalImage), forState: UIControlState.Normal)
         button.setImage(UIImage(named: selectedImage), forState: UIControlState.Selected)
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        button.translatesAutoresizingMaskIntoConstraints = false
         
         self.ratingButtons += [button]
         
@@ -215,14 +215,14 @@ class YNOrderTableViewCell: UITableViewCell {
         
         var tempImageView = UIImageView()
         tempImageView.contentMode = UIViewContentMode.ScaleToFill
-        tempImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempImageView.translatesAutoresizingMaskIntoConstraints = false
         return tempImageView
         
         }()
     private lazy var businessTitleLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         
         }()
@@ -257,7 +257,7 @@ class YNOrderTableViewCell: UITableViewCell {
         tempLabel.font = UIFont.systemFontOfSize(13)
         tempLabel.numberOfLines = 0
         tempLabel.textColor = UIColor.lightGrayColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         
         }()
@@ -268,7 +268,7 @@ class YNOrderTableViewCell: UITableViewCell {
         tempLabel.font = UIFont.systemFontOfSize(11)
         tempLabel.textAlignment = NSTextAlignment.Left
         tempLabel.textColor = UIColor.lightGrayColor()
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         
         }()

@@ -18,7 +18,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         super.viewDidLoad()
         
         // 禁止使用系统自带的滑动手势
-        self.navigationController?.interactivePopGestureRecognizer.enabled = false
+//        self.navigationController?.interactivePopGestureRecognizer!.enabled = false
         
         loaddata()
         
@@ -35,18 +35,15 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        var window = UIApplication.sharedApplication().keyWindow!
+        let window = UIApplication.sharedApplication().keyWindow!
         
         
         for subview in window.subviews {
             
-            if (subview as? UIView != nil) {
-                
                 if subview.tag == 100 {
                     
                     subview.removeFromSuperview()
                 }
-            }
         }
 
     }
@@ -70,7 +67,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
                    
                         for var i = 0; i < typeArray.count; ++i {
                        
-                            var type: YNPorthouseType = YNPorthouseType(dict: typeArray[i] as! NSDictionary)
+                            let type: YNPorthouseType = YNPorthouseType(dict: typeArray[i] as! NSDictionary)
                             
                             type.firstIndex = i
                             
@@ -97,7 +94,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
             
         } else {
        
-            print("\n --plist文件不存在 --  \n")
+            print("\n --plist文件不存在 --  \n", terminator: "")
         }
         
     }
@@ -107,9 +104,9 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         
         for var i = 0; i < Int(self.page); ++i {
        
-            var viewX = self.scrollView.frame.size.width * CGFloat(i)
+            let viewX = self.scrollView.frame.size.width * CGFloat(i)
             
-            var view: UIView = UIView()
+            let view: UIView = UIView()
             
             view.frame = CGRectMake(viewX, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)
             
@@ -117,7 +114,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
             
             if i == 0 {
            
-               var orderView = YNPorterhouseOrderView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.scrollView.frame.size.height))
+               let orderView = YNPorterhouseOrderView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.scrollView.frame.size.height))
                 orderView.data = self.typeArray
                 orderView.superViewTopViewHeight = self.topListHeight + self.kIndicatorHeight
                 orderView.delegate = self
@@ -189,12 +186,15 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     
     func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView) {
         
-        var orderFormVc: YNOrderFormViewController = YNOrderFormViewController()
+        let orderFormVc: YNOrderFormViewController = YNOrderFormViewController()
         orderFormVc.selectedArray = controller.selectedArray
         self.navigationController?.pushViewController(orderFormVc, animated: true)
     }
     
-    
+    func porterhouseOrderViewInteractivePopGestureRecognizer(enabled: Bool) {
+        
+        self.navigationController?.interactivePopGestureRecognizer!.enabled = enabled
+    }
     //MARK: - private proporty
     
     private var typeArray: Array<YNPorthouseType> = [YNPorthouseType]()

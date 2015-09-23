@@ -77,7 +77,7 @@ class YNPorterhouseTopListView: UIView {
         
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -121,7 +121,7 @@ class YNPorterhouseTopListView: UIView {
     //MARK: - private method 
     func buttonWithTitle(title: String)->UIButton {
         
-        var button: UIButton = UIButton()
+        let button: UIButton = UIButton()
         button.setTitle(title, forState: UIControlState.Normal)
         button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         button.setTitleColor(kStyleColor, forState: UIControlState.Selected)

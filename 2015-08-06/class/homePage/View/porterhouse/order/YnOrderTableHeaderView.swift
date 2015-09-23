@@ -19,7 +19,7 @@ class YnOrderTableHeaderView: UIView {
         setupLayout()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -45,7 +45,7 @@ class YnOrderTableHeaderView: UIView {
         tempLabel.font = UIFont.systemFontOfSize(15)
         tempLabel.textColor = UIColor.grayColor()
         tempLabel.text = "购物篮"
-        tempLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
 }

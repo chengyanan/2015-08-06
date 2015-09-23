@@ -8,16 +8,16 @@
 
 import UIKit
 
-class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, YNOrderFormPayCellDelegate {
 
     //MARK: - public proporty
-    var selectedArray: Array<YNPorterhouseDish>?  {
+    var selectedArray: Array<YNPorterhouseDish>?
+    var orderForm: OrderForm? {
    
         didSet {
-            
+       
             setupInterface()
             setupLayout()
-            
         }
     }
     
@@ -26,7 +26,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         
         // 恢复系统自带的滑动手势
-        self.navigationController?.interactivePopGestureRecognizer.enabled = true
+//        self.navigationController?.interactivePopGestureRecognizer!.enabled = true
         
         self.title = "订单确认"
         self.view.backgroundColor = UIColor(red: 234/255.0, green: 234/255.0, blue: 234/255.0, alpha: 1)
@@ -34,6 +34,42 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
 //        setupInterface()
 //        setupLayout()
+        
+        getData()
+    }
+    
+    
+    func getData() {
+   
+        let path = NSBundle.mainBundle().pathForResource("preOrder", ofType: "plist")
+        
+        if let tempPath = path {
+            
+            let dataDict: NSDictionary = NSDictionary(contentsOfFile: tempPath)!
+            
+            if let status: Int = dataDict["status"] as? Int{
+                
+                if status == 1 {
+                    
+                    let typeArray: NSDictionary = dataDict["data"] as! NSDictionary
+                    
+                    orderForm = OrderForm(dict: typeArray)
+                    
+                    
+                    } else {
+                        
+                        YNProgressHUD().showText("该商店暂未上传菜品", toView: self.view)
+                    }
+                
+            }
+            
+            
+        } else {
+            
+            print("\n --plist文件不存在 --  \n", terminator: "")
+        }
+
+        
     }
     
     func setupInterface() {
@@ -44,7 +80,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     func setupLayout() {
    
         Layout().addTopConstraint(tableView, toView: self.view, multiplier: 1, constant: 0)
-        Layout().addBottomConstraint(tableView, toView: self.view, multiplier: 1, constant: 0)
+        Layout().addBottomConstraint(tableView, toView: self.view, multiplier: 1, constant: -bottomViewHeight)
         Layout().addLeftConstraint(tableView, toView: self.view, multiplier: 1, constant: 0)
         Layout().addRightConstraint(tableView, toView: self.view, multiplier: 1, constant: 0)
     }
@@ -52,35 +88,40 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     //MARK: - UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return numberOfCellArray.count
+        return 4
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 4 {
+        if section == 0 {
+       
+            return orderForm!.payWay.count
+        }
+        
+        if section == 3 {
        
             return selectedArray!.count
         }
         
-        return numberOfCellArray[section]
+        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+//        if indexPath.section == 0 {
+//       
+//            let identify: String = "CELL_userAddress"
+//            var cell: YNOrderFormAddressCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormAddressCell
+//            
+//            if cell == nil {
+//                
+//                cell = YNOrderFormAddressCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+//                
+//            }
+//
+//            return cell!
+//        }
         if indexPath.section == 0 {
-       
-            let identify: String = "CELL_userAddress"
-            var cell: YNOrderFormAddressCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormAddressCell
-            
-            if cell == nil {
-                
-                cell = YNOrderFormAddressCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
-                
-            }
-
-            return cell!
-        }
-        if indexPath.section == 1 {
             
             let identify: String = "CELL_pay"
             var cell: YNOrderFormPayCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormPayCell
@@ -91,11 +132,13 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
                 
             }
             
+            cell?.payWay = orderForm?.payWay[indexPath.row]
+            cell?.delegate = self
             return cell!
         }
-        if indexPath.section == 2 {
+        if indexPath.section == 1 {
             
-            let identify: String = "CELL_mealTime"
+            let identify: String = "CELL_remark"
             var cell: YNMealTimeOrOtherCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNMealTimeOrOtherCell
             
             if cell == nil {
@@ -107,11 +150,9 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
             return cell!
         }
         
-        if indexPath.section == 3 {
+        if indexPath.section == 2 {
             
-            if indexPath.row == 0 {
-           
-                let identify: String = "CELL_mealTime"
+                let identify: String = "CELL_Compon"
                 var cell: YNOrderFormComponCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormComponCell
                 
                 if cell == nil {
@@ -121,22 +162,11 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
                 }
                 
                 return cell!
-            }
-            
-            let identify: String = "CELL_delivery"
-            var cell: YNOrderFormDeliveryCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormDeliveryCell
-            
-            if cell == nil {
-                
-                cell = YNOrderFormDeliveryCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
-                
-            }
-            
-            return cell!
+           
         }
         
         
-        if indexPath.section == 4 {
+        if indexPath.section == 3 {
        
             let identify: String = "CELL_SelectDish"
             var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormSelectDishCell
@@ -154,7 +184,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
         
         let identify: String = "CELL_Address"
-        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? UITableViewCell
+        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify)
         
         if cell == nil {
        
@@ -162,26 +192,26 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
            
         }
         
-        cell?.textLabel?.text = "rose"
+        cell!.textLabel?.text = "rose"
         
         return cell!
         
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-       
-            return 80
-        }
-        
-        if indexPath.section == 3 {
-       
-            if indexPath.row == 1 {
-           
-                return 64
-            }
-            
-        }
+//        if indexPath.section == 0 {
+//       
+//            return 80
+//        }
+//        
+//        if indexPath.section == 3 {
+//       
+//            if indexPath.row == 1 {
+//           
+//                return 64
+//            }
+//            
+//        }
         return 44
     }
     
@@ -194,21 +224,59 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         return 1
     }
     
+    //MARK: - YNOrderFormPayCellDelegate
+    func orderFormPayCellSelectedButtonDidClick(cell: YNOrderFormPayCell) {
+        
+        if cell.payWay!.selected {
+       
+            let payWayId = cell.payWay!.id
+            
+            for item in orderForm!.payWay {
+                
+                let itemId = item.id
+                
+                if itemId == payWayId {
+                    
+                    item.selected = cell.payWay!.selected
+                    
+                } else {
+                    
+                    item.selected = false
+                }
+                
+            }
+            
+        }  else {
+       
+            for item in orderForm!.payWay {
+                
+                if item.id == cell.payWay!.id {
+                    
+                    item.selected = cell.payWay!.selected
+                    break
+                }
+                
+            }
+        }
+        
+        self.tableView.reloadData()
+        
+    }
+    
     //MARK: - private property
     
-    private lazy var numberOfCellArray = {
-   
-        return [1, 2, 2, 2, 4]
-        
-    }()
+    private let bottomViewHeight: CGFloat = 50
+    private let bottomSepatatorHeight: CGFloat = 0.6
     
     private lazy var tableView: UITableView = {
         
         var tempTableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
         tempTableView.delegate = self
         tempTableView.dataSource = self
-        tempTableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempTableView.translatesAutoresizingMaskIntoConstraints = false
+        tempTableView.backgroundColor = UIColor.clearColor()
         return tempTableView
         
         }()
+    
 }

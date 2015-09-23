@@ -29,9 +29,9 @@ class YNMeViewController: UIViewController, UITableViewDataSource, YNSignInViewC
    
         if self.signInBarButtonItem.title == "登录" {
        
-            var signInVc = YNSignInViewController()
+            let signInVc = YNSignInViewController()
             signInVc.delegate = self
-            var signInNav = YNNavigationController(rootViewController: signInVc)
+            let signInNav = YNNavigationController(rootViewController: signInVc)
             self.navigationController?.presentViewController(signInNav, animated: true, completion: { () -> Void in
                 
             })
@@ -54,7 +54,7 @@ class YNMeViewController: UIViewController, UITableViewDataSource, YNSignInViewC
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let identify: String = "Cell_ID"
-        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? UITableViewCell
+        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify)
         if cell == nil {
        
             cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)

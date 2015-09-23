@@ -32,7 +32,7 @@ class PriceView: UIView {
         
         self.backgroundColor = UIColor(red: 56/255.0, green: 60/255.0, blue: 67/255.0, alpha: 0.9)
         
-        var tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
+        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
         
         self.addGestureRecognizer(tgr)
         
@@ -43,7 +43,7 @@ class PriceView: UIView {
     
     func viewDidClick() {
         
-        if let tempDelegate = delegate {
+        if let _ = delegate {
        
             self.delegate?.priceViewDidClick(self)
         }
@@ -61,7 +61,7 @@ class PriceView: UIView {
     }
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -71,7 +71,7 @@ class PriceView: UIView {
         tempView.text = "¥0"
         tempView.font = UIFont.systemFontOfSize(20)
         tempView.textColor = UIColor.whiteColor()
-        tempView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         
         }()

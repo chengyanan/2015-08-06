@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>status</key>
+	<integer>1</integer>
+	<key>data</key>
+	<dict>
+		<key>addresses</key>
+		<array>
+			<dict>
+				<key>userName</key>
+				<string>程亚男</string>
+				<key>userGender</key>
+				<string>女</string>
+				<key>userPhone</key>
+				<string>18037517130</string>
+				<key>selected</key>
+				<true/>
+				<key>cityID</key>
+				<string></string>
+				<key>cityName</key>
+				<string>郑州市</string>
+				<key>buildingName</key>
+				<string>古德佳苑</string>
+				<key>details</key>
+				<string>7号楼 2单元 7层 35 室</string>
+			</dict>
+		</array>
+		<key>payWay</key>
+		<array>
+			<dict>
+				<key>selected</key>
+				<true/>
+				<key>name</key>
+				<string>在线支付</string>
+				<key>id </key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>selected</key>
+				<false/>
+				<key>name</key>
+				<string>货到付款</string>
+				<key>id </key>
+				<integer>2</integer>
+			</dict>
+		</array>
+		<key>discount</key>
+		<integer>-15</integer>
+		<key>remark</key>
+		<string>备注</string>
+	</dict>
+</dict>
+</plist>

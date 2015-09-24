@@ -12,7 +12,7 @@ protocol YNPorterhouseOrderViewDelegate {
     
     func porterhouseOrderViewCrollViewScrolledEnable(enable: Bool)
     
-    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView)
+    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView, totalPrice: Float)
     
     func porterhouseOrderViewInteractivePopGestureRecognizer(enabled: Bool)
 }
@@ -543,7 +543,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
             hideOrderView()
         }
         
-        self.delegate?.porterhouseOrderViewDoneButtonDidClick(self)
+        self.delegate?.porterhouseOrderViewDoneButtonDidClick(self, totalPrice: bottomPriceView.totalPrice)
     }
     
     //MARK: - private property

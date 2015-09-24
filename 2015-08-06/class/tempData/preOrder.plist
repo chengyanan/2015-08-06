@@ -12,7 +12,7 @@
 				<key>selected</key>
 				<true/>
 				<key>discount</key>
-				<integer>15</integer>
+				<integer>10</integer>
 				<key>name</key>
 				<string>在线支付</string>
 				<key>id</key>
@@ -30,7 +30,7 @@
 			</dict>
 		</array>
 		<key>discount</key>
-		<integer>-15</integer>
+		<integer>0</integer>
 		<key>remark</key>
 		<string>备注</string>
 	</dict>

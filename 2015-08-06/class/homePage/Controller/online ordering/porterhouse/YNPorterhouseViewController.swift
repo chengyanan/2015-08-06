@@ -17,9 +17,6 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 禁止使用系统自带的滑动手势
-//        self.navigationController?.interactivePopGestureRecognizer!.enabled = false
-        
         loaddata()
         
         self.title = restaurant?.title
@@ -184,15 +181,18 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
             self.scrollView.scrollEnabled = enable
     }
     
-    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView) {
-        
+    
+    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView, totalPrice: Float) {
         let orderFormVc: YNOrderFormViewController = YNOrderFormViewController()
         orderFormVc.selectedArray = controller.selectedArray
+        orderFormVc.totalPrice = totalPrice
         self.navigationController?.pushViewController(orderFormVc, animated: true)
+
     }
     
     func porterhouseOrderViewInteractivePopGestureRecognizer(enabled: Bool) {
         
+        // 禁止或开启使用系统自带的滑动手势
         self.navigationController?.interactivePopGestureRecognizer!.enabled = enabled
     }
     //MARK: - private proporty

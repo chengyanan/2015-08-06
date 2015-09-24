@@ -12,21 +12,66 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
 
     //MARK: - public proporty
     var selectedArray: Array<YNPorterhouseDish>?
+    var totalPrice: Float?
+        
+//        {
+//        
+//        didSet {
+//            
+//            
+//             bottomView.price = totalPrice
+//            
+//        }
+//    }
+    
+    var discount: Int {
+    
+        var temp: Int = 0
+        for item in orderForm!.payWay {
+        
+            if item.selected {
+            
+                temp += item.discount
+                break
+            }
+        
+        }
+        
+        temp += orderForm!.discount
+        return temp
+    }
+    
     var orderForm: OrderForm? {
    
         didSet {
        
             setupInterface()
             setupLayout()
+            setupData()
+            
         }
     }
+    
+    func setupData() {
+    
+        
+        self.bottomView.discount = discount
+        
+        if discount > 0 {
+        
+            bottomView.price = totalPrice! - Float(discount)
+        } else {
+        
+            bottomView.price = totalPrice
+        }
+        
+        
+    }
+    
     
     //MARK: - life cycle 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // 恢复系统自带的滑动手势
-//        self.navigationController?.interactivePopGestureRecognizer!.enabled = true
         
         self.title = "订单确认"
         self.view.backgroundColor = UIColor(red: 234/255.0, green: 234/255.0, blue: 234/255.0, alpha: 1)
@@ -37,7 +82,6 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
         getData()
     }
-    
     
     func getData() {
    
@@ -75,14 +119,23 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     func setupInterface() {
    
         self.view.addSubview(tableView)
+        self.view.addSubview(bottomView)
     }
     
     func setupLayout() {
    
+        //tableView
         Layout().addTopConstraint(tableView, toView: self.view, multiplier: 1, constant: 0)
         Layout().addBottomConstraint(tableView, toView: self.view, multiplier: 1, constant: -bottomViewHeight)
         Layout().addLeftConstraint(tableView, toView: self.view, multiplier: 1, constant: 0)
         Layout().addRightConstraint(tableView, toView: self.view, multiplier: 1, constant: 0)
+        
+        //bottomView
+        Layout().addTopToBottomConstraint(bottomView, toView: tableView, multiplier: 1, constant: 0)
+        Layout().addLeftConstraint(bottomView, toView: self.view, multiplier: 1, constant: 0)
+        Layout().addRightConstraint(bottomView, toView: self.view, multiplier: 1, constant: 0)
+        Layout().addBottomConstraint(bottomView, toView: self.view, multiplier: 1, constant: 0)
+        
     }
     
     //MARK: - UITableViewDataSource
@@ -160,7 +213,8 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
                     cell = YNOrderFormComponCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
                     
                 }
-                
+            
+                cell?.discount = "-¥\(discount)"
                 return cell!
            
         }
@@ -261,6 +315,18 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
         self.tableView.reloadData()
         
+        bottomView.discount = discount
+        
+        if discount > 0 {
+        
+            bottomView.price = totalPrice! - Float(discount)
+        
+        } else {
+        
+            bottomView.price = totalPrice
+        }
+        
+        
     }
     
     //MARK: - private property
@@ -278,5 +344,12 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         return tempTableView
         
         }()
+    
+    private lazy var bottomView: YNOrderFormBottomView = {
+   
+        let tempView: YNOrderFormBottomView = YNOrderFormBottomView()
+        tempView.translatesAutoresizingMaskIntoConstraints = false
+        return tempView
+    }()
     
 }

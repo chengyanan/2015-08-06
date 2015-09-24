@@ -8,21 +8,39 @@
 
 import UIKit
 
-class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, YNOrderFormPayCellDelegate {
+class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, YNOrderFormPayCellDelegate, YNOrderFormBottomViewDelegate {
 
     //MARK: - public proporty
+    var restaurant: Restaurant?
     var selectedArray: Array<YNPorterhouseDish>?
+    
+    
+    
     var totalPrice: Float?
+    
+    var realTotalPrice: Float? {
+    
+        var temp: Float = 0
         
-//        {
-//        
-//        didSet {
-//            
-//            
-//             bottomView.price = totalPrice
-//            
-//        }
-//    }
+        if discount > 0 {
+            
+            temp = totalPrice! - Float(discount)
+           
+            
+        } else {
+            
+            temp = totalPrice!
+            
+            
+        }
+        
+        return temp
+    }
+    
+    var isDiscount: Bool {
+    
+        return discount > 0 ? true : false
+    }
     
     var discount: Int {
     
@@ -54,17 +72,8 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     
     func setupData() {
     
-        
         self.bottomView.discount = discount
-        
-        if discount > 0 {
-        
-            bottomView.price = totalPrice! - Float(discount)
-        } else {
-        
-            bottomView.price = totalPrice
-        }
-        
+        bottomView.price = realTotalPrice
         
     }
     
@@ -75,10 +84,6 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
         self.title = "订单确认"
         self.view.backgroundColor = UIColor(red: 234/255.0, green: 234/255.0, blue: 234/255.0, alpha: 1)
-        
-        
-//        setupInterface()
-//        setupLayout()
         
         getData()
     }
@@ -141,20 +146,38 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     //MARK: - UITableViewDataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return 4
+        if isDiscount {
+        
+           return 4
+        }
+        
+        return 3
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-       
+            
             return orderForm!.payWay.count
         }
         
-        if section == 3 {
-       
-            return selectedArray!.count
+        if isDiscount {
+            
+            if section == 3 {
+                
+                return selectedArray!.count
+            }
+            
+        } else {
+        
+            if section == 2 {
+                
+                return selectedArray!.count
+            }
+        
         }
+        
+        
         
         return 1
     }
@@ -174,6 +197,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
 //
 //            return cell!
 //        }
+        
         if indexPath.section == 0 {
             
             let identify: String = "CELL_pay"
@@ -203,8 +227,10 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
             return cell!
         }
         
-        if indexPath.section == 2 {
-            
+        if isDiscount {
+        
+            if indexPath.section == 2 {
+                
                 let identify: String = "CELL_Compon"
                 var cell: YNOrderFormComponCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormComponCell
                 
@@ -213,28 +239,50 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
                     cell = YNOrderFormComponCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
                     
                 }
-            
+                
                 cell?.discount = "-¥\(discount)"
                 return cell!
-           
-        }
-        
-        
-        if indexPath.section == 3 {
-       
-            let identify: String = "CELL_SelectDish"
-            var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormSelectDishCell
-            
-            if cell == nil {
-                
-                cell = YNOrderFormSelectDishCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
                 
             }
             
-            cell?.data = self.selectedArray![indexPath.row]
             
-            return cell!
+            if indexPath.section == 3 {
+                
+                let identify: String = "CELL_SelectDish"
+                var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormSelectDishCell
+                
+                if cell == nil {
+                    
+                    cell = YNOrderFormSelectDishCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                    
+                }
+                
+                cell?.data = self.selectedArray![indexPath.row]
+                
+                return cell!
+            }
+
+        } else {
+        
+        
+            if indexPath.section == 2 {
+                
+                let identify: String = "CELL_SelectDish"
+                var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormSelectDishCell
+                
+                if cell == nil {
+                    
+                    cell = YNOrderFormSelectDishCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                    
+                }
+                
+                cell?.data = self.selectedArray![indexPath.row]
+                
+                return cell!
+            }
+
         }
+        
         
         
         let identify: String = "CELL_Address"
@@ -316,18 +364,30 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         self.tableView.reloadData()
         
         bottomView.discount = discount
+        bottomView.price = realTotalPrice
         
-        if discount > 0 {
-        
-            bottomView.price = totalPrice! - Float(discount)
-        
-        } else {
-        
-            bottomView.price = totalPrice
-        }
+//        if discount > 0 {
+//        
+//            bottomView.price = totalPrice! - Float(discount)
+//        
+//        } else {
+//        
+//            bottomView.price = totalPrice
+//        }
         
         
     }
+    
+    //MAEK: - YNOrderFormBottomViewDelegate
+    func orderFormBottomViewDoneButtonDidClick(orderFormBottomView: YNOrderFormBottomView) {
+        
+        let vertifyVc = YNVertifyOrderViewController()
+        vertifyVc.restaurant = restaurant
+        
+        self.navigationController?.pushViewController(vertifyVc, animated: true)
+        
+    }
+    
     
     //MARK: - private property
     
@@ -349,6 +409,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
    
         let tempView: YNOrderFormBottomView = YNOrderFormBottomView()
         tempView.translatesAutoresizingMaskIntoConstraints = false
+        tempView.delegate = self
         return tempView
     }()
     

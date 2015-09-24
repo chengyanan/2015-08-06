@@ -41,6 +41,7 @@
 		406402EE1BB1385B0006871B /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402ED1BB1385B0006871B /* Address.swift */; settings = {ASSET_TAGS = (); }; };
 		406402F01BB13B2E0006871B /* PayWay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402EF1BB13B2E0006871B /* PayWay.swift */; settings = {ASSET_TAGS = (); }; };
 		406402F41BB13C990006871B /* OrderForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402F31BB13C990006871B /* OrderForm.swift */; settings = {ASSET_TAGS = (); }; };
+		4070CCD71BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4070CCD61BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		407C7B651B74497A00B92F54 /* YNCycleRingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407C7B621B74497A00B92F54 /* YNCycleRingViewController.swift */; };
 		407C7B681B7449E800B92F54 /* YNSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407C7B671B7449E800B92F54 /* YNSignUpViewController.swift */; };
 		407C7B6A1B744A1500B92F54 /* YNSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407C7B691B744A1500B92F54 /* YNSignInViewController.swift */; };
@@ -120,6 +121,7 @@
 		406402ED1BB1385B0006871B /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		406402EF1BB13B2E0006871B /* PayWay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PayWay.swift; sourceTree = "<group>"; };
 		406402F31BB13C990006871B /* OrderForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderForm.swift; sourceTree = "<group>"; };
+		4070CCD61BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNVertifyOrderViewController.swift; sourceTree = "<group>"; };
 		407C7B621B74497A00B92F54 /* YNCycleRingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNCycleRingViewController.swift; sourceTree = "<group>"; };
 		407C7B671B7449E800B92F54 /* YNSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNSignUpViewController.swift; sourceTree = "<group>"; };
 		407C7B691B744A1500B92F54 /* YNSignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNSignInViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				400186D21BA9604600056CD3 /* YNOrderFormViewController.swift */,
+				4070CCD51BB3E4A80054A3CD /* vertify order  */,
 			);
 			path = "picked out";
 			sourceTree = "<group>";
@@ -438,6 +441,14 @@
 			path = orderForm;
 			sourceTree = "<group>";
 		};
+		4070CCD51BB3E4A80054A3CD /* vertify order  */ = {
+			isa = PBXGroup;
+			children = (
+				4070CCD61BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift */,
+			);
+			path = "vertify order ";
+			sourceTree = "<group>";
+		};
 		407C7B611B74497A00B92F54 /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -658,6 +669,7 @@
 				402A326C1BAA702500BA003A /* YNOrderFormAddressCell.swift in Sources */,
 				40210FDC1B7B2D7E004A6F8F /* Network.swift in Sources */,
 				4023862B1B8EEF660071AF3B /* YNHomePageViewController.swift in Sources */,
+				4070CCD71BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift in Sources */,
 				40AAEB2E1B9C2FDE009823C9 /* YNPorterhouseDish.swift in Sources */,
 				407C7B6C1B749CDB00B92F54 /* YNTestFiledExtension.swift in Sources */,
 				409FEEBD1BABA34800E73D8D /* YNOrderFormPayCell.swift in Sources */,

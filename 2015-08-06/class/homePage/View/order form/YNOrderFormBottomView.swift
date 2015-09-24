@@ -137,7 +137,6 @@ class YNOrderFormBottomView: UIView {
         tempView.setTitle("立即下单", forState: UIControlState.Normal)
         tempView.addTarget(self, action: "doneButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
         tempView.translatesAutoresizingMaskIntoConstraints = false
-        tempView.userInteractionEnabled = false
         return tempView
         
         }()

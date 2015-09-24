@@ -184,6 +184,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     
     func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView, totalPrice: Float) {
         let orderFormVc: YNOrderFormViewController = YNOrderFormViewController()
+        orderFormVc.restaurant = restaurant
         orderFormVc.selectedArray = controller.selectedArray
         orderFormVc.totalPrice = totalPrice
         self.navigationController?.pushViewController(orderFormVc, animated: true)

@@ -14,8 +14,6 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     var restaurant: Restaurant?
     var selectedArray: Array<YNPorterhouseDish>?
     
-    
-    
     var totalPrice: Float?
     
     var realTotalPrice: Float? {
@@ -366,16 +364,6 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         bottomView.discount = discount
         bottomView.price = realTotalPrice
         
-//        if discount > 0 {
-//        
-//            bottomView.price = totalPrice! - Float(discount)
-//        
-//        } else {
-//        
-//            bottomView.price = totalPrice
-//        }
-        
-        
     }
     
     //MAEK: - YNOrderFormBottomViewDelegate
@@ -383,7 +371,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
         let vertifyVc = YNVertifyOrderViewController()
         vertifyVc.restaurant = restaurant
-        
+        vertifyVc.totalPrice = realTotalPrice
         self.navigationController?.pushViewController(vertifyVc, animated: true)
         
     }

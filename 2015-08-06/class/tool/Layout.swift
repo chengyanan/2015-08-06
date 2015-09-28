@@ -116,4 +116,27 @@ struct Layout {
         addBottomConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
     }
     
+    func addLeftTopRightConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+        
+        addLeftConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
+        addTopConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
+        addRightConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
+        
+    }
+
+    func addLeftTopBottomConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+        
+        addLeftConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
+        addTopBottomConstraints(view, toView: toView!, multiplier: multiplier, constant: constant)
+        
+    }
+    
+    func addRightTopBottomConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+        
+        addRightConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
+        addTopBottomConstraints(view, toView: toView!, multiplier: multiplier, constant: constant)
+        
+    }
+    
+    
 }

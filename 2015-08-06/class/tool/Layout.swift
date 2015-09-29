@@ -110,6 +110,13 @@ struct Layout {
         addWidthConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
     }
     
+    func addWidthToHeightConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+        
+        let widthToHeightConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Height, multiplier: multiplier, constant: constant)
+        
+        view.superview?.addConstraint(widthToHeightConstraint)
+    }
+    
     func addTopBottomConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
         
         addTopConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)

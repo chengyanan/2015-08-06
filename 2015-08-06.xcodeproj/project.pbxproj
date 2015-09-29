@@ -10,6 +10,9 @@
 		400186D01BA9570B00056CD3 /* YNPorterhouseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400186CE1BA9570B00056CD3 /* YNPorterhouseViewController.swift */; };
 		400186D11BA9570B00056CD3 /* YNOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400186CF1BA9570B00056CD3 /* YNOrderViewController.swift */; };
 		400186D31BA9604600056CD3 /* YNOrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400186D21BA9604600056CD3 /* YNOrderFormViewController.swift */; };
+		400624171BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400624161BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		4006241E1BBA543F00A4733F /* YNCustomerOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4006241D1BBA543F00A4733F /* YNCustomerOrdersViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		400624211BBA7CD500A4733F /* YNOrderSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400624201BBA7CD500A4733F /* YNOrderSuccessViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		40085BCF1BA6ABB200761775 /* YNOrderTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40085BCE1BA6ABB200761775 /* YNOrderTableCell.swift */; };
 		400C379A1B79AD5400F815CC /* progressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400C37991B79AD5400F815CC /* progressHUD.swift */; };
 		40210FDC1B7B2D7E004A6F8F /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40210FDB1B7B2D7E004A6F8F /* Network.swift */; };
@@ -87,6 +90,9 @@
 		400186CE1BA9570B00056CD3 /* YNPorterhouseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNPorterhouseViewController.swift; sourceTree = "<group>"; };
 		400186CF1BA9570B00056CD3 /* YNOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderViewController.swift; sourceTree = "<group>"; };
 		400186D21BA9604600056CD3 /* YNOrderFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderFormViewController.swift; sourceTree = "<group>"; };
+		400624161BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNVertifyOrderPaymentTableViewCell.swift; sourceTree = "<group>"; };
+		4006241D1BBA543F00A4733F /* YNCustomerOrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNCustomerOrdersViewController.swift; sourceTree = "<group>"; };
+		400624201BBA7CD500A4733F /* YNOrderSuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderSuccessViewController.swift; sourceTree = "<group>"; };
 		40085BCE1BA6ABB200761775 /* YNOrderTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderTableCell.swift; sourceTree = "<group>"; };
 		400C37991B79AD5400F815CC /* progressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = progressHUD.swift; sourceTree = "<group>"; };
 		40210FDB1B7B2D7E004A6F8F /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -201,6 +207,22 @@
 			path = "picked out";
 			sourceTree = "<group>";
 		};
+		400624181BBA538300A4733F /* orders */ = {
+			isa = PBXGroup;
+			children = (
+				4006241D1BBA543F00A4733F /* YNCustomerOrdersViewController.swift */,
+			);
+			path = orders;
+			sourceTree = "<group>";
+		};
+		4006241F1BBA7CB400A4733F /* generate order */ = {
+			isa = PBXGroup;
+			children = (
+				400624201BBA7CD500A4733F /* YNOrderSuccessViewController.swift */,
+			);
+			path = "generate order";
+			sourceTree = "<group>";
+		};
 		402386271B8EEF390071AF3B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				402E9A0A1BB932C800462CB8 /* YNVertifyOrderTableViewCell.swift */,
+				400624161BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift */,
 			);
 			path = "vertify order";
 			sourceTree = "<group>";
@@ -364,6 +387,7 @@
 			children = (
 				4051A0F31B734E4B00D07DA5 /* root controller */,
 				4051A0FE1B735F3C00D07DA5 /* homePage */,
+				400624181BBA538300A4733F /* orders */,
 				4051A0FC1B735F3C00D07DA5 /* activity */,
 				4051A0FD1B735F3C00D07DA5 /* circleRing */,
 				4051A0FF1B735F3C00D07DA5 /* me */,
@@ -456,6 +480,7 @@
 			isa = PBXGroup;
 			children = (
 				4070CCD61BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift */,
+				4006241F1BBA7CB400A4733F /* generate order */,
 			);
 			path = "vertify order ";
 			sourceTree = "<group>";
@@ -668,9 +693,11 @@
 			files = (
 				409FEEBF1BABBE4200E73D8D /* YNMealTimeOrOtherCell.swift in Sources */,
 				407C7B651B74497A00B92F54 /* YNCycleRingViewController.swift in Sources */,
+				4006241E1BBA543F00A4733F /* YNCustomerOrdersViewController.swift in Sources */,
 				404F56111BA28170009E841C /* YNPorterhouseOrderView.swift in Sources */,
 				409FEEC71BABFBCB00E73D8D /* YNOrderFormSelectDishCell.swift in Sources */,
 				407C7B681B7449E800B92F54 /* YNSignUpViewController.swift in Sources */,
+				400624211BBA7CD500A4733F /* YNOrderSuccessViewController.swift in Sources */,
 				409FEEC11BABC4A200E73D8D /* YNOrderFormComponCell.swift in Sources */,
 				400186D31BA9604600056CD3 /* YNOrderFormViewController.swift in Sources */,
 				40AAEB2C1B9C2FBE009823C9 /* YNPorterhouseType.swift in Sources */,
@@ -682,6 +709,7 @@
 				4023862B1B8EEF660071AF3B /* YNHomePageViewController.swift in Sources */,
 				4070CCD71BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift in Sources */,
 				40AAEB2E1B9C2FDE009823C9 /* YNPorterhouseDish.swift in Sources */,
+				400624171BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift in Sources */,
 				407C7B6C1B749CDB00B92F54 /* YNTestFiledExtension.swift in Sources */,
 				409FEEBD1BABA34800E73D8D /* YNOrderFormPayCell.swift in Sources */,
 				402A32641BAA574C00BA003A /* YNOrderTableViewCell.swift in Sources */,

@@ -369,11 +369,33 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     //MAEK: - YNOrderFormBottomViewDelegate
     func orderFormBottomViewDoneButtonDidClick(orderFormBottomView: YNOrderFormBottomView) {
         
-        let vertifyVc = YNVertifyOrderViewController()
-        vertifyVc.restaurant = restaurant
-        vertifyVc.totalPrice = realTotalPrice
-        self.navigationController?.pushViewController(vertifyVc, animated: true)
+        for item in orderForm!.payWay {
+            
+            if item.selected  {
+                
+                if item.id! == "1" {//在线支付
+                
+                    let vertifyVc = YNVertifyOrderViewController()
+                    vertifyVc.restaurant = restaurant
+                    vertifyVc.totalPrice = realTotalPrice
+                    self.navigationController?.pushViewController(vertifyVc, animated: true)
+                    
+                } else if item.id! == "2" {//到付
+                
+                
+                    let orderSuccessVc = YNOrderSuccessViewController()
+                    
+                    self.navigationController?.pushViewController(orderSuccessVc, animated: true)
+                
+                }
+                
+               break
+                
+            }
+            
+        }
         
+    
     }
     
     

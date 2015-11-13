@@ -254,6 +254,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     
     func reverseGeocodeLocationWithUserLocation(userLocation: MKUserLocation!) {
    
+        //解析地址
         self.geocder.reverseGeocodeLocation(userLocation.location!, completionHandler: { (placemarks, error) -> Void in
             
             if let _ = placemarks {

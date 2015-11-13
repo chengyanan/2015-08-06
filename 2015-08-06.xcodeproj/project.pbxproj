@@ -10,9 +10,9 @@
 		400186D01BA9570B00056CD3 /* YNPorterhouseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400186CE1BA9570B00056CD3 /* YNPorterhouseViewController.swift */; };
 		400186D11BA9570B00056CD3 /* YNOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400186CF1BA9570B00056CD3 /* YNOrderViewController.swift */; };
 		400186D31BA9604600056CD3 /* YNOrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400186D21BA9604600056CD3 /* YNOrderFormViewController.swift */; };
-		400624171BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400624161BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		4006241E1BBA543F00A4733F /* YNCustomerOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4006241D1BBA543F00A4733F /* YNCustomerOrdersViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		400624211BBA7CD500A4733F /* YNOrderSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400624201BBA7CD500A4733F /* YNOrderSuccessViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		400624171BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400624161BBA315D00A4733F /* YNVertifyOrderPaymentTableViewCell.swift */; };
+		4006241E1BBA543F00A4733F /* YNCustomerOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4006241D1BBA543F00A4733F /* YNCustomerOrdersViewController.swift */; };
+		400624211BBA7CD500A4733F /* YNOrderSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400624201BBA7CD500A4733F /* YNOrderSuccessViewController.swift */; };
 		40085BCF1BA6ABB200761775 /* YNOrderTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40085BCE1BA6ABB200761775 /* YNOrderTableCell.swift */; };
 		400C379A1B79AD5400F815CC /* progressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400C37991B79AD5400F815CC /* progressHUD.swift */; };
 		40210FDC1B7B2D7E004A6F8F /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40210FDB1B7B2D7E004A6F8F /* Network.swift */; };
@@ -21,7 +21,7 @@
 		402A32681BAA579000BA003A /* YNCycleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402A32661BAA579000BA003A /* YNCycleCollectionViewCell.swift */; };
 		402A32691BAA579000BA003A /* YNCycleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402A32671BAA579000BA003A /* YNCycleView.swift */; };
 		402A326C1BAA702500BA003A /* YNOrderFormAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402A326B1BAA702500BA003A /* YNOrderFormAddressCell.swift */; };
-		402E9A0B1BB932C800462CB8 /* YNVertifyOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402E9A0A1BB932C800462CB8 /* YNVertifyOrderTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		402E9A0B1BB932C800462CB8 /* YNVertifyOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402E9A0A1BB932C800462CB8 /* YNVertifyOrderTableViewCell.swift */; };
 		404F560F1BA28170009E841C /* YNPorterhouseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F56081BA28170009E841C /* YNPorterhouseDetailView.swift */; };
 		404F56101BA28170009E841C /* YNDishTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F560A1BA28170009E841C /* YNDishTableViewCell.swift */; };
 		404F56111BA28170009E841C /* YNPorterhouseOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F560B1BA28170009E841C /* YNPorterhouseOrderView.swift */; };
@@ -41,11 +41,11 @@
 		4051A10B1B73603F00D07DA5 /* YNMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051A10A1B73603F00D07DA5 /* YNMeViewController.swift */; };
 		4051A10D1B73605400D07DA5 /* YNNearbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4051A10C1B73605400D07DA5 /* YNNearbyViewController.swift */; };
 		40567E4A1BA81D9B00594D0F /* YnOrderTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40567E491BA81D9B00594D0F /* YnOrderTableHeaderView.swift */; };
-		406402EB1BB12EE00006871B /* preOrder.plist in Resources */ = {isa = PBXBuildFile; fileRef = 406402EA1BB12EE00006871B /* preOrder.plist */; settings = {ASSET_TAGS = (); }; };
-		406402EE1BB1385B0006871B /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402ED1BB1385B0006871B /* Address.swift */; settings = {ASSET_TAGS = (); }; };
-		406402F01BB13B2E0006871B /* PayWay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402EF1BB13B2E0006871B /* PayWay.swift */; settings = {ASSET_TAGS = (); }; };
-		406402F41BB13C990006871B /* OrderForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402F31BB13C990006871B /* OrderForm.swift */; settings = {ASSET_TAGS = (); }; };
-		4070CCD71BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4070CCD61BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		406402EB1BB12EE00006871B /* preOrder.plist in Resources */ = {isa = PBXBuildFile; fileRef = 406402EA1BB12EE00006871B /* preOrder.plist */; };
+		406402EE1BB1385B0006871B /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402ED1BB1385B0006871B /* Address.swift */; };
+		406402F01BB13B2E0006871B /* PayWay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402EF1BB13B2E0006871B /* PayWay.swift */; };
+		406402F41BB13C990006871B /* OrderForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406402F31BB13C990006871B /* OrderForm.swift */; };
+		4070CCD71BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4070CCD61BB3E4EE0054A3CD /* YNVertifyOrderViewController.swift */; };
 		407C7B651B74497A00B92F54 /* YNCycleRingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407C7B621B74497A00B92F54 /* YNCycleRingViewController.swift */; };
 		407C7B681B7449E800B92F54 /* YNSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407C7B671B7449E800B92F54 /* YNSignUpViewController.swift */; };
 		407C7B6A1B744A1500B92F54 /* YNSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407C7B691B744A1500B92F54 /* YNSignInViewController.swift */; };
@@ -72,8 +72,8 @@
 		40F1C3B11B9553D6005A3BB4 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F1C3B01B9553D6005A3BB4 /* Layout.swift */; };
 		40F1C3B31B95851A005A3BB4 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F1C3B21B95851A005A3BB4 /* Location.swift */; };
 		40F2EE8C1B785E1B00CB4569 /* tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F2EE8B1B785E1B00CB4569 /* tools.swift */; };
-		40FCF9411BB2992700C8A19F /* onlineOrder.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40FCF9401BB2992700C8A19F /* onlineOrder.plist */; settings = {ASSET_TAGS = (); }; };
-		40FCF9431BB2AF1200C8A19F /* YNOrderFormBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FCF9421BB2AF1200C8A19F /* YNOrderFormBottomView.swift */; settings = {ASSET_TAGS = (); }; };
+		40FCF9411BB2992700C8A19F /* onlineOrder.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40FCF9401BB2992700C8A19F /* onlineOrder.plist */; };
+		40FCF9431BB2AF1200C8A19F /* YNOrderFormBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FCF9421BB2AF1200C8A19F /* YNOrderFormBottomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

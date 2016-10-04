@@ -74,6 +74,7 @@
 		40F2EE8C1B785E1B00CB4569 /* tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F2EE8B1B785E1B00CB4569 /* tools.swift */; };
 		40FCF9411BB2992700C8A19F /* onlineOrder.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40FCF9401BB2992700C8A19F /* onlineOrder.plist */; };
 		40FCF9431BB2AF1200C8A19F /* YNOrderFormBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FCF9421BB2AF1200C8A19F /* YNOrderFormBottomView.swift */; };
+		4C600BFC1DA3EB94008DA60A /* app.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4C600BFB1DA3EB94008DA60A /* app.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,6 +159,7 @@
 		40F2EE8B1B785E1B00CB4569 /* tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tools.swift; sourceTree = "<group>"; };
 		40FCF9401BB2992700C8A19F /* onlineOrder.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = onlineOrder.plist; sourceTree = "<group>"; };
 		40FCF9421BB2AF1200C8A19F /* YNOrderFormBottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YNOrderFormBottomView.swift; sourceTree = "<group>"; };
+		4C600BFB1DA3EB94008DA60A /* app.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = app.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +362,7 @@
 		4051A0CE1B734CDB00D07DA5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4C600BFB1DA3EB94008DA60A /* app.gif */,
 				4051A0CF1B734CDB00D07DA5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -671,6 +674,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				406402EB1BB12EE00006871B /* preOrder.plist in Resources */,
+				4C600BFC1DA3EB94008DA60A /* app.gif in Resources */,
 				40AB8CAA1B9693A000C63F2D /* dishs.plist in Resources */,
 				40FCF9411BB2992700C8A19F /* onlineOrder.plist in Resources */,
 				4051A0D61B734CDB00D07DA5 /* Main.storyboard in Resources */,

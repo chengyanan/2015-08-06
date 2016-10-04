@@ -11,25 +11,25 @@ import UIKit
 
 extension UITextField {
     
-    func setTextFiledWithLeftImageName(leftImageName: String?, customRightView: UIView?, placeHolder: String?, keyBoardTypePara: UIKeyboardType){
+    func setTextFiledWithLeftImageName(_ leftImageName: String?, customRightView: UIView?, placeHolder: String?, keyBoardTypePara: UIKeyboardType){
         
-        self.clearButtonMode = UITextFieldViewMode.WhileEditing
-        self.backgroundColor = UIColor.whiteColor()
+        self.clearButtonMode = UITextFieldViewMode.whileEditing
+        self.backgroundColor = UIColor.white
         self.translatesAutoresizingMaskIntoConstraints = false
        
         if let _ = leftImageName {
             
             let leftImageView = UIImageView(image: UIImage(named: leftImageName!))
-            leftImageView.frame = CGRectMake(0, 0, 38, 30)
+            leftImageView.frame = CGRect(x: 0, y: 0, width: 38, height: 30)
             self.leftView = leftImageView
-            self.leftView?.contentMode = UIViewContentMode.ScaleAspectFit
-            self.leftViewMode = UITextFieldViewMode.Always
+            self.leftView?.contentMode = UIViewContentMode.scaleAspectFit
+            self.leftViewMode = UITextFieldViewMode.always
         }
         
         if let _ = customRightView {
         
             self.rightView = customRightView
-            self.rightViewMode = UITextFieldViewMode.Always
+            self.rightViewMode = UITextFieldViewMode.always
         }
         
         if placeHolder != nil {

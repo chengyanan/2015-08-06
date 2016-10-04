@@ -11,119 +11,119 @@ import UIKit
 
 struct Layout {
     
-    func addTopConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addTopConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
    
-        let distanceLabelConstantTop = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Top, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantTop = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.top, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantTop)
         
     }
     
-    func addLeftConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addLeftConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantLeft = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Left, multiplier: multiplier, constant: constant)
-        
-        view.superview?.addConstraint(distanceLabelConstantLeft)
-        
-    }
-    
-    func addBottomConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
-        
-        let distanceLabelConstantLeft = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Bottom, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantLeft = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.left, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantLeft)
         
     }
     
-    func addRightConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addBottomConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantLeft = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Right, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantLeft = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.bottom, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantLeft)
         
     }
     
-    func addHeightConstraint(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addRightConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Height, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantLeft = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.right, multiplier: multiplier, constant: constant)
+        
+        view.superview?.addConstraint(distanceLabelConstantLeft)
+        
+    }
+    
+    func addHeightConstraint(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+        
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.height, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
         
     }
     
-    func addWidthConstraint(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addWidthConstraint(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Width, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.width, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
         
     }
     
-    func addLeftToRightConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addLeftToRightConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Right, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.right, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
         
     }
 
-    func addRightToLeftConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addRightToLeftConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Left, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.left, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
         
     }
 
     
-    func addTopToBottomConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addTopToBottomConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Bottom, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.bottom, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
         
     }
     
-    func addCenterXConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addCenterXConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
    
-        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.CenterX, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.centerX, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
     }
     
-    func addCenterYConstraint(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addCenterYConstraint(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
-        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.CenterY, multiplier: multiplier, constant: constant)
+        let distanceLabelConstantHeight = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.centerY, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(distanceLabelConstantHeight)
     }
     
-    func addCenterXYConstraints(view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
+    func addCenterXYConstraints(_ view: UIView, toView: UIView, multiplier:CGFloat, constant: CGFloat) {
         
         addCenterXConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
         addCenterYConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
     }
     
-    func addWidthHeightConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addWidthHeightConstraints(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
    
         addHeightConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
         addWidthConstraint(view, toView: toView, multiplier: multiplier, constant: constant)
     }
     
-    func addWidthToHeightConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addWidthToHeightConstraints(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
         
-        let widthToHeightConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: toView, attribute: NSLayoutAttribute.Height, multiplier: multiplier, constant: constant)
+        let widthToHeightConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: toView, attribute: NSLayoutAttribute.height, multiplier: multiplier, constant: constant)
         
         view.superview?.addConstraint(widthToHeightConstraint)
     }
     
-    func addTopBottomConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addTopBottomConstraints(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
         
         addTopConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
         addBottomConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
     }
     
-    func addLeftTopRightConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addLeftTopRightConstraints(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
         
         addLeftConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
         addTopConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
@@ -131,14 +131,14 @@ struct Layout {
         
     }
 
-    func addLeftTopBottomConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addLeftTopBottomConstraints(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
         
         addLeftConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
         addTopBottomConstraints(view, toView: toView!, multiplier: multiplier, constant: constant)
         
     }
     
-    func addRightTopBottomConstraints(view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
+    func addRightTopBottomConstraints(_ view: UIView, toView: UIView?, multiplier:CGFloat, constant: CGFloat) {
         
         addRightConstraint(view, toView: toView!, multiplier: multiplier, constant: constant)
         addTopBottomConstraints(view, toView: toView!, multiplier: multiplier, constant: constant)

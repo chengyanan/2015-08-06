@@ -10,7 +10,7 @@ import UIKit
 
 protocol PriceViewDelegate {
     
-    func priceViewDidClick(view: PriceView)
+    func priceViewDidClick(_ view: PriceView)
 }
 
 class PriceView: UIView {
@@ -32,7 +32,7 @@ class PriceView: UIView {
         
         self.backgroundColor = UIColor(red: 56/255.0, green: 60/255.0, blue: 67/255.0, alpha: 0.9)
         
-        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
+        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(PriceView.viewDidClick))
         
         self.addGestureRecognizer(tgr)
         
@@ -65,12 +65,12 @@ class PriceView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var totalPriceLable: UILabel = {
+    fileprivate lazy var totalPriceLable: UILabel = {
         // 8 * 8
         var tempView: UILabel = UILabel()
         tempView.text = "¥0"
-        tempView.font = UIFont.systemFontOfSize(20)
-        tempView.textColor = UIColor.whiteColor()
+        tempView.font = UIFont.systemFont(ofSize: 20)
+        tempView.textColor = UIColor.white
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         

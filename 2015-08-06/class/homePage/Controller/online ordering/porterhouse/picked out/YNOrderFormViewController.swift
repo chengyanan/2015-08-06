@@ -88,7 +88,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     
     func getData() {
    
-        let path = NSBundle.mainBundle().pathForResource("preOrder", ofType: "plist")
+        let path = Bundle.main.path(forResource: "preOrder", ofType: "plist")
         
         if let tempPath = path {
             
@@ -142,7 +142,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     //MARK: - UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         if isDiscount {
         
@@ -152,7 +152,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         return 3
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
             
@@ -180,7 +180,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
 //        if indexPath.section == 0 {
 //       
@@ -196,29 +196,29 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
 //            return cell!
 //        }
         
-        if indexPath.section == 0 {
+        if (indexPath as NSIndexPath).section == 0 {
             
             let identify: String = "CELL_pay"
-            var cell: YNOrderFormPayCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormPayCell
+            var cell: YNOrderFormPayCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNOrderFormPayCell
             
             if cell == nil {
                 
-                cell = YNOrderFormPayCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                cell = YNOrderFormPayCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
                 
             }
             
-            cell?.payWay = orderForm?.payWay[indexPath.row]
+            cell?.payWay = orderForm?.payWay[(indexPath as NSIndexPath).row]
             cell?.delegate = self
             return cell!
         }
-        if indexPath.section == 1 {
+        if (indexPath as NSIndexPath).section == 1 {
             
             let identify: String = "CELL_remark"
-            var cell: YNMealTimeOrOtherCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNMealTimeOrOtherCell
+            var cell: YNMealTimeOrOtherCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNMealTimeOrOtherCell
             
             if cell == nil {
                 
-                cell = YNMealTimeOrOtherCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                cell = YNMealTimeOrOtherCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
                 
             }
             
@@ -227,14 +227,14 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
         if isDiscount {
         
-            if indexPath.section == 2 {
+            if (indexPath as NSIndexPath).section == 2 {
                 
                 let identify: String = "CELL_Compon"
-                var cell: YNOrderFormComponCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormComponCell
+                var cell: YNOrderFormComponCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNOrderFormComponCell
                 
                 if cell == nil {
                     
-                    cell = YNOrderFormComponCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                    cell = YNOrderFormComponCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
                     
                 }
                 
@@ -244,18 +244,18 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
             }
             
             
-            if indexPath.section == 3 {
+            if (indexPath as NSIndexPath).section == 3 {
                 
                 let identify: String = "CELL_SelectDish"
-                var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormSelectDishCell
+                var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNOrderFormSelectDishCell
                 
                 if cell == nil {
                     
-                    cell = YNOrderFormSelectDishCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                    cell = YNOrderFormSelectDishCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
                     
                 }
                 
-                cell?.data = self.selectedArray![indexPath.row]
+                cell?.data = self.selectedArray![(indexPath as NSIndexPath).row]
                 
                 return cell!
             }
@@ -263,18 +263,18 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         } else {
         
         
-            if indexPath.section == 2 {
+            if (indexPath as NSIndexPath).section == 2 {
                 
                 let identify: String = "CELL_SelectDish"
-                var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderFormSelectDishCell
+                var cell: YNOrderFormSelectDishCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNOrderFormSelectDishCell
                 
                 if cell == nil {
                     
-                    cell = YNOrderFormSelectDishCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                    cell = YNOrderFormSelectDishCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
                     
                 }
                 
-                cell?.data = self.selectedArray![indexPath.row]
+                cell?.data = self.selectedArray![(indexPath as NSIndexPath).row]
                 
                 return cell!
             }
@@ -284,11 +284,11 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
         
         let identify: String = "CELL_Address"
-        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify)
+        var cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify)
         
         if cell == nil {
        
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+            cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
            
         }
         
@@ -298,7 +298,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        if indexPath.section == 0 {
 //       
 //            return 80
@@ -315,17 +315,17 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
         return 44
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return 16
     }
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
         return 1
     }
     
     //MARK: - YNOrderFormPayCellDelegate
-    func orderFormPayCellSelectedButtonDidClick(cell: YNOrderFormPayCell) {
+    func orderFormPayCellSelectedButtonDidClick(_ cell: YNOrderFormPayCell) {
         
         if cell.payWay!.selected {
        
@@ -367,7 +367,7 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     //MAEK: - YNOrderFormBottomViewDelegate
-    func orderFormBottomViewDoneButtonDidClick(orderFormBottomView: YNOrderFormBottomView) {
+    func orderFormBottomViewDoneButtonDidClick(_ orderFormBottomView: YNOrderFormBottomView) {
         
         for item in orderForm!.payWay {
             
@@ -401,21 +401,21 @@ class YNOrderFormViewController: UIViewController, UITableViewDataSource, UITabl
     
     //MARK: - private property
     
-    private let bottomViewHeight: CGFloat = 50
-    private let bottomSepatatorHeight: CGFloat = 0.6
+    fileprivate let bottomViewHeight: CGFloat = 50
+    fileprivate let bottomSepatatorHeight: CGFloat = 0.6
     
-    private lazy var tableView: UITableView = {
+    fileprivate lazy var tableView: UITableView = {
         
-        var tempTableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
+        var tempTableView = UITableView(frame: CGRect.zero, style: UITableViewStyle.grouped)
         tempTableView.delegate = self
         tempTableView.dataSource = self
         tempTableView.translatesAutoresizingMaskIntoConstraints = false
-        tempTableView.backgroundColor = UIColor.clearColor()
+        tempTableView.backgroundColor = UIColor.clear
         return tempTableView
         
         }()
     
-    private lazy var bottomView: YNOrderFormBottomView = {
+    fileprivate lazy var bottomView: YNOrderFormBottomView = {
    
         let tempView: YNOrderFormBottomView = YNOrderFormBottomView()
         tempView.translatesAutoresizingMaskIntoConstraints = false

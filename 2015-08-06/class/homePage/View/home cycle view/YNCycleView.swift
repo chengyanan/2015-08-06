@@ -10,8 +10,8 @@ import UIKit
 
 class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate {
 
-    private let kTopHight = kScreenHeight * 0.264
-    private let kIdentify: String = "CELL_CYCLE"
+    fileprivate let kTopHight = kScreenHeight * 0.264
+    fileprivate let kIdentify: String = "CELL_CYCLE"
     var pageNumber: Int = 0
     
     var dataArray:Array<UIImage>? {
@@ -23,36 +23,36 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
         }
     }
     
-    private lazy var collectionView:UICollectionView = {
+    fileprivate lazy var collectionView:UICollectionView = {
         
         var flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSizeMake(kScreenWidth, self.kTopHight)
-        flowLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+        flowLayout.itemSize = CGSize(width: kScreenWidth, height: self.kTopHight)
+        flowLayout.scrollDirection = UICollectionViewScrollDirection.horizontal
         flowLayout.minimumLineSpacing = 0
         
         var tempCollectionView = UICollectionView(frame: self.bounds, collectionViewLayout: flowLayout)
-        tempCollectionView.pagingEnabled = true
+        tempCollectionView.isPagingEnabled = true
         tempCollectionView.bounces = false
-        tempCollectionView.backgroundColor = UIColor.clearColor()
+        tempCollectionView.backgroundColor = UIColor.clear
         tempCollectionView.showsHorizontalScrollIndicator = false
         tempCollectionView.delegate = self
         tempCollectionView.dataSource = self
         return tempCollectionView
         }()
     
-    private lazy var pageControl: UIPageControl = {
+    fileprivate lazy var pageControl: UIPageControl = {
         
         var tempPageControl = UIPageControl()
         
         tempPageControl.currentPageIndicatorTintColor = kStyleColor
-        tempPageControl.pageIndicatorTintColor = UIColor.purpleColor()
+        tempPageControl.pageIndicatorTintColor = UIColor.purple
         tempPageControl.translatesAutoresizingMaskIntoConstraints = false
         
         return tempPageControl
         }()
     
-    private lazy var timer: NSTimer = {
-        var tempTimer = NSTimer(timeInterval: 4, target: self, selector: "scrollToforward", userInfo: nil, repeats: true)
+    fileprivate lazy var timer: Timer = {
+        var tempTimer = Timer(timeInterval: 4, target: self, selector: #selector(YNCycleView.scrollToforward), userInfo: nil, repeats: true)
         
         return tempTimer
         }()
@@ -63,17 +63,17 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
         
         self.addSubview(collectionView)
         self.addSubview(pageControl)
-        self.collectionView.registerClass(YNCycleCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: kIdentify)
+        self.collectionView.register(YNCycleCollectionViewCell.classForCoder(), forCellWithReuseIdentifier: kIdentify)
         
-        let constraintCenterX: NSLayoutConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.pageControl, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0)
-        let constraintBottom: NSLayoutConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: self.pageControl, attribute: NSLayoutAttribute.Bottom, multiplier: 1.0, constant: 0)
-        let constraintHeight: NSLayoutConstraint = NSLayoutConstraint(item: self.pageControl, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.Height, multiplier: 0, constant: 16)
+        let constraintCenterX: NSLayoutConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: self.pageControl, attribute: NSLayoutAttribute.centerX, multiplier: 1.0, constant: 0)
+        let constraintBottom: NSLayoutConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.pageControl, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0)
+        let constraintHeight: NSLayoutConstraint = NSLayoutConstraint(item: self.pageControl, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.height, multiplier: 0, constant: 16)
         
         self.addConstraint(constraintCenterX)
         self.addConstraint(constraintBottom)
         self.addConstraint(constraintHeight)
         
-        NSRunLoop.mainRunLoop().addTimer(self.timer, forMode: NSRunLoopCommonModes)
+        RunLoop.main.add(self.timer, forMode: RunLoopMode.commonModes)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -81,51 +81,51 @@ class YNCycleView: UIView, UICollectionViewDataSource, UICollectionViewDelegate 
     }
     
     //MARK: - UICollectionViewDataSource 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return self.dataArray!.count
     }
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: YNCycleCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(kIdentify, forIndexPath: indexPath) as! YNCycleCollectionViewCell
-        cell.image = self.dataArray![indexPath.item]
+        let cell: YNCycleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: kIdentify, for: indexPath) as! YNCycleCollectionViewCell
+        cell.image = self.dataArray![(indexPath as NSIndexPath).item]
         return cell
     }
     
     //MARK: - UIScrollViewDelegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let pageFloat: CGFloat = (scrollView.contentOffset.x + kScreenWidth/2) / kScreenWidth
         let pageInt: Int = Int(pageFloat)
         self.pageControl.currentPage = pageInt
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         
         pauseTimer()
     }
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
         startTimer()
     }
     
     //MARK: - private method
-    private func pauseTimer() {
+    fileprivate func pauseTimer() {
    
-        self.timer.fireDate = NSDate.distantFuture() 
+        self.timer.fireDate = Date.distantFuture 
     }
-    private func startTimer() {
+    fileprivate func startTimer() {
    
-        self.timer.fireDate = NSDate(timeIntervalSinceNow: 1)
+        self.timer.fireDate = Date(timeIntervalSinceNow: 1)
     }
     
     //MARK: - event responsor 
     func scrollToforward() {
         
-        self.pageNumber++
+        self.pageNumber += 1
         let row = self.pageNumber % self.dataArray!.count
-        let indexPath: NSIndexPath = NSIndexPath(forRow: row, inSection: 0)
+        let indexPath: IndexPath = IndexPath(row: row, section: 0)
         
-        self.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
+        self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.left, animated: true)
     }
 }

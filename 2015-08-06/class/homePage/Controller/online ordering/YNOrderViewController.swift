@@ -21,7 +21,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     
-    private var dataArray: Array<Restaurant>? {
+    fileprivate var dataArray: Array<Restaurant>? {
    
         didSet {
        
@@ -31,9 +31,9 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    private lazy var tableView: UITableView = {
+    fileprivate lazy var tableView: UITableView = {
         
-        var tempTableView: UITableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.Plain)
+        var tempTableView: UITableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.plain)
         tempTableView.delegate = self
         tempTableView.dataSource = self
         return tempTableView
@@ -43,7 +43,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         self.title = "餐厅"
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         setupInterface()
     }
@@ -73,7 +73,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
             
             progress.hideUsingAnimation()
             
-            let json: NSDictionary! =  (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+            let json: NSDictionary! =  (try! JSONSerialization.jsonObject(with: data , options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
             
 //                            print("\ndata - \(json)\n")
             
@@ -112,7 +112,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func dataProcessing(dataArray: NSArray) {
+    func dataProcessing(_ dataArray: NSArray) {
         
         if dataArray.count > 0 {
             
@@ -136,7 +136,7 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
 
     
     //MARK: - UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let _ = dataArray {
        
             return dataArray!.count
@@ -145,21 +145,21 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
         return 0
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 88
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identify: String = "CELL_ORDERORRESERVE"
-        var cell: YNOrderTableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderTableViewCell
+        var cell: YNOrderTableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNOrderTableViewCell
         if cell == nil {
             
-            cell = YNOrderTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+            cell = YNOrderTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
         }
         
         if let _ = self.dataArray {
        
-             cell?.dataModel = self.dataArray![indexPath.row]
+             cell?.dataModel = self.dataArray![(indexPath as NSIndexPath).row]
         }
     
         return cell!
@@ -167,13 +167,13 @@ class YNOrderViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     //MARK: - UITableViewDelegate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let porterhouseVc: YNPorterhouseViewController = YNPorterhouseViewController()
         
         if let _ = self.dataArray {
        
-            porterhouseVc.restaurant = self.dataArray![indexPath.row]
+            porterhouseVc.restaurant = self.dataArray![(indexPath as NSIndexPath).row]
         }
         
         self.navigationController?.pushViewController(porterhouseVc, animated: true)

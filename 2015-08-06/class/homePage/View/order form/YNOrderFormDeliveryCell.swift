@@ -13,7 +13,7 @@ class YNOrderFormDeliveryCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         setupInterface()
         setupLayout()
     }
@@ -53,34 +53,34 @@ class YNOrderFormDeliveryCell: UITableViewCell {
     
     
     //MARK: - private proporty
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "配送费"
         return tempLabel
         }()
     
-    private lazy var detailLabel: UILabel = {
+    fileprivate lazy var detailLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "本订单由XXX提供配送服务"
         
         return tempLabel
         }()
     
-    private lazy var priceLabel: UILabel = {
+    fileprivate lazy var priceLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "¥0"
-        tempLabel.textAlignment = NSTextAlignment.Right
-        tempLabel.textColor = UIColor.grayColor()
+        tempLabel.textAlignment = NSTextAlignment.right
+        tempLabel.textColor = UIColor.gray
         return tempLabel
         }()
 }

@@ -14,7 +14,7 @@ class YNNearbyTitleView: UIView {
     
     lazy var indicator: UIActivityIndicatorView = {
         
-        var tempIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        var tempIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
         tempIndicator.startAnimating()
         return tempIndicator
         
@@ -22,7 +22,7 @@ class YNNearbyTitleView: UIView {
     lazy var titleLabel: UILabel = {
         var tempLabel = UILabel()
         tempLabel.textColor = kStyleColor
-        tempLabel.textAlignment = NSTextAlignment.Center
+        tempLabel.textAlignment = NSTextAlignment.center
         tempLabel.text = "我附近的热门商家"
         
 //        tempLabel.sizeToFit()
@@ -57,10 +57,10 @@ class YNNearbyTitleView: UIView {
     
     func start() {
         
-        self.titleLabel.textAlignment = NSTextAlignment.Left
+        self.titleLabel.textAlignment = NSTextAlignment.left
         self.addSubview(indicator)
         
-        self.bringSubviewToFront(self.titleLabel)
+        self.bringSubview(toFront: self.titleLabel)
         
         self.titleLabel.text = "加载中..."
         self.titleLabel.sizeToFit()
@@ -69,11 +69,11 @@ class YNNearbyTitleView: UIView {
         
         if let _ = self.indicatorX {
        
-            self.indicator.frame = CGRectMake(self.indicatorX!, 0, kIndicatorWidth, 44)
+            self.indicator.frame = CGRect(x: self.indicatorX!, y: 0, width: kIndicatorWidth, height: 44)
             
             let titileX = kIndicatorWidth + self.indicatorX!
             
-            self.titleLabel.frame = CGRectMake(titileX, 0, self.frame.size.width - kIndicatorWidth, 44)
+            self.titleLabel.frame = CGRect(x: titileX, y: 0, width: self.frame.size.width - kIndicatorWidth, height: 44)
             
         }else {
        
@@ -87,7 +87,7 @@ class YNNearbyTitleView: UIView {
         
         self.indicator.removeFromSuperview()
         self.titleLabel.text = "我附近的热门商家"
-        self.titleLabel.textAlignment = NSTextAlignment.Center
+        self.titleLabel.textAlignment = NSTextAlignment.center
         self.titleLabel.frame = self.bounds
         
 //        UIView.animateWithDuration(1, animations: { () -> Void in

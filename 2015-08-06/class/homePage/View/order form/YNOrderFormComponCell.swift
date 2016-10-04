@@ -23,7 +23,7 @@ class YNOrderFormComponCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         setupInterface()
         setupLayout()
     }
@@ -62,38 +62,38 @@ class YNOrderFormComponCell: UITableViewCell {
 
     
     //MARK: - private proporty
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "满减优惠"
         return tempLabel
         }()
     
-    private lazy var detailLabel: UILabel = {
+    fileprivate lazy var detailLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "减"
-        tempLabel.textColor = UIColor.whiteColor()
-        tempLabel.textAlignment = NSTextAlignment.Center
+        tempLabel.textColor = UIColor.white
+        tempLabel.textAlignment = NSTextAlignment.center
         tempLabel.backgroundColor = UIColor(red: 251/255.0, green: 81/255.0, blue: 9/255.0, alpha: 1)
         tempLabel.layer.cornerRadius = 3
         tempLabel.clipsToBounds = true
         return tempLabel
         }()
     
-    private lazy var priceLabel: UILabel = {
+    fileprivate lazy var priceLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
         tempLabel.textColor = UIColor(red: 251/255.0, green: 81/255.0, blue: 9/255.0, alpha: 1)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
 //        tempLabel.text = "-15"
-        tempLabel.textAlignment = NSTextAlignment.Right
+        tempLabel.textAlignment = NSTextAlignment.right
         return tempLabel
         }()
     

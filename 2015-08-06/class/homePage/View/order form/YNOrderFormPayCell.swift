@@ -7,11 +7,31 @@
 //付款cell
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 
 protocol YNOrderFormPayCellDelegate {
     
-    func orderFormPayCellSelectedButtonDidClick(cell: YNOrderFormPayCell)
+    func orderFormPayCellSelectedButtonDidClick(_ cell: YNOrderFormPayCell)
 }
 
 
@@ -27,20 +47,20 @@ class YNOrderFormPayCell: UITableViewCell {
             
             if payWay!.selected {
            
-                paySelectedButton.selected = true
+                paySelectedButton.isSelected = true
                 
             } else {
            
-                paySelectedButton.selected = false
+                paySelectedButton.isSelected = false
             }
             
             if payWay?.discount > 0 {
            
-                minusLabel.hidden = false
+                minusLabel.isHidden = false
                 minusLabel.text = "立减" + String(payWay!.discount)
             } else {
            
-                minusLabel.hidden = true
+                minusLabel.isHidden = true
             }
         }
         
@@ -51,7 +71,7 @@ class YNOrderFormPayCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         setupInterface()
         setupLayout()
         
@@ -92,10 +112,10 @@ class YNOrderFormPayCell: UITableViewCell {
     //MARK: - event response
     func paySelectedButtonDidClick() {
    
-        if !paySelectedButton.selected {
+        if !paySelectedButton.isSelected {
        
-            paySelectedButton.selected = !paySelectedButton.selected
-            payWay?.selected = paySelectedButton.selected
+            paySelectedButton.isSelected = !paySelectedButton.isSelected
+            payWay?.selected = paySelectedButton.isSelected
             
             //通知代理
             delegate?.orderFormPayCellSelectedButtonDidClick(self)
@@ -105,38 +125,38 @@ class YNOrderFormPayCell: UITableViewCell {
     }
     
     //MARK: - private proporty
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
 //        tempLabel.text = "在线支付"
         return tempLabel
         }()
     
-       private lazy var minusLabel: UILabel = {
+       fileprivate lazy var minusLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
 //        tempLabel.text = "立减15"
-        tempLabel.textColor = UIColor.whiteColor()
-        tempLabel.backgroundColor = UIColor.redColor()
+        tempLabel.textColor = UIColor.white
+        tempLabel.backgroundColor = UIColor.red
         tempLabel.layer.cornerRadius = 3
         tempLabel.clipsToBounds = true
-        tempLabel.textAlignment = NSTextAlignment.Center
-        tempLabel.hidden = true
+        tempLabel.textAlignment = NSTextAlignment.center
+        tempLabel.isHidden = true
         return tempLabel
         }()
     
-    private lazy var paySelectedButton: UIButton = {
+    fileprivate lazy var paySelectedButton: UIButton = {
         
         var tempView = UIButton()
-        tempView.setImage(UIImage(named: "icon_radio"), forState: UIControlState.Normal)
-        tempView.setImage(UIImage(named: "icon_radio_on"), forState: UIControlState.Selected)
+        tempView.setImage(UIImage(named: "icon_radio"), for: UIControlState())
+        tempView.setImage(UIImage(named: "icon_radio_on"), for: UIControlState.selected)
         tempView.translatesAutoresizingMaskIntoConstraints = false
-        tempView.addTarget(self, action: "paySelectedButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        tempView.addTarget(self, action: #selector(YNOrderFormPayCell.paySelectedButtonDidClick), for: UIControlEvents.touchUpInside)
         return tempView
         
         }()

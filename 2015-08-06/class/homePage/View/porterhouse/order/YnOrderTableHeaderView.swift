@@ -39,11 +39,11 @@ class YnOrderTableHeaderView: UIView {
 //    }
     
     //MARK: - private property
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.grayColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.gray
         tempLabel.text = "购物篮"
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel

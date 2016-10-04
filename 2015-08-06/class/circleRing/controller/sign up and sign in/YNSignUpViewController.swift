@@ -22,7 +22,7 @@ class YNSignUpViewController: UIViewController {
     let codeDigit: Int = 4
     
     var second: Int = 60
-    var timer: NSTimer?
+    var timer: Timer?
     var code: String?
     var originalContentSize: CGSize!
     
@@ -47,10 +47,10 @@ class YNSignUpViewController: UIViewController {
         addTapGestureRecongizer()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         self.timer?.invalidate()
     }
 // MARK: - event response
@@ -60,8 +60,8 @@ class YNSignUpViewController: UIViewController {
         
         if Tools().isPhoneNumber(self.userNameTextFiled.text!) {
             
-            self.getcodeButton.userInteractionEnabled = false
-            self.getcodeButton.backgroundColor = UIColor.grayColor()
+            self.getcodeButton.isUserInteractionEnabled = false
+            self.getcodeButton.backgroundColor = UIColor.gray
             
             //等待动画
             showWaitingSecond()
@@ -118,26 +118,26 @@ class YNSignUpViewController: UIViewController {
         
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
    
         if kIS_iPhone4() || kIS_iPhone5() {
        
-            var userInfo: [NSObject: AnyObject]? = notification.userInfo
+            var userInfo: [AnyHashable: Any]? = (notification as NSNotification).userInfo
             
-            let aValue: AnyObject? = userInfo?.removeValueForKey(UIKeyboardFrameEndUserInfoKey)
+            let aValue: AnyObject? = userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject?
             
-            if let rect = aValue?.CGRectValue {
+            if let rect = aValue?.cgRectValue {
                 
                 let height = rect.size.height
                 self.originalContentSize = self.scrollView.contentSize
                 
                 if kIS_iPhone4() {
-                    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height + height*0.5 - 64);
+                    self.scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height + height*0.5 - 64);
                 }
                 
                 if kIS_iPhone5() {
                     
-                    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height );
+                    self.scrollView.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height );
                 }
             }
             
@@ -145,7 +145,7 @@ class YNSignUpViewController: UIViewController {
         
     }
    
-     func keyboardWillHide(notification: NSNotification) {
+     func keyboardWillHide(_ notification: Notification) {
    
         if kIS_iPhone4() || kIS_iPhone5() {
        
@@ -163,10 +163,10 @@ class YNSignUpViewController: UIViewController {
     
     func showWaitingSecond() {
         
-        self.timer = NSTimer(timeInterval: 1, target: self, selector: "addOneSecond", userInfo: nil, repeats: true)
+        self.timer = Timer(timeInterval: 1, target: self, selector: #selector(YNSignUpViewController.addOneSecond), userInfo: nil, repeats: true)
         self.timer?.fire()
         
-        NSRunLoop.mainRunLoop().addTimer(self.timer!, forMode: NSRunLoopCommonModes)
+        RunLoop.main.add(self.timer!, forMode: RunLoopMode.commonModes)
     }
     
     func addOneSecond() {
@@ -176,13 +176,13 @@ class YNSignUpViewController: UIViewController {
 //        print(self.second)
         if self.second > 0 {
             
-            self.getcodeButton.setTitle("\(self.second)s", forState: UIControlState.Normal)
+            self.getcodeButton.setTitle("\(self.second)s", for: UIControlState())
             
         } else {
        
             self.timer?.invalidate()
-            self.getcodeButton.userInteractionEnabled = true
-            self.getcodeButton.setTitle("获取", forState: UIControlState.Normal)
+            self.getcodeButton.isUserInteractionEnabled = true
+            self.getcodeButton.setTitle("获取", for: UIControlState())
             self.getcodeButton.backgroundColor = kStyleColor
             self.second = 60
         }
@@ -195,7 +195,7 @@ class YNSignUpViewController: UIViewController {
         
         for _ in 1...self.codeDigit {
             
-            let number = self.randomInRange(1...4)
+            let number = self.randomInRange(1..<5)
             code += String(number)
         }
         
@@ -206,17 +206,17 @@ class YNSignUpViewController: UIViewController {
         
     }
     
-     func senderCodeToServer(code: String) {
+     func senderCodeToServer(_ code: String) {
    
         let params = ["key":"edge5de7se4b5xd",
             "action": "regverify",
             "mobile": self.userNameTextFiled.text,
-            "code": code]
+            "code": code] as [String : Any]
         
         
-        Network.post(kURL, params: params, success: { (data, response, error) -> Void in
+        Network.post(kURL, params: params as! [String : String?], success: { (data, response, error) -> Void in
             
-            let json: NSDictionary =  ((try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary)!
+            let json: NSDictionary =  ((try! JSONSerialization.jsonObject(with: data! , options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSDictionary)!
             
             print("data - \(json)", terminator: "")
             
@@ -232,7 +232,7 @@ class YNSignUpViewController: UIViewController {
                         
                         YNProgressHUD().showText(msg, toView: self.view)
                     }
-                    self.getcodeButton.userInteractionEnabled = true
+                    self.getcodeButton.isUserInteractionEnabled = true
                 }
                 
             }
@@ -240,7 +240,7 @@ class YNSignUpViewController: UIViewController {
         }) { (error) -> Void in
         
             YNProgressHUD().showText("获取验证码失败", toView: self.view)
-            self.getcodeButton.userInteractionEnabled = true
+            self.getcodeButton.isUserInteractionEnabled = true
         }
         
        
@@ -249,12 +249,12 @@ class YNSignUpViewController: UIViewController {
      //点击了注册按钮
      func senderDataToServer() {
         
-        self.signUpButton.userInteractionEnabled = false
+        self.signUpButton.isUserInteractionEnabled = false
         
         let params = ["key":"edge5de7se4b5xd",
             "action": "reg",
-            "mobile": self.userNameTextFiled.text,
-            "password": self.passwordTextFiled.text]
+            "mobile": self.userNameTextFiled.text! as String,
+            "password": self.passwordTextFiled.text! as String]
         
         
         let progress: ProgressHUD = YNProgressHUD().showWaitingToView(self.view)
@@ -265,7 +265,7 @@ class YNSignUpViewController: UIViewController {
             
 //            print(data)
             
-            let json: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+            let json: NSDictionary = (try! JSONSerialization.jsonObject(with: data! , options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
 
 //            print("data - \(json)")
             
@@ -274,11 +274,11 @@ class YNSignUpViewController: UIViewController {
                 if status == 1 {
                     
                     //把用户名保存到本地
-                    Tools().saveValue(self.userNameTextFiled.text, forKey: kUserKey)
+                    Tools().saveValue(self.userNameTextFiled.text as AnyObject?, forKey: kUserKey)
                     
-                    self.navigationController?.childViewControllers[0].dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.navigationController?.childViewControllers[0].dismiss(animated: true, completion: { () -> Void in
                         
-                        YNProgressHUD().showText("注册成功", toView: UIApplication.sharedApplication().keyWindow!)
+                        YNProgressHUD().showText("注册成功", toView: UIApplication.shared.keyWindow!)
                         
                         })
                     
@@ -288,7 +288,7 @@ class YNSignUpViewController: UIViewController {
                         
                         YNProgressHUD().showText(msg, toView: self.view)
                     }
-                    self.signUpButton.userInteractionEnabled = true
+                    self.signUpButton.isUserInteractionEnabled = true
                 }
                 
             }
@@ -299,26 +299,26 @@ class YNSignUpViewController: UIViewController {
             progress.hideUsingAnimation()
             
             YNProgressHUD().showText("请求失败", toView: self.view)
-            self.signUpButton.userInteractionEnabled = true
+            self.signUpButton.isUserInteractionEnabled = true
         }
         
     }
 
     
-    func randomInRange(range: Range<Int>) ->Int {
-        let count = UInt32(range.endIndex - range.startIndex)
-        return Int(arc4random_uniform(count)) + range.startIndex
+    func randomInRange(_ range: Range<Int>) ->Int {
+        let count = UInt32(range.upperBound - range.lowerBound)
+        return Int(arc4random_uniform(count)) + range.lowerBound
     }
     
      func addKeyBoardNotification() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(YNSignUpViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(YNSignUpViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
      func addTapGestureRecongizer() {
         
-        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapBackView")
+        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(YNSignUpViewController.tapBackView))
         self.view.addGestureRecognizer(tgr)
         
     }
@@ -335,7 +335,7 @@ class YNSignUpViewController: UIViewController {
         
         var tempTextFiled = UITextField()
         
-        tempTextFiled.setTextFiledWithLeftImageName("register_userName", customRightView: nil, placeHolder: "请输入手机号", keyBoardTypePara: UIKeyboardType.NumberPad)
+        tempTextFiled.setTextFiledWithLeftImageName("register_userName", customRightView: nil, placeHolder: "请输入手机号", keyBoardTypePara: UIKeyboardType.numberPad)
 
         return tempTextFiled
         }()
@@ -343,7 +343,7 @@ class YNSignUpViewController: UIViewController {
      lazy var securityCodeTextField: UITextField! = {
         
         var tempTextFiled = UITextField()
-        tempTextFiled.setTextFiledWithLeftImageName("register_verficationCode", customRightView: self.getcodeButton, placeHolder: "验证码", keyBoardTypePara: UIKeyboardType.NumberPad)
+        tempTextFiled.setTextFiledWithLeftImageName("register_verficationCode", customRightView: self.getcodeButton, placeHolder: "验证码", keyBoardTypePara: UIKeyboardType.numberPad)
 
         return tempTextFiled
         }()
@@ -351,12 +351,12 @@ class YNSignUpViewController: UIViewController {
      lazy var getcodeButton: UIButton! = {
         var button = UIButton()
         
-        button.frame = CGRectMake(0, 0, 72, 40)
+        button.frame = CGRect(x: 0, y: 0, width: 72, height: 40)
         button.layer.cornerRadius = 3
         button.backgroundColor = kStyleColor
         
-        button.setTitle("获取", forState: UIControlState.Normal)
-        button.addTarget(self, action: "getCodeButtonHasClicked", forControlEvents: UIControlEvents.TouchUpInside)
+        button.setTitle("获取", for: UIControlState())
+        button.addTarget(self, action: #selector(YNSignUpViewController.getCodeButtonHasClicked), for: UIControlEvents.touchUpInside)
         
         return button
     }()
@@ -364,8 +364,8 @@ class YNSignUpViewController: UIViewController {
      lazy var passwordTextFiled: UITextField! = {
         
         var tempTextFiled = UITextField()
-        tempTextFiled.secureTextEntry = true
-        tempTextFiled.setTextFiledWithLeftImageName("register_password", customRightView: nil, placeHolder: "请输入密码", keyBoardTypePara: UIKeyboardType.Default)
+        tempTextFiled.isSecureTextEntry = true
+        tempTextFiled.setTextFiledWithLeftImageName("register_password", customRightView: nil, placeHolder: "请输入密码", keyBoardTypePara: UIKeyboardType.default)
         
         return tempTextFiled
         }()
@@ -373,8 +373,8 @@ class YNSignUpViewController: UIViewController {
      lazy var passwordAgainTextFiled: UITextField! = {
         
         var tempTextFiled = UITextField()
-        tempTextFiled.secureTextEntry = true
-        tempTextFiled.setTextFiledWithLeftImageName("register_password", customRightView: nil, placeHolder: "请再次输入密码", keyBoardTypePara: UIKeyboardType.Default)
+        tempTextFiled.isSecureTextEntry = true
+        tempTextFiled.setTextFiledWithLeftImageName("register_password", customRightView: nil, placeHolder: "请再次输入密码", keyBoardTypePara: UIKeyboardType.default)
         
         return tempTextFiled
         }()
@@ -385,8 +385,8 @@ class YNSignUpViewController: UIViewController {
         button.layer.cornerRadius = 3
         button.backgroundColor = kStyleColor
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("注册", forState: UIControlState.Normal)
-        button.addTarget(self, action: "signUpButtonHasClicked", forControlEvents: UIControlEvents.TouchUpInside)
+        button.setTitle("注册", for: UIControlState())
+        button.addTarget(self, action: #selector(YNSignUpViewController.signUpButtonHasClicked), for: UIControlEvents.touchUpInside)
 
         return button
         }()
@@ -396,30 +396,30 @@ class YNSignUpViewController: UIViewController {
         let scrollViewConstrantVFLH = "H:|[scrollView]|"
         let scrollViewConstrantVFLV = "V:|[scrollView]|"
         
-        let scrollViewConstrantH = NSLayoutConstraint.constraintsWithVisualFormat(scrollViewConstrantVFLH, options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views: ["scrollView": scrollView])
-        let scrollViewConstrantV = NSLayoutConstraint.constraintsWithVisualFormat(scrollViewConstrantVFLV, options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: nil, views: ["scrollView": scrollView])
+        let scrollViewConstrantH = NSLayoutConstraint.constraints(withVisualFormat: scrollViewConstrantVFLH, options: NSLayoutFormatOptions(), metrics: nil, views: ["scrollView": scrollView])
+        let scrollViewConstrantV = NSLayoutConstraint.constraints(withVisualFormat: scrollViewConstrantVFLV, options: NSLayoutFormatOptions(), metrics: nil, views: ["scrollView": scrollView])
         self.view.addConstraints(scrollViewConstrantH)
         self.view.addConstraints(scrollViewConstrantV)
         
         let textFiledWidth = kScreenWidth - kMargin * 2
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMargin-[tempTextFiled(textFiledWidth)]|", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["tempTextFiled": userNameTextFiled]))
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-kTopMargin-[tempTextFiled(kTextFileHeight)]|", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kTopMargin": kTopMargin, "kTextFileHeight": kTextFileHeight], views: ["tempTextFiled": userNameTextFiled]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMargin-[tempTextFiled(textFiledWidth)]|", options: NSLayoutFormatOptions(), metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["tempTextFiled": userNameTextFiled]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-kTopMargin-[tempTextFiled(kTextFileHeight)]|", options: NSLayoutFormatOptions(), metrics: ["kTopMargin": kTopMargin, "kTextFileHeight": kTextFileHeight], views: ["tempTextFiled": userNameTextFiled]))
         
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMargin-[securityCodeTextField(textFiledWidth)]|", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["securityCodeTextField": securityCodeTextField]))
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[userNameTextFiled]-kVerticalSpace-[securityCodeTextField(kTextFileHeight)]", options:  NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["userNameTextFiled": userNameTextFiled, "securityCodeTextField": securityCodeTextField]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMargin-[securityCodeTextField(textFiledWidth)]|", options: NSLayoutFormatOptions(), metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["securityCodeTextField": securityCodeTextField]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userNameTextFiled]-kVerticalSpace-[securityCodeTextField(kTextFileHeight)]", options:  NSLayoutFormatOptions(), metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["userNameTextFiled": userNameTextFiled, "securityCodeTextField": securityCodeTextField]))
         
         
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMargin-[passwordTextFiled(textFiledWidth)]|", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["passwordTextFiled": passwordTextFiled]))
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[securityCodeTextField]-kVerticalSpace-[passwordTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "securityCodeTextField": securityCodeTextField]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMargin-[passwordTextFiled(textFiledWidth)]|", options: NSLayoutFormatOptions(), metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["passwordTextFiled": passwordTextFiled]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[securityCodeTextField]-kVerticalSpace-[passwordTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions(), metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "securityCodeTextField": securityCodeTextField]))
         
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMargin-[passwordAgainTextFiled(textFiledWidth)]|", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["passwordAgainTextFiled": passwordAgainTextFiled]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMargin-[passwordAgainTextFiled(textFiledWidth)]|", options: NSLayoutFormatOptions(), metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["passwordAgainTextFiled": passwordAgainTextFiled]))
         
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[passwordTextFiled]-kVerticalSpace-[passwordAgainTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "passwordAgainTextFiled": passwordAgainTextFiled]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[passwordTextFiled]-kVerticalSpace-[passwordAgainTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions(), metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "passwordAgainTextFiled": passwordAgainTextFiled]))
         
         
         let textFiledWidthSignUp = kScreenWidth - kMarginSignUp * 2
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMarginSignUp-[signUpButton(textFiledWidthSignUp)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMarginSignUp": kMarginSignUp, "textFiledWidthSignUp": textFiledWidthSignUp], views: ["signUpButton": signUpButton]))
-        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[passwordAgainTextFiled]-kVerticalSpace-[signUpButton(kTextFileHeight)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kVerticalSpace": kVerticalSpace*4, "kTextFileHeight": kTextFileHeight], views: ["passwordAgainTextFiled": passwordAgainTextFiled, "signUpButton": signUpButton]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMarginSignUp-[signUpButton(textFiledWidthSignUp)]", options: NSLayoutFormatOptions(), metrics: ["kMarginSignUp": kMarginSignUp, "textFiledWidthSignUp": textFiledWidthSignUp], views: ["signUpButton": signUpButton]))
+        scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[passwordAgainTextFiled]-kVerticalSpace-[signUpButton(kTextFileHeight)]", options: NSLayoutFormatOptions(), metrics: ["kVerticalSpace": kVerticalSpace*4, "kTextFileHeight": kTextFileHeight], views: ["passwordAgainTextFiled": passwordAgainTextFiled, "signUpButton": signUpButton]))
     }
 
 }

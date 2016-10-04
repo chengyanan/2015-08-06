@@ -12,13 +12,13 @@ class YNCalloutContentView: UIView {
 
     lazy var imageView:UIImageView = {
         var tempImageView = UIImageView()
-        tempImageView.contentMode = UIViewContentMode.ScaleToFill
+        tempImageView.contentMode = UIViewContentMode.scaleToFill
         return tempImageView
         }()
     lazy var titleLabel:UILabel = {
         var tempLabel = UILabel()
 //        tempLabel.backgroundColor = UIColor.whiteColor()//防止文字重叠
-        tempLabel.font = UIFont.systemFontOfSize(14)
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
         return tempLabel
         }()
     
@@ -60,9 +60,9 @@ class YNCalloutContentView: UIView {
         let span: CGFloat = 2
         let titleX: CGFloat = imageViewX + imageViewW + span
         let titleH: CGFloat = imageViewW * 0.6
-        imageView.frame = CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH)
+        imageView.frame = CGRect(x: imageViewX, y: imageViewY, width: imageViewW, height: imageViewH)
         
-        titleLabel.frame = CGRectMake(titleX, imageViewY, frame.size.width - titleX - 1, titleH)
+        titleLabel.frame = CGRect(x: titleX, y: imageViewY, width: frame.size.width - titleX - 1, height: titleH)
     }
 
     required init?(coder aDecoder: NSCoder) {

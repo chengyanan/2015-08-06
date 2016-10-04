@@ -23,7 +23,7 @@ class YNOrderFormSelectDishCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         setupInterface()
         setupLayout()
     }
@@ -65,48 +65,48 @@ class YNOrderFormSelectDishCell: UITableViewCell {
     }
     
     //MARK: - private proporty
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
-    private lazy var selectedNumberLabel: UILabel = {
+    fileprivate lazy var selectedNumberLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
-        tempLabel.textAlignment = NSTextAlignment.Right
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
+        tempLabel.textAlignment = NSTextAlignment.right
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return tempLabel
         }()
     
-    private lazy var priceLabel: UILabel = {
+    fileprivate lazy var priceLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.textColor = kStyleColor
-        tempLabel.textAlignment = NSTextAlignment.Right
+        tempLabel.textAlignment = NSTextAlignment.right
         return tempLabel
         }()
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let rectY = self.bounds.size.height/2 - 2
-        let cycleRect = CGRectMake(6, rectY, 4, 4)
+        let cycleRect = CGRect(x: 6, y: rectY, width: 4, height: 4)
         
-        let context:CGContextRef = UIGraphicsGetCurrentContext()!
+        let context:CGContext = UIGraphicsGetCurrentContext()!
         
-        CGContextSetRGBFillColor(context, 71/255.0, 185/255.0, 27/255.0, 1)
+        context.setFillColor(red: 71/255.0, green: 185/255.0, blue: 27/255.0, alpha: 1)
         
-        CGContextAddEllipseInRect(context, cycleRect)
+        context.addEllipse(in: cycleRect)
         
-        CGContextDrawPath(context, CGPathDrawingMode.Fill)
+        context.drawPath(using: CGPathDrawingMode.fill)
     }
 }

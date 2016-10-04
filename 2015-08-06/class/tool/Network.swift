@@ -11,44 +11,76 @@ import UIKit
 
 class Network {
     
-    static func get(url: String, params: [String: String?], success: (data: NSData, response: NSURLResponse, error: NSError?)->Void, failure: (error: NSError)->Void) {
+    static func get(_ url: String, params: [String: String?], success: @escaping (_ data: Data, _ response: URLResponse, _ error: NSError?)->Void, failure: @escaping (_ error: NSError)->Void) {
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let manager = NetworkManager(method: "GET", url: url, params: params, success: success, failure: failure)
             manager.fire()
+        }
+
         
-        })
+//        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+//            
+//            let manager = NetworkManager(method: "GET", url: url, params: params, success: success, failure: failure)
+//            manager.fire()
+//        
+//        })
         
     }
     
-    static func post(url: String, params: [String: String?], success: (data: NSData!, response: NSURLResponse!, error: NSError?)->Void, failure: (error: NSError!)->Void) {
+    static func post(_ url: String, params: [String: String?], success: @escaping (_ data: Data?, _ response: URLResponse?, _ error: NSError?)->Void, failure: @escaping (_ error: NSError?)->Void) {
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let manager = NetworkManager(method: "POST", url: url, params: params, success: success, failure: failure)
             manager.fire()
-        })
+            
+        }
+
+        
+//        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+//            
+//            let manager = NetworkManager(method: "POST", url: url, params: params, success: success, failure: failure)
+//            manager.fire()
+//        })
 
     }
     
-    static func getImageWithURL(url: String, success:(data: NSData)->Void) {
+    static func getImageWithURL(_ url: String, success:@escaping (_ data: Data)->Void) {
    
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+        
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+            let session = URLSession.shared
             
-            let session = NSURLSession.sharedSession()
-            
-            session.dataTaskWithURL(NSURL(string: url)!, completionHandler: { (data, response, error) -> Void in
+            session.dataTask(with: URL(string: url)!, completionHandler: { (data, response, error) -> Void in
                 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
-                    success(data: data!)
+                    success(data!)
                 })
                 
                 
             })
-            
-        })
+        }
+        
+        
+//        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+//            
+//            let session = URLSession.shared
+//            
+//            session.dataTask(with: URL(string: url)!, completionHandler: { (data, response, error) -> Void in
+//                
+//                DispatchQueue.main.async(execute: { () -> Void in
+//                    
+//                    success(data!)
+//                })
+//                
+//                
+//            })
+//            
+//        })
+        
+        
+        
     }
 }
 
@@ -56,20 +88,21 @@ class NetworkManager {
     let method: String!
     let url: String!
     let params: [String: String?]
-    let success: (data: NSData, response: NSURLResponse, error: NSError?)->Void
-    let failure: (error: NSError)->Void
-    let session = NSURLSession.sharedSession()
+    let success: (_ data: Data, _ response: URLResponse, _ error: NSError?)->Void
+    let failure: (_ error: NSError)->Void
+    let session = URLSession.shared
     var request: NSMutableURLRequest!
-    var task: NSURLSessionTask!
+    var task: URLSessionTask!
     
-    init(method: String, url: String, params: [String: String?], success: (data: NSData, response: NSURLResponse, error: NSError?)->Void, failure: (error: NSError)->Void) {
+    init(method: String, url: String, params: [String: String?], success: @escaping (_ data: Data, _ response: URLResponse, _ error: NSError?)->Void, failure: @escaping (_ error: NSError)->Void) {
    
         self.method = method
         self.url = url
         self.params = params
         self.success = success
         self.failure = failure
-        self.request = NSMutableURLRequest(URL: NSURL(string: url)!)
+        self.request = NSMutableURLRequest(url: URL(string: url)!)
+        self.request.allowsCellularAccess = true
         
     }
     
@@ -82,22 +115,22 @@ class NetworkManager {
     
     func fireTask() {
         
-        task = session.dataTaskWithRequest(request, completionHandler: { (data , response, errer) -> Void in
+        task = session.dataTask(with: request as URLRequest, completionHandler: { (data , response, errer) -> Void in
            
             
             if let _ = errer {
            
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
-                    self.failure(error: errer!)
+                    self.failure(errer! as NSError)
                     
                 })
                 
             } else {
             
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
-                    self.success(data: data!, response: response!, error: errer)
+                    self.success(data!, response!, errer as NSError?)
                     
                 })
                 
@@ -113,7 +146,7 @@ class NetworkManager {
     func buildBody() {
    
         if self.params.count > 0 && self.method != "GET" {
-            request.HTTPBody = buildParams(self.params).dataUsingEncoding(NSUTF8StringEncoding)
+            request.httpBody = buildParams(self.params).data(using: String.Encoding.utf8)
         }
     }
     
@@ -126,10 +159,10 @@ class NetworkManager {
             
             print("\(tempUrl)\n", terminator: "")
             
-            self.request = NSMutableURLRequest(URL: NSURL(string: tempUrl)!)
+            self.request = NSMutableURLRequest(url: URL(string: tempUrl)!)
         }
         
-        request.HTTPMethod = self.method
+        request.httpMethod = self.method
         if self.params.count > 0 {
        
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -138,17 +171,17 @@ class NetworkManager {
     }
     
     // 从 Alamofire 偷了三个函数
-    func buildParams(parameters: [String: String?]) -> String {
+    func buildParams(_ parameters: [String: String?]) -> String {
         var components: [(String, String)] = []
-        for key in Array(parameters.keys).sort(<) {
-            let value: AnyObject! = parameters[key]!
+        for key in Array(parameters.keys).sorted(by: <) {
+            let value: AnyObject! = parameters[key]! as AnyObject!
             components += queryComponents(key, value)
         }
         
-        return (components.map { "\($0)=\($1)" } as [String]).joinWithSeparator("&")
+        return (components.map { "\($0)=\($1)" } as [String]).joined(separator: "&")
     }
     
-    func queryComponents(key: String, _ value: AnyObject) -> [(String, String)] {
+    func queryComponents(_ key: String, _ value: AnyObject) -> [(String, String)] {
         var components: [(String, String)] = []
         if let dictionary = value as? [String: AnyObject] {
             for (nestedKey, value) in dictionary {
@@ -165,12 +198,12 @@ class NetworkManager {
         return components
     }
     
-    func escape(string: String) -> String {
+    func escape(_ string: String) -> String {
         let generalDelimiters = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimiters = "!$&'()*+,;="
         
-        let legalURLCharactersToBeEscaped: CFStringRef = generalDelimiters + subDelimiters
+        let legalURLCharactersToBeEscaped = generalDelimiters + subDelimiters
         
-        return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as String
+        return CFURLCreateStringByAddingPercentEscapes(nil, string as CFString!, nil, legalURLCharactersToBeEscaped as CFString!, CFStringBuiltInEncodings.UTF8.rawValue) as String
     }
 }

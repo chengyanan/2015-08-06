@@ -10,7 +10,7 @@ import UIKit
 
 protocol YNVertifyOrderPaymentTableViewCellDelegate {
 
-    func vertifyOrderPaymentCellSelectedButtonDidClick(cell: YNVertifyOrderPaymentTableViewCell)
+    func vertifyOrderPaymentCellSelectedButtonDidClick(_ cell: YNVertifyOrderPaymentTableViewCell)
 
 }
 
@@ -28,11 +28,11 @@ class YNVertifyOrderPaymentTableViewCell: UITableViewCell {
             
             if payWay!.selected {
                 
-                paySelectedButton.selected = true
+                paySelectedButton.isSelected = true
                 
             } else {
                 
-                paySelectedButton.selected = false
+                paySelectedButton.isSelected = false
             }
         
         }
@@ -90,10 +90,10 @@ class YNVertifyOrderPaymentTableViewCell: UITableViewCell {
     //MARK: - event response
     func paySelectedButtonDidClick() {
         
-        if !paySelectedButton.selected {
+        if !paySelectedButton.isSelected {
             
-            paySelectedButton.selected = !paySelectedButton.selected
-            payWay?.selected = paySelectedButton.selected
+            paySelectedButton.isSelected = !paySelectedButton.isSelected
+            payWay?.selected = paySelectedButton.isSelected
             
             //通知代理
             
@@ -104,7 +104,7 @@ class YNVertifyOrderPaymentTableViewCell: UITableViewCell {
     }
     
     //MARK: - private proporty
-    private lazy var iconImageView: UIImageView = {
+    fileprivate lazy var iconImageView: UIImageView = {
         
         var tempView = UIImageView()
         tempView.translatesAutoresizingMaskIntoConstraints = false
@@ -112,22 +112,22 @@ class YNVertifyOrderPaymentTableViewCell: UITableViewCell {
         
         }()
     
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
    
-    private lazy var paySelectedButton: UIButton = {
+    fileprivate lazy var paySelectedButton: UIButton = {
         
         var tempView = UIButton()
-        tempView.setImage(UIImage(named: "icon_radio"), forState: UIControlState.Normal)
-        tempView.setImage(UIImage(named: "icon_radio_on"), forState: UIControlState.Selected)
+        tempView.setImage(UIImage(named: "icon_radio"), for: UIControlState())
+        tempView.setImage(UIImage(named: "icon_radio_on"), for: UIControlState.selected)
         tempView.translatesAutoresizingMaskIntoConstraints = false
-        tempView.addTarget(self, action: "paySelectedButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        tempView.addTarget(self, action: #selector(YNVertifyOrderPaymentTableViewCell.paySelectedButtonDidClick), for: UIControlEvents.touchUpInside)
         return tempView
         
         }()

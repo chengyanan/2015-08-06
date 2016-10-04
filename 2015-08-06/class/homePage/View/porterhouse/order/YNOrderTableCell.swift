@@ -10,8 +10,8 @@ import UIKit
 
 protocol YNOrderTableCellDelegate {
     
-    func orderTableCellAddButtonDidClick(cell: YNOrderTableCell)
-    func orderTableCellMinusButtonDidClick(cell: YNOrderTableCell)
+    func orderTableCellAddButtonDidClick(_ cell: YNOrderTableCell)
+    func orderTableCellMinusButtonDidClick(_ cell: YNOrderTableCell)
 }
 
 
@@ -46,7 +46,7 @@ class YNOrderTableCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         setupInterface()
         setupLayout()
     }
@@ -102,7 +102,7 @@ class YNOrderTableCell: UITableViewCell {
     //MARK: - event response
     func addButtonDidClick() {
         
-        ++data!.number
+        data!.number += 1
         
         selectedNumberLabel.text = "\(data!.number)"
         
@@ -115,7 +115,7 @@ class YNOrderTableCell: UITableViewCell {
     
     func minusButtonDidClick() {
         
-        --data!.number
+        data!.number -= 1
         selectedNumberLabel.text = "\(data!.number)"
         
         let totalPrice = data!.price! * Float(data!.number)
@@ -128,58 +128,58 @@ class YNOrderTableCell: UITableViewCell {
     
     
     //MARK: - private property
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(17)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 17)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
     
-    private lazy var priceLabel: UILabel = {
+    fileprivate lazy var priceLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.textColor = kStyleColor
-        tempLabel.textAlignment = NSTextAlignment.Justified
+        tempLabel.textAlignment = NSTextAlignment.justified
         return tempLabel
         }()
     
-    private lazy var addButton: UIButton = {
+    fileprivate lazy var addButton: UIButton = {
         
         // 49 * 49
         var tempView = UIButton()
-        tempView.setImage(UIImage(named: "food_icon_add"), forState: UIControlState.Normal)
+        tempView.setImage(UIImage(named: "food_icon_add"), for: UIControlState())
         
         tempView.translatesAutoresizingMaskIntoConstraints = false
         
-        tempView.addTarget(self, action: "addButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        tempView.addTarget(self, action: #selector(YNOrderTableCell.addButtonDidClick), for: UIControlEvents.touchUpInside)
         return tempView
         
         }()
     
-    private lazy var selectedNumberLabel: UILabel = {
+    fileprivate lazy var selectedNumberLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.textColor = UIColor.blackColor()
-        tempLabel.textAlignment = NSTextAlignment.Center
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.black
+        tempLabel.textAlignment = NSTextAlignment.center
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return tempLabel
         }()
     
-    private lazy var minusButton: UIButton = {
+    fileprivate lazy var minusButton: UIButton = {
         
         // 49 * 49
         var tempView = UIButton()
-        tempView.setImage(UIImage(named: "food_icon_minus"), forState: UIControlState.Normal)
+        tempView.setImage(UIImage(named: "food_icon_minus"), for: UIControlState())
         tempView.translatesAutoresizingMaskIntoConstraints = false
-        tempView.addTarget(self, action: "minusButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        tempView.addTarget(self, action: #selector(YNOrderTableCell.minusButtonDidClick), for: UIControlEvents.touchUpInside)
         return tempView
         
         }()

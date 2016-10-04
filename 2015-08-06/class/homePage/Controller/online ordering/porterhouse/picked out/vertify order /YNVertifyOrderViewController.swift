@@ -60,50 +60,50 @@ class YNVertifyOrderViewController: UIViewController, UITableViewDataSource, UIT
     }
     
   //MARK: - UITableViewDataSource
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return 2
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         return 54
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
         let identify: String = "CELL_RestaurantName"
-        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify)
+        var cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify)
         
         if cell == nil {
             
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+            cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
             
         }
         
-        if indexPath.section == 0 {
+        if (indexPath as NSIndexPath).section == 0 {
             
-            if indexPath.row == 0 {
+            if (indexPath as NSIndexPath).row == 0 {
             
                 cell?.textLabel?.text = restaurant?.title
                 return cell!
             }
             
             
-            if indexPath.row == 1 {
+            if (indexPath as NSIndexPath).row == 1 {
             
             
                 let identify: String = "CELL_RestaurantName"
-                var vertifyCell: YNVertifyOrderTableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNVertifyOrderTableViewCell
+                var vertifyCell: YNVertifyOrderTableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNVertifyOrderTableViewCell
                 
                 if vertifyCell == nil {
                     
-                    vertifyCell = YNVertifyOrderTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                    vertifyCell = YNVertifyOrderTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
                     
                 }
             
@@ -113,27 +113,27 @@ class YNVertifyOrderViewController: UIViewController, UITableViewDataSource, UIT
         }
         
         
-        if indexPath.section == 1 {
+        if (indexPath as NSIndexPath).section == 1 {
         
             let identify: String = "CELL_Payment"
-            var paymentCell: YNVertifyOrderPaymentTableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNVertifyOrderPaymentTableViewCell
+            var paymentCell: YNVertifyOrderPaymentTableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNVertifyOrderPaymentTableViewCell
             
             if paymentCell == nil {
                 
-                paymentCell = YNVertifyOrderPaymentTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                paymentCell = YNVertifyOrderPaymentTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
                 
             }
             
             paymentCell?.delegate = self
             
-            if indexPath.row == 0 {
+            if (indexPath as NSIndexPath).row == 0 {
             
                 paymentCell?.iamgeNmae = "icon_alipay"
-               paymentCell?.payWay = payment[indexPath.row]
+               paymentCell?.payWay = payment[(indexPath as NSIndexPath).row]
                 
-            } else if indexPath.row == 1 {
+            } else if (indexPath as NSIndexPath).row == 1 {
             
-                paymentCell?.payWay = payment[indexPath.row]
+                paymentCell?.payWay = payment[(indexPath as NSIndexPath).row]
                 paymentCell?.iamgeNmae = "icon_weixin_app"
             }
             
@@ -147,13 +147,13 @@ class YNVertifyOrderViewController: UIViewController, UITableViewDataSource, UIT
         
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         if section == 1 {
         
             let cell = UITableViewCell()
             cell.textLabel?.text = "支付方式"
-            cell.textLabel?.textColor = UIColor.grayColor()
+            cell.textLabel?.textColor = UIColor.gray
             return cell
         }
         
@@ -161,12 +161,12 @@ class YNVertifyOrderViewController: UIViewController, UITableViewDataSource, UIT
         
     }
     
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         
         return 20
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     
         if section == 0 {
         
@@ -177,7 +177,7 @@ class YNVertifyOrderViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     //MARK: - YNVertifyOrderPaymentTableViewCellDelegate
-    func vertifyOrderPaymentCellSelectedButtonDidClick(cell: YNVertifyOrderPaymentTableViewCell) {
+    func vertifyOrderPaymentCellSelectedButtonDidClick(_ cell: YNVertifyOrderPaymentTableViewCell) {
         
         if cell.payWay!.selected {
             
@@ -225,29 +225,29 @@ class YNVertifyOrderViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     //MARK: - private property
-    private let bottomViewHeight: CGFloat = 50
-    private let bottomSepatatorHeight: CGFloat = 0.6
+    fileprivate let bottomViewHeight: CGFloat = 50
+    fileprivate let bottomSepatatorHeight: CGFloat = 0.6
     
-    private lazy var tableView: UITableView = {
+    fileprivate lazy var tableView: UITableView = {
         
-        var tempTableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
+        var tempTableView = UITableView(frame: CGRect.zero, style: UITableViewStyle.grouped)
         tempTableView.delegate = self
         tempTableView.dataSource = self
         tempTableView.translatesAutoresizingMaskIntoConstraints = false
-        tempTableView.backgroundColor = UIColor.clearColor()
+        tempTableView.backgroundColor = UIColor.clear
         return tempTableView
         
         }()
     
-    private lazy var doneButton: UIButton =  {
+    fileprivate lazy var doneButton: UIButton =  {
     
         var tempView = UIButton()
         tempView.layer.cornerRadius = 6
         tempView.clipsToBounds = true
-        tempView.setTitle("立即支付", forState: UIControlState.Normal)
+        tempView.setTitle("立即支付", for: UIControlState())
         tempView.backgroundColor = kStyleColor
         tempView.translatesAutoresizingMaskIntoConstraints = false
-        tempView.addTarget(self, action: "doneButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        tempView.addTarget(self, action: #selector(YNVertifyOrderViewController.doneButtonDidClick), for: UIControlEvents.touchUpInside)
         return tempView
     }()
     

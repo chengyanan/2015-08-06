@@ -49,7 +49,7 @@ class YNSignInViewController: UIViewController {
     
     func backBarButtonItemHasClicked() {
         
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismiss(animated: true, completion: { () -> Void in
             
         })
     }
@@ -85,21 +85,21 @@ class YNSignInViewController: UIViewController {
    
         let params = ["key":"edge5de7se4b5xd",
             "action": "login",
-            "username": self.userNameTextFiled.text,
-            "password": self.passwordTextFiled.text]
+            "username": self.userNameTextFiled.text! as String,
+            "password": self.passwordTextFiled.text! as String]
         
         let progress = YNProgressHUD().showWaitingToView(self.view)
-        self.signInButton.userInteractionEnabled = false
+        self.signInButton.isUserInteractionEnabled = false
         
         Network.post(kURL, params: params, success: { (data, response, error) -> Void in
             
             progress.hideUsingAnimation()
-            self.signInButton.userInteractionEnabled = true
+            self.signInButton.isUserInteractionEnabled = true
             
 //             print(data)
             
             
-            let json: NSDictionary =  (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+            let json: NSDictionary =  (try! JSONSerialization.jsonObject(with: data! , options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
             
 //            print("data - \(json)")
             
@@ -108,16 +108,16 @@ class YNSignInViewController: UIViewController {
                 if status == 1 {
                     
                     //把用户名保存到本地
-                    Tools().saveValue(self.userNameTextFiled.text, forKey: "User_MobileNumber")
+                    Tools().saveValue(self.userNameTextFiled.text as AnyObject?, forKey: "User_MobileNumber")
                     
                     if self.delegate != nil {
                    
                         self.delegate?.logInSuccess()
                     }
                     
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismiss(animated: true, completion: { () -> Void in
                         
-                        YNProgressHUD().showText("登录成功", toView: UIApplication.sharedApplication().keyWindow!)
+                        YNProgressHUD().showText("登录成功", toView: UIApplication.shared.keyWindow!)
                     })
                     
                 } else if status == 0 {
@@ -133,7 +133,7 @@ class YNSignInViewController: UIViewController {
             }) { (error) -> Void in
                 
                 progress.hideUsingAnimation()
-                self.signInButton.userInteractionEnabled = true
+                self.signInButton.isUserInteractionEnabled = true
                 
                 YNProgressHUD().showText("登录失败", toView: self.view)
         }
@@ -144,7 +144,7 @@ class YNSignInViewController: UIViewController {
     var signInBarButtonItem: UIBarButtonItem {
         
         get {
-            return UIBarButtonItem(title: "注册", style: UIBarButtonItemStyle.Plain, target: self, action: "signUpItemHasClicked")
+            return UIBarButtonItem(title: "注册", style: UIBarButtonItemStyle.plain, target: self, action: #selector(YNSignInViewController.signUpItemHasClicked))
         }
     }
 
@@ -152,7 +152,7 @@ class YNSignInViewController: UIViewController {
         
         get {
             
-            return UIBarButtonItem(image: UIImage(named: "system_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "backBarButtonItemHasClicked")
+            return UIBarButtonItem(image: UIImage(named: "system_back"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(YNSignInViewController.backBarButtonItemHasClicked))
         }
     }
 
@@ -160,7 +160,7 @@ class YNSignInViewController: UIViewController {
         
         var tempTextFiled = UITextField()
         
-        tempTextFiled.setTextFiledWithLeftImageName("register_userName", customRightView: nil, placeHolder: "请输入手机号", keyBoardTypePara: UIKeyboardType.NumberPad)
+        tempTextFiled.setTextFiledWithLeftImageName("register_userName", customRightView: nil, placeHolder: "请输入手机号", keyBoardTypePara: UIKeyboardType.numberPad)
         
         return tempTextFiled
         }()
@@ -168,8 +168,8 @@ class YNSignInViewController: UIViewController {
     lazy var passwordTextFiled: UITextField! = {
         
         var tempTextFiled = UITextField()
-        tempTextFiled.secureTextEntry = true
-        tempTextFiled.setTextFiledWithLeftImageName("register_password", customRightView: nil, placeHolder: "请输入密码", keyBoardTypePara: UIKeyboardType.Default)
+        tempTextFiled.isSecureTextEntry = true
+        tempTextFiled.setTextFiledWithLeftImageName("register_password", customRightView: nil, placeHolder: "请输入密码", keyBoardTypePara: UIKeyboardType.default)
         
         return tempTextFiled
         }()
@@ -180,8 +180,8 @@ class YNSignInViewController: UIViewController {
         button.layer.cornerRadius = 3
         button.backgroundColor = kStyleColor
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("登录", forState: UIControlState.Normal)
-        button.addTarget(self, action: "signInButtonHasClicked", forControlEvents: UIControlEvents.TouchUpInside)
+        button.setTitle("登录", for: UIControlState())
+        button.addTarget(self, action: #selector(YNSignInViewController.signInButtonHasClicked), for: UIControlEvents.touchUpInside)
         
         return button
         }()
@@ -189,15 +189,15 @@ class YNSignInViewController: UIViewController {
     func setLayout() {
         
         let textFiledWidth = kScreenWidth - kMargin * 2
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMargin-[tempTextFiled(textFiledWidth)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["tempTextFiled": userNameTextFiled]))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-kTopMargin-[tempTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kTopMargin": kTopMargin, "kTextFileHeight": kTextFileHeight], views: ["tempTextFiled": userNameTextFiled]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMargin-[tempTextFiled(textFiledWidth)]", options: NSLayoutFormatOptions(), metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["tempTextFiled": userNameTextFiled]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-kTopMargin-[tempTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions(), metrics: ["kTopMargin": kTopMargin, "kTextFileHeight": kTextFileHeight], views: ["tempTextFiled": userNameTextFiled]))
         
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMargin-[passwordTextFiled(textFiledWidth)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["passwordTextFiled": passwordTextFiled]))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[userNameTextFiled]-kVerticalSpace-[passwordTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "userNameTextFiled": userNameTextFiled]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMargin-[passwordTextFiled(textFiledWidth)]", options: NSLayoutFormatOptions(), metrics: ["kMargin": kMargin, "textFiledWidth": textFiledWidth], views: ["passwordTextFiled": passwordTextFiled]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[userNameTextFiled]-kVerticalSpace-[passwordTextFiled(kTextFileHeight)]", options: NSLayoutFormatOptions(), metrics: ["kVerticalSpace": kVerticalSpace, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "userNameTextFiled": userNameTextFiled]))
         
         let textFiledWidthSignUp = kScreenWidth - kMarginSignUp * 2
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-kMarginSignUp-[signInButton(textFiledWidthSignUp)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kMarginSignUp": kMarginSignUp, "textFiledWidthSignUp": textFiledWidthSignUp], views: ["signInButton": signInButton]))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[passwordTextFiled]-kVerticalSpace-[signInButton(kTextFileHeight)]", options: NSLayoutFormatOptions.DirectionLeadingToTrailing, metrics: ["kVerticalSpace": kVerticalSpace*4, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "signInButton": signInButton]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-kMarginSignUp-[signInButton(textFiledWidthSignUp)]", options: NSLayoutFormatOptions(), metrics: ["kMarginSignUp": kMarginSignUp, "textFiledWidthSignUp": textFiledWidthSignUp], views: ["signInButton": signInButton]))
+        self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[passwordTextFiled]-kVerticalSpace-[signInButton(kTextFileHeight)]", options: NSLayoutFormatOptions(), metrics: ["kVerticalSpace": kVerticalSpace*4, "kTextFileHeight": kTextFileHeight], views: ["passwordTextFiled": passwordTextFiled, "signInButton": signInButton]))
         
     }
 }

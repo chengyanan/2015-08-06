@@ -14,7 +14,7 @@ class YNPorterhouseDetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.greenColor()
+        self.backgroundColor = UIColor.green
     }
 
     required init?(coder aDecoder: NSCoder) {

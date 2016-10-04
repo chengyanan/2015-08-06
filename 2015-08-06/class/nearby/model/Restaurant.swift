@@ -40,7 +40,7 @@ struct Restaurant {
         
         
         let point = dict["point"] as? NSString
-        let arrayStr: Array<String>? = point!.componentsSeparatedByString(",")
+        let arrayStr: Array<String>? = point!.components(separatedBy: ",")
         
         var longitude: CLLocationDegrees = 0
         var latitude: CLLocationDegrees = 0

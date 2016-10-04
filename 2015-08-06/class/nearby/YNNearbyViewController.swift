@@ -18,7 +18,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     
     lazy var titleView: YNNearbyTitleView = {
     
-    return YNNearbyTitleView(frame: CGRectMake(self.view.frame.size.width/2, 20, 156, 44))
+    return YNNearbyTitleView(frame: CGRect(x: self.view.frame.size.width/2, y: 20, width: 156, height: 44))
     
     }()
     
@@ -36,9 +36,9 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     
     lazy var mapView: MKMapView = {
         var tempMapView = MKMapView(frame: self.view.bounds)
-        tempMapView.mapType = MKMapType.Standard
+        tempMapView.mapType = MKMapType.standard
         tempMapView.showsUserLocation = true
-        tempMapView.userTrackingMode = MKUserTrackingMode.Follow
+        tempMapView.userTrackingMode = MKUserTrackingMode.follow
         tempMapView.delegate = self
         return tempMapView
         }()
@@ -87,7 +87,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     
     }
@@ -113,7 +113,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             self.isLoadData = false
             
             
-            let json: NSDictionary! =  (try! NSJSONSerialization.JSONObjectWithData(data , options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+            let json: NSDictionary! =  (try! JSONSerialization.jsonObject(with: data , options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
            
 //                print("data - \(json)\n")
             
@@ -154,7 +154,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         }
     }
     
-    func dataProcessing(dataArray: NSArray) {
+    func dataProcessing(_ dataArray: NSArray) {
    
         if dataArray.count > 0 {
        
@@ -182,7 +182,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         if locationServicesEnabled {
        
             let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
-            if status == CLAuthorizationStatus.NotDetermined {
+            if status == CLAuthorizationStatus.notDetermined {
                
                 if #available(iOS 8.0, *) {
                     
@@ -201,7 +201,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         }
     }
     
-    func showMyLocation(coordinate: CLLocationCoordinate2D) {
+    func showMyLocation(_ coordinate: CLLocationCoordinate2D) {
         
         let span: MKCoordinateSpan = MKCoordinateSpanMake(kLatitudeDelta, kLongitudeDelta)
         let regin: MKCoordinateRegion = MKCoordinateRegionMake(coordinate, span)
@@ -214,20 +214,20 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         self.mapView.removeAnnotations(tempArray as! [MKAnnotation])
         self.baseAnnocationArray?.removeAllObjects()
         
-        for var index = 0; index < self.dataArray.count; ++index {
+        for index in 0 ..< self.dataArray.count {
        
             let restaurant: Restaurant = self.dataArray[index]
             let baseAnnotation: YNBaseAnnotation = YNBaseAnnotation(coordinate: restaurant.coordinate!)
             baseAnnotation.index = index
             self.mapView.addAnnotation(baseAnnotation)
-            self.baseAnnocationArray?.addObject(baseAnnotation)
+            self.baseAnnocationArray?.add(baseAnnotation)
         }
         
         self.isLoadData = true
         
     }
     
-    func isUpdateLocation(currentLocation: CLLocationCoordinate2D, userLocation: CLLocationCoordinate2D)-> Bool {
+    func isUpdateLocation(_ currentLocation: CLLocationCoordinate2D, userLocation: CLLocationCoordinate2D)-> Bool {
    
         let latitude: Double = currentLocation.latitude - userLocation.latitude
         let longitude: Double = currentLocation.longitude - userLocation.longitude
@@ -252,7 +252,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         
     }
     
-    func reverseGeocodeLocationWithUserLocation(userLocation: MKUserLocation!) {
+    func reverseGeocodeLocationWithUserLocation(_ userLocation: MKUserLocation!) {
    
         //解析地址
         self.geocder.reverseGeocodeLocation(userLocation.location!, completionHandler: { (placemarks, error) -> Void in
@@ -287,7 +287,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
     }
     
 //MARK: - MKMapViewDelegate
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         
         
         if let _ = self.coordinate {
@@ -309,25 +309,25 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         }
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is YNBaseAnnotation {
        
             let identify = "PINANNOTATIONVIEW"
-            var pinAnnotationView: MKPinAnnotationView? = mapView.dequeueReusableAnnotationViewWithIdentifier(identify) as? MKPinAnnotationView
+            var pinAnnotationView: MKPinAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: identify) as? MKPinAnnotationView
             if pinAnnotationView == nil {
                 pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identify)
                 
             }
             
             pinAnnotationView?.canShowCallout = false
-            pinAnnotationView?.pinColor = MKPinAnnotationColor.Purple
+            pinAnnotationView?.pinColor = MKPinAnnotationColor.purple
             return pinAnnotationView
             
         } else if annotation is YNCallOutAnnotation {
        
             let callOutidentify = "CALLOUTANNOTATIONVIEW"
-            var callOutAnnotationView: YNCallOutAnnotationView? = mapView.dequeueReusableAnnotationViewWithIdentifier(callOutidentify) as? YNCallOutAnnotationView
+            var callOutAnnotationView: YNCallOutAnnotationView? = mapView.dequeueReusableAnnotationView(withIdentifier: callOutidentify) as? YNCallOutAnnotationView
             if callOutAnnotationView == nil {
                 
                 callOutAnnotationView = YNCallOutAnnotationView(annotation: annotation, reuseIdentifier: callOutidentify)
@@ -371,7 +371,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         return nil
     }
     
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         if view.annotation is YNBaseAnnotation {
        
@@ -402,13 +402,13 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
         
     }
     
-    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         
         if let _ = self.callOutAnnotation {
             
 //            self.isDeleteAnnotation = true
             
-            UIView.animateWithDuration(0.2 , animations: { () -> Void in
+            UIView.animate(withDuration: 0.2 , animations: { () -> Void in
                 
                 self.callOutAnnotationView!.alpha = 0.0
                 
@@ -428,7 +428,7 @@ class YNNearbyViewController: UIViewController, MKMapViewDelegate, CLLocationMan
             
         } else if let _ = self.callOutAnnotationCurrent {
        
-            UIView.animateWithDuration(0.3 , animations: { () -> Void in
+            UIView.animate(withDuration: 0.3 , animations: { () -> Void in
                 
                 self.callOutAnnotationViewCurrent!.alpha = 0.0
                 

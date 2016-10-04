@@ -7,10 +7,30 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol YNOrderFormBottomViewDelegate {
     
-    func orderFormBottomViewDoneButtonDidClick(orderFormBottomView: YNOrderFormBottomView)
+    func orderFormBottomViewDoneButtonDidClick(_ orderFormBottomView: YNOrderFormBottomView)
 }
 
 class YNOrderFormBottomView: UIView {
@@ -23,11 +43,11 @@ class YNOrderFormBottomView: UIView {
        
             if discount > 0 {
            
-                discountLabel.hidden = false
+                discountLabel.isHidden = false
                 discountLabel.text = "已优惠¥\(discount!)"
             } else {
             
-                discountLabel.hidden = true
+                discountLabel.isHidden = true
                 discountLabel.text = ""
                 
             }
@@ -48,7 +68,7 @@ class YNOrderFormBottomView: UIView {
     override init(frame: CGRect) {
        super.init(frame: frame)
         
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor.white
         
         setupInterface()
         setupLayout()
@@ -101,7 +121,7 @@ class YNOrderFormBottomView: UIView {
     //MARK: - private proporty
     
     //灰色分割线
-    private lazy var sepatator: UIView = {
+    fileprivate lazy var sepatator: UIView = {
         
         var tempView = UIView()
         tempView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
@@ -110,32 +130,32 @@ class YNOrderFormBottomView: UIView {
         }()
     
     //优惠
-    private lazy var discountLabel: UILabel = {
+    fileprivate lazy var discountLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
         tempLabel.textColor = UIColor(red: 251/255.0, green: 81/255.0, blue: 9/255.0, alpha: 1)
-        tempLabel.hidden = true
+        tempLabel.isHidden = true
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
     //总价
-    private lazy var priceLabel: UILabel = {
+    fileprivate lazy var priceLabel: UILabel = {
         
         var tempLabel = UILabel()
         tempLabel.textColor = kStyleColor
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
-        tempLabel.textAlignment = NSTextAlignment.Right
+        tempLabel.textAlignment = NSTextAlignment.right
         return tempLabel
         }()
 
-    private lazy var doneButton: UIButton = {
+    fileprivate lazy var doneButton: UIButton = {
         
         var tempView: UIButton = UIButton()
         tempView.backgroundColor = kStyleColor
-        tempView.setTitle("立即下单", forState: UIControlState.Normal)
-        tempView.addTarget(self, action: "doneButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        tempView.setTitle("立即下单", for: UIControlState())
+        tempView.addTarget(self, action: #selector(YNOrderFormBottomView.doneButtonDidClick), for: UIControlEvents.touchUpInside)
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         

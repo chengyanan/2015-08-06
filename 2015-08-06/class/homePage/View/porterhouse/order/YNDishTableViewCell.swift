@@ -7,11 +7,31 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol YNDishTableViewCellDelegate {
     
-    func dishTableViewCellAddButtonDidClick(cell: YNDishTableViewCell, button: UIButton)
-    func dishTableViewCellMinusButtonDidClick(cell: YNDishTableViewCell)
+    func dishTableViewCellAddButtonDidClick(_ cell: YNDishTableViewCell, button: UIButton)
+    func dishTableViewCellMinusButtonDidClick(_ cell: YNDishTableViewCell)
 }
 
 class YNDishTableViewCell: UITableViewCell {
@@ -35,7 +55,7 @@ class YNDishTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         
         self.setupInterface()
         
@@ -53,7 +73,7 @@ class YNDishTableViewCell: UITableViewCell {
         
         if let tempImageURL = data!.imageURL {
             
-            let length = tempImageURL.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+            let length = tempImageURL.lengthOfBytes(using: String.Encoding.utf8)
             
             if length > 0 {
                 
@@ -85,14 +105,14 @@ class YNDishTableViewCell: UITableViewCell {
         if data?.number > 0 {
             
             self.selectedNumberLabel.text = "\(data!.number)"
-            self.selectedNumberLabel.hidden = false
-            self.minusButton.hidden = false
+            self.selectedNumberLabel.isHidden = false
+            self.minusButton.isHidden = false
             
         } else {
        
 //            self.selectedNumberLabel.text = ""
-            selectedNumberLabel.hidden = true
-            self.minusButton.hidden = true
+            selectedNumberLabel.isHidden = true
+            self.minusButton.isHidden = true
         }
         
     }
@@ -102,24 +122,48 @@ class YNDishTableViewCell: UITableViewCell {
         
         if let tempImageURL = data!.imageURL {
             
-            let url: NSURL? = NSURL(string: tempImageURL)
+            let url: URL? = URL(string: tempImageURL)
             
             if let tempUrl = url {
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                
+                
+                
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
                     
-                    let imageData: NSData? = NSData(contentsOfURL: tempUrl)
+                    
+                    let imageData: Data? = try? Data(contentsOf: tempUrl)
                     
                     if let tempData = imageData {
                         
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             
                             self.iconImageView.image = UIImage(data: tempData)
                         })
                         
                     }
                     
-                })
+                    
+                }
+                
+                
+                
+  //ios10换成了上面的方法
+                
+//                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+//                    
+//                    let imageData: Data? = try? Data(contentsOf: tempUrl)
+//                    
+//                    if let tempData = imageData {
+//                        
+//                        DispatchQueue.main.async(execute: { () -> Void in
+//                            
+//                            self.iconImageView.image = UIImage(data: tempData)
+//                        })
+//                        
+//                    }
+//                    
+//                })
                 
                 
             } else {
@@ -215,7 +259,7 @@ class YNDishTableViewCell: UITableViewCell {
     //MARK: - event response
     func addButtonDidClick() {
         
-        ++data!.number
+        data!.number += 1
         
         selectedNumberLabel.text = "\(data!.number)"
         
@@ -223,8 +267,8 @@ class YNDishTableViewCell: UITableViewCell {
        
             self.delegate?.dishTableViewCellAddButtonDidClick(self, button: self.addButton)
             
-            selectedNumberLabel.hidden = false
-            minusButton.hidden = false
+            selectedNumberLabel.isHidden = false
+            minusButton.isHidden = false
             
         }
         
@@ -232,106 +276,106 @@ class YNDishTableViewCell: UITableViewCell {
     
     func minusButtonDidClick() {
         
-        --data!.number
+        data!.number -= 1
         selectedNumberLabel.text = "\(data!.number)"
         
         self.delegate?.dishTableViewCellMinusButtonDidClick(self)
         
         if data!.number <= 0 {
             
-            selectedNumberLabel.hidden = true
-            minusButton.hidden = true
+            selectedNumberLabel.isHidden = true
+            minusButton.isHidden = true
             
         }
         
     }
     
     //MARK: - private property
-    private lazy var iconImageView: UIImageView = {
+    fileprivate lazy var iconImageView: UIImageView = {
         
         var tempImageView = UIImageView()
-        tempImageView.contentMode = UIViewContentMode.ScaleToFill
+        tempImageView.contentMode = UIViewContentMode.scaleToFill
         tempImageView.translatesAutoresizingMaskIntoConstraints = false
         tempImageView.translatesAutoresizingMaskIntoConstraints = false
         return tempImageView
         
         }()
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(17)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 17)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
 
-    private lazy var monthSalesLabel: UILabel = {
+    fileprivate lazy var monthSalesLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(12)
-        tempLabel.textColor = UIColor.grayColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 12)
+        tempLabel.textColor = UIColor.gray
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
-    private lazy var priceLabel: UILabel = {
+    fileprivate lazy var priceLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.textColor = kStyleColor
-        tempLabel.textAlignment = NSTextAlignment.Justified
+        tempLabel.textAlignment = NSTextAlignment.justified
         return tempLabel
         }()
     
-    private lazy var caloriesLabel: UILabel = {
+    fileprivate lazy var caloriesLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.textColor = UIColor.blackColor()
-        tempLabel.textColor = UIColor.grayColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.black
+        tempLabel.textColor = UIColor.gray
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         }()
     
-    private lazy var selectedNumberLabel: UILabel = {
+    fileprivate lazy var selectedNumberLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
-        tempLabel.textColor = UIColor.blackColor()
-        tempLabel.textAlignment = NSTextAlignment.Center
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
+        tempLabel.textColor = UIColor.black
+        tempLabel.textAlignment = NSTextAlignment.center
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return tempLabel
         }()
     
-    private lazy var addButton: UIButton = {
+    fileprivate lazy var addButton: UIButton = {
         
         // 49 * 49
         var tempView = UIButton()
-        tempView.setImage(UIImage(named: "food_icon_add"), forState: UIControlState.Normal)
+        tempView.setImage(UIImage(named: "food_icon_add"), for: UIControlState())
         
         tempView.translatesAutoresizingMaskIntoConstraints = false
         
-        tempView.addTarget(self, action: "addButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        tempView.addTarget(self, action: #selector(YNDishTableViewCell.addButtonDidClick), for: UIControlEvents.touchUpInside)
         return tempView
         
         }()
     
-    private lazy var minusButton: UIButton = {
+    fileprivate lazy var minusButton: UIButton = {
         
         // 49 * 49
         var tempView = UIButton()
-        tempView.setImage(UIImage(named: "food_icon_minus"), forState: UIControlState.Normal)
+        tempView.setImage(UIImage(named: "food_icon_minus"), for: UIControlState())
         tempView.translatesAutoresizingMaskIntoConstraints = false
-        tempView.addTarget(self, action: "minusButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
-        tempView.hidden = true
+        tempView.addTarget(self, action: #selector(YNDishTableViewCell.minusButtonDidClick), for: UIControlEvents.touchUpInside)
+        tempView.isHidden = true
         return tempView
         
         }()
     
-    private lazy var separatorView: UIView = {
+    fileprivate lazy var separatorView: UIView = {
         
         var tempView = UIView()
         tempView.backgroundColor = UIColor(red: 220/255.0, green: 220/255.0, blue: 223/255.0, alpha: 1)

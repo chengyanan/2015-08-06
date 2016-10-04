@@ -50,26 +50,26 @@ class YNVertifyOrderTableViewCell: UITableViewCell {
    
 //MARK: - private UI
     
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
 //        tempLabel.font = UIFont.systemFontOfSize(14)
-        tempLabel.textAlignment = NSTextAlignment.Center
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.textAlignment = NSTextAlignment.center
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "订单金额"
         return tempLabel
         
         }()
     
-    private lazy var priceLabel: UILabel = {
+    fileprivate lazy var priceLabel: UILabel = {
         
         var tempLabel = UILabel()
 //        tempLabel.font = UIFont.systemFontOfSize(14)
         tempLabel.textColor = kStyleColor
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "0"
-        tempLabel.textAlignment = NSTextAlignment.Center
+        tempLabel.textAlignment = NSTextAlignment.center
         return tempLabel
         
         }()

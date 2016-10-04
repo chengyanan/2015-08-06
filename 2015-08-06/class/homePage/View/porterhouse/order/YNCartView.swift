@@ -10,7 +10,7 @@ import UIKit
 
 protocol YNCartViewDelegate {
     
-    func cartViewDidClick(view: YNCartView)
+    func cartViewDidClick(_ view: YNCartView)
 }
 
 class YNCartView: UIView {
@@ -25,11 +25,11 @@ class YNCartView: UIView {
             
             if selectedNumber > 0 {
                 
-                self.numberLabel.hidden = false
+                self.numberLabel.isHidden = false
                 self.numberLabel.text = "\(selectedNumber)"
             } else {
                 
-                self.numberLabel.hidden = true
+                self.numberLabel.isHidden = true
             }
         }
     }
@@ -38,7 +38,7 @@ class YNCartView: UIView {
    override init(frame: CGRect) {
         super.init(frame: frame)
     
-        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
+        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(YNCartView.viewDidClick))
         self.addGestureRecognizer(tgr)
     
         self.addSubview(cartBackgroundView)
@@ -86,9 +86,9 @@ class YNCartView: UIView {
    }
     
     //private property
-    private let cartBackgroundViewWH: CGFloat = 50
-    private let cartImageViewWH: CGFloat = 25
-    private let numberLabelWH: CGFloat = 18
+    fileprivate let cartBackgroundViewWH: CGFloat = 50
+    fileprivate let cartImageViewWH: CGFloat = 25
+    fileprivate let numberLabelWH: CGFloat = 18
     
     //购物车圆背景
     lazy var cartBackgroundView: UIView = {
@@ -103,25 +103,25 @@ class YNCartView: UIView {
         }()
     
     //购物车
-    private lazy var cartImageView: UIImageView = {
+    fileprivate lazy var cartImageView: UIImageView = {
         
         var tempView: UIImageView = UIImageView(image: UIImage(named: "icon_cart"))
-        tempView.contentMode = UIViewContentMode.ScaleAspectFit
+        tempView.contentMode = UIViewContentMode.scaleAspectFit
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         
         }()
     
-    private lazy var numberLabel: UILabel = {
+    fileprivate lazy var numberLabel: UILabel = {
         // 8 * 8
         var tempView: UILabel = UILabel()
         tempView.backgroundColor = kStyleColor
         tempView.layer.cornerRadius = self.numberLabelWH/2
-        tempView.textAlignment = NSTextAlignment.Center
+        tempView.textAlignment = NSTextAlignment.center
         tempView.clipsToBounds = true
-        tempView.font = UIFont.systemFontOfSize(10)
-        tempView.textColor = UIColor.whiteColor()
-        tempView.hidden = true
+        tempView.font = UIFont.systemFont(ofSize: 10)
+        tempView.textColor = UIColor.white
+        tempView.isHidden = true
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         

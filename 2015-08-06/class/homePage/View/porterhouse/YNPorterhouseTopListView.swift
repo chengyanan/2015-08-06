@@ -10,14 +10,14 @@ import UIKit
 
 @objc protocol YNPorterhouseTopListViewDelegate: NSObjectProtocol {
     
-     optional func topListViewButtonTapped(button: UIButton)
+     @objc optional func topListViewButtonTapped(_ button: UIButton)
 }
 
 enum YNPorterhouseTopListSelected {
     
-    case Commodity
-    case Appraisal
-    case Business
+    case commodity
+    case appraisal
+    case business
 }
 
 class YNPorterhouseTopListView: UIView {
@@ -29,25 +29,25 @@ class YNPorterhouseTopListView: UIView {
    
         didSet {
        
-            if currentSelected == .Commodity {
+            if currentSelected == .commodity {
            
-                self.appraisalButon.selected = false
-                self.businessButon.selected = false
-                self.commodityButon.selected = true
+                self.appraisalButon.isSelected = false
+                self.businessButon.isSelected = false
+                self.commodityButon.isSelected = true
             }
             
-            if currentSelected == .Appraisal {
+            if currentSelected == .appraisal {
            
-                self.businessButon.selected = false
-                self.commodityButon.selected = false
-                self.appraisalButon.selected = true
+                self.businessButon.isSelected = false
+                self.commodityButon.isSelected = false
+                self.appraisalButon.isSelected = true
             }
             
-            if currentSelected == .Business {
+            if currentSelected == .business {
            
-                self.commodityButon.selected = false
-                self.appraisalButon.selected = false
-                self.businessButon.selected = true
+                self.commodityButon.isSelected = false
+                self.appraisalButon.isSelected = false
+                self.businessButon.isSelected = true
             }
         }
     }
@@ -67,13 +67,13 @@ class YNPorterhouseTopListView: UIView {
         let width: CGFloat = frame.size.width / CGFloat(buttonArray.count)
         let height: CGFloat = frame.size.height - kIndicatorHeight
 
-        for var i = 0; i < buttonArray.count; ++i {
+        for i in 0 ..< buttonArray.count {
        
             let x: CGFloat = width * CGFloat(i)
-            buttonArray[i].frame = CGRectMake(x, 0, width, height)
+            buttonArray[i].frame = CGRect(x: x, y: 0, width: width, height: height)
         }
         
-        indicator.frame = CGRectMake(0, height, width, 2)
+        indicator.frame = CGRect(x: 0, y: height, width: width, height: 2)
         
     }
 
@@ -82,28 +82,28 @@ class YNPorterhouseTopListView: UIView {
     }
     
     //MARK: - private proporty
-    private let kIndicatorHeight: CGFloat = 2
-    private lazy var buttonArray: Array<UIButton> = {
+    fileprivate let kIndicatorHeight: CGFloat = 2
+    fileprivate lazy var buttonArray: Array<UIButton> = {
         
         return Array()
         }()
     
-    private lazy var commodityButon: UIButton = {
+    fileprivate lazy var commodityButon: UIButton = {
         
         var button = self.buttonWithTitle("点菜")
         button.tag = 0
-        button.selected = true
+        button.isSelected = true
         return button
 
         }()
-    private lazy var appraisalButon: UIButton = {
+    fileprivate lazy var appraisalButon: UIButton = {
     
         var button = self.buttonWithTitle("评价")
         button.tag = 1
         return button
         }()
     
-    private lazy var businessButon: UIButton = {
+    fileprivate lazy var businessButon: UIButton = {
 
         var button = self.buttonWithTitle("商家")
         button.tag = 2
@@ -111,7 +111,7 @@ class YNPorterhouseTopListView: UIView {
 
        }()
     
-    private lazy var indicator: UIView = {
+    fileprivate lazy var indicator: UIView = {
         
         var tempView = UIView()
         tempView.backgroundColor = kStyleColor
@@ -119,35 +119,35 @@ class YNPorterhouseTopListView: UIView {
         }()
 
     //MARK: - private method 
-    func buttonWithTitle(title: String)->UIButton {
+    func buttonWithTitle(_ title: String)->UIButton {
         
         let button: UIButton = UIButton()
-        button.setTitle(title, forState: UIControlState.Normal)
-        button.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        button.setTitleColor(kStyleColor, forState: UIControlState.Selected)
-        button.setTitleColor(kStyleColor, forState: UIControlState.Highlighted)
-        button.addTarget(self, action: "buttonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        button.setTitle(title, for: UIControlState())
+        button.setTitleColor(UIColor.black, for: UIControlState())
+        button.setTitleColor(kStyleColor, for: UIControlState.selected)
+        button.setTitleColor(kStyleColor, for: UIControlState.highlighted)
+        button.addTarget(self, action: #selector(YNPorterhouseTopListView.buttonTapped(_:)), for: UIControlEvents.touchUpInside)
         
         return button
     }
     
-    func buttonTapped(button: UIButton) {
+    func buttonTapped(_ button: UIButton) {
    
-        if !button.selected {
+        if !button.isSelected {
             
-            button.selected = true
+            button.isSelected = true
             
             for item in self.buttonArray {
            
                 if !(item == button) {
                
-                    item.selected = false
+                    item.isSelected = false
                 }
             }
             
             if let tempDelegaye:YNPorterhouseTopListViewDelegate = self.delegate {
            
-                if tempDelegaye.respondsToSelector("topListViewButtonTapped:") {
+                if tempDelegaye.responds(to: #selector(YNPorterhouseTopListViewDelegate.topListViewButtonTapped(_:))) {
                
                     tempDelegaye.topListViewButtonTapped!(button)
                 }

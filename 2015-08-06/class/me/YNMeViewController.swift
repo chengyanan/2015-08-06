@@ -14,12 +14,12 @@ class YNMeViewController: UIViewController, UITableViewDataSource, YNSignInViewC
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         self.navigationItem.rightBarButtonItem = signInBarButtonItem
         self.view.addSubview(self.tableView)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.tableView.reloadData()
@@ -32,7 +32,7 @@ class YNMeViewController: UIViewController, UITableViewDataSource, YNSignInViewC
             let signInVc = YNSignInViewController()
             signInVc.delegate = self
             let signInNav = YNNavigationController(rootViewController: signInVc)
-            self.navigationController?.presentViewController(signInNav, animated: true, completion: { () -> Void in
+            self.navigationController?.present(signInNav, animated: true, completion: { () -> Void in
                 
             })
             
@@ -47,17 +47,17 @@ class YNMeViewController: UIViewController, UITableViewDataSource, YNSignInViewC
     }
     
     //MARK: - UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let identify: String = "Cell_ID"
-        var cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify)
+        var cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify)
         if cell == nil {
        
-            cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+            cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
         }
         
         if kUser_MobileNumber() != nil {
@@ -82,7 +82,7 @@ class YNMeViewController: UIViewController, UITableViewDataSource, YNSignInViewC
     
     lazy var signInBarButtonItem: UIBarButtonItem = {
         
-        var item: UIBarButtonItem = UIBarButtonItem(title: "登录", style: UIBarButtonItemStyle.Plain, target: self, action: "signInItemHasClicked")
+        var item: UIBarButtonItem = UIBarButtonItem(title: "登录", style: UIBarButtonItemStyle.plain, target: self, action: #selector(YNMeViewController.signInItemHasClicked))
         
         if let user: AnyObject = kUser_MobileNumber() {
         
@@ -97,7 +97,7 @@ class YNMeViewController: UIViewController, UITableViewDataSource, YNSignInViewC
 
     lazy var tableView:UITableView = {
    
-        var tempTableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.Grouped)
+        var tempTableView = UITableView(frame: self.view.bounds, style: UITableViewStyle.grouped)
         
         tempTableView.dataSource = self
         

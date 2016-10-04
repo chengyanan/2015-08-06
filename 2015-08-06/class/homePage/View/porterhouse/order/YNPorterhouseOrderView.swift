@@ -7,14 +7,43 @@
 //点菜
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 protocol YNPorterhouseOrderViewDelegate {
     
-    func porterhouseOrderViewCrollViewScrolledEnable(enable: Bool)
+    func porterhouseOrderViewCrollViewScrolledEnable(_ enable: Bool)
     
-    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView, totalPrice: Float)
+    func porterhouseOrderViewDoneButtonDidClick(_ controller: YNPorterhouseOrderView, totalPrice: Float)
     
-    func porterhouseOrderViewInteractivePopGestureRecognizer(enabled: Bool)
+    func porterhouseOrderViewInteractivePopGestureRecognizer(_ enabled: Bool)
 }
 
 class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate, YNDishTableViewCellDelegate, YNCartViewDelegate, PriceViewDelegate, YNOrderTableCellDelegate {
@@ -28,7 +57,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
    
         didSet {
        
-            self.keywindowBgView.frame = CGRectMake(0, 0, kScreenWidth, 64 + superViewTopViewHeight)
+            self.keywindowBgView.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 64 + superViewTopViewHeight)
         }
     }
     
@@ -80,30 +109,30 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         let typeTableViewWidth = self.frame.size.width * 0.3
         let dishTableViewWidth = self.frame.size.width - (typeTableViewWidth + 8)
         
-        typeTableView.frame = CGRectMake(0, 0, typeTableViewWidth, self.frame.size.height - self.bottomViewHeight)
-        dishTableView.frame = CGRectMake(typeTableViewWidth + 8, 0, dishTableViewWidth, self.frame.size.height - self.bottomViewHeight)
-        bottomPriceView.frame = CGRectMake(0, CGRectGetMaxY(dishTableView.frame), self.frame.size.width * 0.63, self.bottomViewHeight)
-        doneButton.frame = CGRectMake(CGRectGetMaxX(bottomPriceView.frame), CGRectGetMaxY(dishTableView.frame), self.frame.size.width * 0.37, self.bottomViewHeight)
+        typeTableView.frame = CGRect(x: 0, y: 0, width: typeTableViewWidth, height: self.frame.size.height - self.bottomViewHeight)
+        dishTableView.frame = CGRect(x: typeTableViewWidth + 8, y: 0, width: dishTableViewWidth, height: self.frame.size.height - self.bottomViewHeight)
+        bottomPriceView.frame = CGRect(x: 0, y: dishTableView.frame.maxY, width: self.frame.size.width * 0.63, height: self.bottomViewHeight)
+        doneButton.frame = CGRect(x: bottomPriceView.frame.maxX, y: dishTableView.frame.maxY, width: self.frame.size.width * 0.37, height: self.bottomViewHeight)
         
-       cartView.frame = CGRectMake(10 , self.frame.size.height - 10 - self.cartViewH, self.cartViewW, self.cartViewH)
+       cartView.frame = CGRect(x: 10 , y: self.frame.size.height - 10 - self.cartViewH, width: self.cartViewW, height: self.cartViewH)
         
     }
     
     func createAJumpImageView() -> UIImageView {
    
         let tempView = UIImageView(image: UIImage(named: "shop_menu_jump_icon"))
-        tempView.bounds = CGRectMake(0, 0, 16, 16)
+        tempView.bounds = CGRect(x: 0, y: 0, width: 16, height: 16)
         return tempView
         
     }
     
-    func translateCoorinate(view: UIView) {
+    func translateCoorinate(_ view: UIView) {
         
-        let jumpImagecenter: CGPoint = view.superview!.convertPoint(view.center, toView: self)
+        let jumpImagecenter: CGPoint = view.superview!.convert(view.center, to: self)
         
-        let controlPoint: CGPoint = CGPointMake(jumpImagecenter.x - 220, jumpImagecenter.y - 120)
+        let controlPoint: CGPoint = CGPoint(x: jumpImagecenter.x - 220, y: jumpImagecenter.y - 120)
         
-        let endPoint = self.cartView.convertPoint(self.cartView.cartBackgroundView.center, toView: self)
+        let endPoint = self.cartView.convert(self.cartView.cartBackgroundView.center, to: self)
         
         let jumpView = createAJumpImageView()
         
@@ -115,26 +144,32 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
     }
     
-    func jumpToCart(view: UIView, startPoint: CGPoint, controlPoint: CGPoint, endPoint: CGPoint) {
+    func jumpToCart(_ view: UIView, startPoint: CGPoint, controlPoint: CGPoint, endPoint: CGPoint) {
         
         //TODO: 动画
         let animation = CAKeyframeAnimation(keyPath: "position")
         
-        let path: CGMutablePathRef = CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, startPoint.x, startPoint.y)
-        CGPathAddCurveToPoint(path, nil, startPoint.x, startPoint.y, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y)
+        let path: CGMutablePath = CGMutablePath()
+        
+        path.move(to: CGPoint(x: startPoint.x, y: startPoint.y))
+        path.addQuadCurve(to: CGPoint(x: endPoint.x, y: endPoint.y), control: CGPoint(x: controlPoint.x, y: controlPoint.y))
+        
+//        CGPathMoveToPoint(path, nil, startPoint.x, startPoint.y)
+//        CGPathAddCurveToPoint(path, nil, startPoint.x, startPoint.y, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y)
+        
+        
         animation.path = path
         
         let duration = 0.55
         animation.duration = duration
         animation.beginTime = 0
         animation.repeatCount = 0
-        animation.removedOnCompletion = false
+        animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        view.layer.addAnimation(animation, forKey: "position")
+        view.layer.add(animation, forKey: "position")
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(duration * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(duration * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
             
             view.removeFromSuperview()
             self.animateCartView()
@@ -149,15 +184,15 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         animation.keyTimes = [0, 0.4, 0.6, 0.3]
         animation.beginTime = 0
         animation.repeatCount = 0
-        animation.removedOnCompletion = true
+        animation.isRemovedOnCompletion = true
         animation.fillMode = kCAFillModeForwards
     
-        self.cartView.layer.addAnimation(animation, forKey: "position")
+        self.cartView.layer.add(animation, forKey: "position")
         
     }
     
     //MARK: - UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
         if tableView.tag == 1 {
        
@@ -186,7 +221,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         return 0
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if tableView.tag == 2 {
        
@@ -199,18 +234,18 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         return orderTableCellHeight
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if tableView.tag == 1 {
        
             let identify: String = "CELL_TYPE"
-            var cell: YNTypeTableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNTypeTableViewCell
+            var cell: YNTypeTableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNTypeTableViewCell
             if cell == nil {
            
-                cell = YNTypeTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                cell = YNTypeTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
             }
             
-            cell?.data = self.data![indexPath.row]
+            cell?.data = self.data![(indexPath as NSIndexPath).row]
           
             return cell!
             
@@ -218,15 +253,15 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
             
             let identify: String = "CELL_Dish"
             
-            var cell:YNDishTableViewCell? = tableView.dequeueReusableCellWithIdentifier(identify) as?  YNDishTableViewCell
+            var cell:YNDishTableViewCell? = tableView.dequeueReusableCell(withIdentifier: identify) as?  YNDishTableViewCell
             if cell == nil {
                 
-                cell = YNDishTableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                cell = YNDishTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
             }
             
             let temptype: YNPorthouseType = self.data![typeSelectedIndex]
             
-            cell?.data = temptype.dataArray[indexPath.row]
+            cell?.data = temptype.dataArray[(indexPath as NSIndexPath).row]
             
             cell?.delegate = self
             
@@ -236,16 +271,16 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
        
             let identify: String = "CELL_ORDER"
             
-            var cell: YNOrderTableCell? = tableView.dequeueReusableCellWithIdentifier(identify) as? YNOrderTableCell
+            var cell: YNOrderTableCell? = tableView.dequeueReusableCell(withIdentifier: identify) as? YNOrderTableCell
             
             if cell == nil {
                 
-                cell = YNOrderTableCell(style: UITableViewCellStyle.Default, reuseIdentifier: identify)
+                cell = YNOrderTableCell(style: UITableViewCellStyle.default, reuseIdentifier: identify)
             }
             
             if selectedArray?.count > 0 {
                 
-                cell?.data = selectedArray![indexPath.row]
+                cell?.data = selectedArray![(indexPath as NSIndexPath).row]
                 cell?.delegate = self
             }
             
@@ -255,7 +290,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         if tableView.tag == 3 {
        
@@ -264,7 +299,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
         return 0
     }
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         if tableView.tag == 3 {
             
@@ -277,16 +312,16 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
     }
     
     //MARK: - UITableViewDelagate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView.tag == 1 {
             
             self.data![self.typeSelectedIndex].selected = false
             
-            let type: YNPorthouseType = self.data![indexPath.row]
+            let type: YNPorthouseType = self.data![(indexPath as NSIndexPath).row]
             type.selected = true
             
-            self.typeSelectedIndex = indexPath.row
+            self.typeSelectedIndex = (indexPath as NSIndexPath).row
             
             self.typeTableView.reloadData()
             self.dishTableView.reloadData()
@@ -295,27 +330,27 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
     }
 
     //MARK: - YNDishTableViewCellDelegate
-    func dishTableViewCellAddButtonDidClick(cell: YNDishTableViewCell, button: UIButton) {
+    func dishTableViewCellAddButtonDidClick(_ cell: YNDishTableViewCell, button: UIButton) {
         
         translateCoorinate(button)
         
         let type: YNPorthouseType = self.data![self.typeSelectedIndex]
         
-        type.selectedNumber++
+        type.selectedNumber += 1
         self.typeTableView.reloadData()
         
         //处理下面的购物篮数量
-        self.cartView.selectedNumber++
+        self.cartView.selectedNumber += 1
         
         //确定按钮的处理
         if self.cartView.selectedNumber > 0{
             
             self.doneButton.backgroundColor = kStyleColor
-            self.doneButton.userInteractionEnabled = true
+            self.doneButton.isUserInteractionEnabled = true
         } else {
             
-            self.doneButton.backgroundColor = UIColor.grayColor()
-            self.doneButton.userInteractionEnabled = false
+            self.doneButton.backgroundColor = UIColor.gray
+            self.doneButton.isUserInteractionEnabled = false
         }
         
         //总价格
@@ -326,25 +361,25 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
 
     }
     
-    func dishTableViewCellMinusButtonDidClick(cell: YNDishTableViewCell) {
+    func dishTableViewCellMinusButtonDidClick(_ cell: YNDishTableViewCell) {
         
         let type: YNPorthouseType = self.data![self.typeSelectedIndex]
         
-        type.selectedNumber--
+        type.selectedNumber -= 1
         self.typeTableView.reloadData()
         
         //处理下面的购物篮数量
-         self.cartView.selectedNumber--
+         self.cartView.selectedNumber -= 1
         
          //确定按钮的处理
         if self.cartView.selectedNumber > 0{
        
             self.doneButton.backgroundColor = kStyleColor
-            self.doneButton.userInteractionEnabled = true
+            self.doneButton.isUserInteractionEnabled = true
         } else {
        
-            self.doneButton.backgroundColor = UIColor.grayColor()
-            self.doneButton.userInteractionEnabled = false
+            self.doneButton.backgroundColor = UIColor.gray
+            self.doneButton.isUserInteractionEnabled = false
         }
         
         //总价格
@@ -357,13 +392,13 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
     
     //MARK: YNOrderTableCellDelegate
     
-    func orderTableCellAddButtonDidClick(cell: YNOrderTableCell) {
+    func orderTableCellAddButtonDidClick(_ cell: YNOrderTableCell) {
         
         let type: YNPorthouseType = self.data![cell.data!.firstIndex]
-        type.selectedNumber++
+        type.selectedNumber += 1
         
           //处理下面的购物篮数量
-        self.cartView.selectedNumber++
+        self.cartView.selectedNumber += 1
         self.typeTableView.reloadData()
         self.dishTableView.reloadData()
         //总价格
@@ -374,13 +409,13 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
     }
     
-    func orderTableCellMinusButtonDidClick(cell: YNOrderTableCell) {
+    func orderTableCellMinusButtonDidClick(_ cell: YNOrderTableCell) {
         
         let type: YNPorthouseType = self.data![cell.data!.firstIndex]
-        type.selectedNumber--
+        type.selectedNumber -= 1
         
           //处理下面的购物篮数量
-        self.cartView.selectedNumber--
+        self.cartView.selectedNumber -= 1
         
         self.typeTableView.reloadData()
         self.dishTableView.reloadData()
@@ -402,19 +437,19 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
        
     }
     //MARK: - YNCartViewDelegate
-    func cartViewDidClick(view: YNCartView) {
+    func cartViewDidClick(_ view: YNCartView) {
         
         cartViewOrPriceViewClick(view)
         
     }
     //MARK: - PriceViewDelegate
-    func priceViewDidClick(view: PriceView) {
+    func priceViewDidClick(_ view: PriceView) {
         
         cartViewOrPriceViewClick(view)
         
     }
     
-    func cartViewOrPriceViewClick(view: UIView) {
+    func cartViewOrPriceViewClick(_ view: UIView) {
         
         if let _ = selectedArray {
             
@@ -436,14 +471,14 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
     }
     
-    func setOrderTabelView(isframe: Bool) {
+    func setOrderTabelView(_ isframe: Bool) {
    
         self.addSubview(orderTableView)
         orderTableView.reloadData()
         
         if isframe {
        
-            self.orderTableView.frame = CGRectMake(0, self.orderTableViewY, kScreenWidth, self.orderTableViewHeight)
+            self.orderTableView.frame = CGRect(x: 0, y: self.orderTableViewY, width: kScreenWidth, height: self.orderTableViewHeight)
             
             if self.orderTableViewHeight == orderTableHeaderHeight {
            
@@ -451,7 +486,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
                 keywindowBgView.removeFromSuperview()
                 orderBgView.removeFromSuperview()
                 orderTableView.removeFromSuperview()
-                self.doneButton.backgroundColor = UIColor.grayColor()
+                self.doneButton.backgroundColor = UIColor.gray
             }
         }
         
@@ -475,29 +510,29 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         //通知父视图scrollView不能滚动
         self.delegate?.porterhouseOrderViewCrollViewScrolledEnable(false)
         
-        UIView.animateWithDuration(self.animateDuration, animations: { () -> Void in
+        UIView.animate(withDuration: self.animateDuration, animations: { () -> Void in
             
             self.keywindowBgView.alpha = 1
             self.orderBgView.alpha = 1
-            self.orderTableView.frame = CGRectMake(0, self.orderTableViewY, kScreenWidth, self.orderTableViewHeight)
+            self.orderTableView.frame = CGRect(x: 0, y: self.orderTableViewY, width: kScreenWidth, height: self.orderTableViewHeight)
     
-        }) { (finished) -> Void in
+        }, completion: { (finished) -> Void in
             
-        }
+        }) 
         
     }
     
     func hideOrderView() {
         
-        UIView.animateWithDuration(self.animateDuration, animations: { () -> Void in
+        UIView.animate(withDuration: self.animateDuration, animations: { () -> Void in
             
-            self.orderTableView.frame = CGRectMake(0, kScreenHeight - self.bottomViewHeight, kScreenWidth, 0)
+            self.orderTableView.frame = CGRect(x: 0, y: kScreenHeight - self.bottomViewHeight, width: kScreenWidth, height: 0)
             self.keywindowBgView.alpha = 0
             self.orderBgView.alpha = 0
             
             self.isShowOrderView = false
             
-        }) { (finish) -> Void in
+        }, completion: { (finish) -> Void in
             
             self.keywindowBgView.removeFromSuperview()
             self.orderBgView.removeFromSuperview()
@@ -506,14 +541,14 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
             self.delegate?.porterhouseOrderViewCrollViewScrolledEnable(true)
             
             self.delegate?.porterhouseOrderViewInteractivePopGestureRecognizer(true)
-        }
+        }) 
         
         
     }
     
     func setBgView() {
    
-        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "viewDidClick")
+        let tgr: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(YNPorterhouseOrderView.viewDidClick))
         keywindowBgView.addGestureRecognizer(tgr)
         orderBgView.addGestureRecognizer(tgr)
         
@@ -522,8 +557,8 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         self.addSubview(orderBgView)
         
         //window 上的蒙板 这样看起来才像一个完整的蒙板
-        keywindowBgView.frame = CGRectMake(0, 0, kScreenWidth, 64 + self.superViewTopViewHeight)
-        let window = UIApplication.sharedApplication().keyWindow!
+        keywindowBgView.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: 64 + self.superViewTopViewHeight)
+        let window = UIApplication.shared.keyWindow!
         window.addSubview(keywindowBgView)
         
         self.insertSubview(orderBgView, belowSubview: orderTableView)
@@ -547,16 +582,16 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
     }
     
     //MARK: - private property
-    private let bottomViewHeight: CGFloat = 50
-    private var typeSelectedIndex: Int = 0
-    private let cartViewH: CGFloat = 55
-    private let cartViewW: CGFloat = 56
-    private let animateDuration: NSTimeInterval = 0.5
-    private var isShowOrderView: Bool = false
+    fileprivate let bottomViewHeight: CGFloat = 50
+    fileprivate var typeSelectedIndex: Int = 0
+    fileprivate let cartViewH: CGFloat = 55
+    fileprivate let cartViewW: CGFloat = 56
+    fileprivate let animateDuration: TimeInterval = 0.5
+    fileprivate var isShowOrderView: Bool = false
     
-    private let orderTableHeaderHeight: CGFloat = 36
-    private let orderTableCellHeight: CGFloat = 48
-    private var maxNumberOrderTableCell:Int {
+    fileprivate let orderTableHeaderHeight: CGFloat = 36
+    fileprivate let orderTableCellHeight: CGFloat = 48
+    fileprivate var maxNumberOrderTableCell:Int {
    
         get {
        
@@ -570,7 +605,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
     }
     
     
-    private var orderTableViewY: CGFloat {
+    fileprivate var orderTableViewY: CGFloat {
    
         get {
             let viewY = self.frame.size.height - bottomViewHeight - orderTableViewHeight
@@ -579,7 +614,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         }
         
     }
-    private var orderTableViewHeight: CGFloat {
+    fileprivate var orderTableViewHeight: CGFloat {
    
         get {
        
@@ -594,30 +629,30 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         }
     }
     
-    private lazy var typeTableView: UITableView = {
+    fileprivate lazy var typeTableView: UITableView = {
         
-        var tempTableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Plain)
+        var tempTableView = UITableView(frame: CGRect.zero, style: UITableViewStyle.plain)
         tempTableView.delegate = self
         tempTableView.dataSource = self
         tempTableView.tag = 1
-        tempTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tempTableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tempTableView.backgroundColor = UIColor(red: 234/255.0, green: 234/255.0, blue: 234/255.0, alpha: 1)
         return tempTableView
         
         }()
     
-    private lazy var dishTableView: UITableView = {
+    fileprivate lazy var dishTableView: UITableView = {
         
-        var tempTableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Plain)
+        var tempTableView = UITableView(frame: CGRect.zero, style: UITableViewStyle.plain)
         tempTableView.delegate = self
         tempTableView.dataSource = self
-        tempTableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tempTableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tempTableView.tag = 2
         return tempTableView
         
         }()
 
-    private lazy var bottomPriceView: PriceView = {
+    fileprivate lazy var bottomPriceView: PriceView = {
         
         var tempView = PriceView()
         
@@ -627,18 +662,18 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
         }()
     
-    private lazy var doneButton: UIButton = {
+    fileprivate lazy var doneButton: UIButton = {
         
         var tempView: UIButton = UIButton()
-        tempView.backgroundColor = UIColor.grayColor()
-        tempView.setTitle("选好了", forState: UIControlState.Normal)
-        tempView.addTarget(self, action: "doneButtonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
-        tempView.userInteractionEnabled = false
+        tempView.backgroundColor = UIColor.gray
+        tempView.setTitle("选好了", for: UIControlState())
+        tempView.addTarget(self, action: #selector(YNPorterhouseOrderView.doneButtonDidClick), for: UIControlEvents.touchUpInside)
+        tempView.isUserInteractionEnabled = false
         return tempView
         
         }()
     
-    private lazy var cartView: YNCartView = {
+    fileprivate lazy var cartView: YNCartView = {
         
         var tempView = YNCartView()
         
@@ -648,9 +683,9 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
         }()
     
-    private lazy var orderTableView: UITableView = {
+    fileprivate lazy var orderTableView: UITableView = {
         
-        var tempTableView = UITableView(frame: CGRectMake(0, kScreenHeight - self.bottomViewHeight, kScreenWidth, 0), style: UITableViewStyle.Plain)
+        var tempTableView = UITableView(frame: CGRect(x: 0, y: kScreenHeight - self.bottomViewHeight, width: kScreenWidth, height: 0), style: UITableViewStyle.plain)
         tempTableView.delegate = self
         tempTableView.dataSource = self
         tempTableView.tag = 3
@@ -661,7 +696,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         
         }()
     
-    private lazy var keywindowBgView: UIView = {
+    fileprivate lazy var keywindowBgView: UIView = {
    
         var tempView: UIView = UIView()
         tempView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
@@ -670,7 +705,7 @@ class YNPorterhouseOrderView: UIView, UITableViewDataSource, UITableViewDelegate
         return tempView
     }()
     
-    private lazy var orderBgView: UIView = {
+    fileprivate lazy var orderBgView: UIView = {
         
         var tempView = UIView()
         tempView.alpha = 0

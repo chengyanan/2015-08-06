@@ -18,7 +18,7 @@ class YNCycleCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private lazy var imageView: UIImageView = {
+    fileprivate lazy var imageView: UIImageView = {
         
         var tempImageView = UIImageView(frame: self.bounds)
         

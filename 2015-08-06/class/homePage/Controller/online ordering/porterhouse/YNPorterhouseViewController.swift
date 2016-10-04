@@ -20,7 +20,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         loaddata()
         
         self.title = restaurant?.title
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         self.view.addSubview(topListView)
         self.view.addSubview(indicator)
@@ -29,10 +29,10 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         addViewToScrollView()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        let window = UIApplication.sharedApplication().keyWindow!
+        let window = UIApplication.shared.keyWindow!
         
         
         for subview in window.subviews {
@@ -48,7 +48,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     //MARK: - data
     func loaddata() {
    
-        let path = NSBundle.mainBundle().pathForResource("dishs", ofType: "plist")
+        let path = Bundle.main.path(forResource: "dishs", ofType: "plist")
         
         if let tempPath = path {
        
@@ -62,7 +62,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
                     
                     if typeArray.count > 0 {
                    
-                        for var i = 0; i < typeArray.count; ++i {
+                        for i in 0 ..< typeArray.count {
                        
                             let type: YNPorthouseType = YNPorthouseType(dict: typeArray[i] as! NSDictionary)
                             
@@ -99,19 +99,19 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     //MARK: - custom method
     func addViewToScrollView() {
         
-        for var i = 0; i < Int(self.page); ++i {
+        for i in 0 ..< Int(self.page) {
        
             let viewX = self.scrollView.frame.size.width * CGFloat(i)
             
             let view: UIView = UIView()
             
-            view.frame = CGRectMake(viewX, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)
+            view.frame = CGRect(x: viewX, y: 0, width: self.scrollView.frame.size.width, height: self.scrollView.frame.size.height)
             
             var tempSubView: UIView?
             
             if i == 0 {
            
-               let orderView = YNPorterhouseOrderView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.scrollView.frame.size.height))
+               let orderView = YNPorterhouseOrderView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.scrollView.frame.size.height))
                 orderView.data = self.typeArray
                 orderView.superViewTopViewHeight = self.topListHeight + self.kIndicatorHeight
                 orderView.delegate = self
@@ -127,7 +127,7 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
                 tempSubView = YNPorterhouseDetailView()
             }
             
-            tempSubView?.frame = CGRectMake(0, 0, self.view.frame.size.width, self.scrollView.frame.size.height)
+            tempSubView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.scrollView.frame.size.height)
             
             if let item = tempSubView {
            
@@ -140,35 +140,35 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     }
     
     //MAEK: - UIScrollViewDelegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let x = scrollView.contentOffset.x / 3
         
-        self.indicator.frame = CGRectMake(x, self.indicatorY, self.indicatorWidth, self.kIndicatorHeight)
+        self.indicator.frame = CGRect(x: x, y: self.indicatorY, width: self.indicatorWidth, height: self.kIndicatorHeight)
         
         let tempPage = scrollView.contentOffset.x / scrollView.frame.size.width
         
         if  tempPage == 0 {
        
-            self.topListView.currentSelected = YNPorterhouseTopListSelected.Commodity
+            self.topListView.currentSelected = YNPorterhouseTopListSelected.commodity
             
         } else if tempPage == 1 {
             
-            self.topListView.currentSelected = YNPorterhouseTopListSelected.Appraisal
+            self.topListView.currentSelected = YNPorterhouseTopListSelected.appraisal
             
         } else if tempPage == 2 {
             
-            self.topListView.currentSelected = YNPorterhouseTopListSelected.Business
+            self.topListView.currentSelected = YNPorterhouseTopListSelected.business
         }
         
     }
     
     //MARK: - YNPorterhouseTopListViewDelegate
-    func topListViewButtonTapped(button: UIButton) {
+    func topListViewButtonTapped(_ button: UIButton) {
         
         let scrollViewOffsetX = self.scrollView.frame.size.width * CGFloat(button.tag)
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             
             self.scrollView.contentOffset.x = scrollViewOffsetX
         })
@@ -176,13 +176,13 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
     }
     
     //MARK: - YNPorterhouseOrderViewDelegate
-    func porterhouseOrderViewCrollViewScrolledEnable(enable: Bool) {
+    func porterhouseOrderViewCrollViewScrolledEnable(_ enable: Bool) {
         
-            self.scrollView.scrollEnabled = enable
+            self.scrollView.isScrollEnabled = enable
     }
     
     
-    func porterhouseOrderViewDoneButtonDidClick(controller: YNPorterhouseOrderView, totalPrice: Float) {
+    func porterhouseOrderViewDoneButtonDidClick(_ controller: YNPorterhouseOrderView, totalPrice: Float) {
         let orderFormVc: YNOrderFormViewController = YNOrderFormViewController()
         orderFormVc.restaurant = restaurant
         orderFormVc.selectedArray = controller.selectedArray
@@ -191,29 +191,29 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
 
     }
     
-    func porterhouseOrderViewInteractivePopGestureRecognizer(enabled: Bool) {
+    func porterhouseOrderViewInteractivePopGestureRecognizer(_ enabled: Bool) {
         
         // 禁止或开启使用系统自带的滑动手势
-        self.navigationController?.interactivePopGestureRecognizer!.enabled = enabled
+        self.navigationController?.interactivePopGestureRecognizer!.isEnabled = enabled
     }
     //MARK: - private proporty
     
-    private var typeArray: Array<YNPorthouseType> = [YNPorthouseType]()
+    fileprivate var typeArray: Array<YNPorthouseType> = [YNPorthouseType]()
     
-    private let topListHeight: CGFloat = 44
-    private let topListY: CGFloat = 64
-    private let kIndicatorHeight: CGFloat = 2
-    private let page: CGFloat = 3
-    private let space: CGFloat = 15
+    fileprivate let topListHeight: CGFloat = 44
+    fileprivate let topListY: CGFloat = 64
+    fileprivate let kIndicatorHeight: CGFloat = 2
+    fileprivate let page: CGFloat = 3
+    fileprivate let space: CGFloat = 15
     
-    private var indicatorWidth: CGFloat {
+    fileprivate var indicatorWidth: CGFloat {
    
         get {
        
             return self.view.frame.size.width/self.page
         }
     }
-    private var indicatorY: CGFloat {
+    fileprivate var indicatorY: CGFloat {
    
         get {
        
@@ -221,36 +221,36 @@ class YNPorterhouseViewController: UIViewController , YNPorterhouseTopListViewDe
         }
     }
     
-    private lazy var indicator: UIView = {
+    fileprivate lazy var indicator: UIView = {
         
-        var tempView = UIView(frame: CGRectMake(0, self.indicatorY, self.indicatorWidth, self.kIndicatorHeight))
+        var tempView = UIView(frame: CGRect(x: 0, y: self.indicatorY, width: self.indicatorWidth, height: self.kIndicatorHeight))
         tempView.backgroundColor = kStyleColor
         return tempView
         
         }()
     
-    private lazy var topListView: YNPorterhouseTopListView = {
+    fileprivate lazy var topListView: YNPorterhouseTopListView = {
         
-        var temp = YNPorterhouseTopListView(frame: CGRectMake(0, self.topListY, self.view.frame.size.width, self.topListHeight))
+        var temp = YNPorterhouseTopListView(frame: CGRect(x: 0, y: self.topListY, width: self.view.frame.size.width, height: self.topListHeight))
         temp.delegate = self
         return temp
         
         }()
     
-    private lazy var scrollView:UIScrollView = {
+    fileprivate lazy var scrollView:UIScrollView = {
         
         let tempWidth = kScreenWidth + self.space
-        let tempHeight = self.view.frame.size.height - CGRectGetMaxY(self.indicator.frame)
+        let tempHeight = self.view.frame.size.height - self.indicator.frame.maxY
         
-        let tempY = CGRectGetMaxY(self.indicator.frame)
-        var temp = UIScrollView(frame: CGRectMake(0, tempY, tempWidth, tempHeight))
+        let tempY = self.indicator.frame.maxY
+        var temp = UIScrollView(frame: CGRect(x: 0, y: tempY, width: tempWidth, height: tempHeight))
         
         let tempPage: Int = Int(self.page)
         let contentWidth = self.view.frame.size.width * CGFloat(tempPage) + CGFloat(tempPage) * self.space
-        temp.contentSize = CGSizeMake(contentWidth, 0)
+        temp.contentSize = CGSize(width: contentWidth, height: 0)
         
-        temp.pagingEnabled = true
-        temp.directionalLockEnabled = true
+        temp.isPagingEnabled = true
+        temp.isDirectionalLockEnabled = true
         temp.delegate = self
         temp.showsHorizontalScrollIndicator = false
         

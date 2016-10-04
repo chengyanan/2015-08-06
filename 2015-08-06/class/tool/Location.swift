@@ -12,9 +12,9 @@ import UIKit
 
 class Location: NSObject, CLLocationManagerDelegate {
     
-    private let pi: Double = 3.14159265358979324
-    private let ee: Double = 0.00669342162296594323
-    private let a: Double = 6378245.0
+    fileprivate let pi: Double = 3.14159265358979324
+    fileprivate let ee: Double = 0.00669342162296594323
+    fileprivate let a: Double = 6378245.0
     
     var cooridate: CLLocationCoordinate2D?
     
@@ -25,7 +25,7 @@ class Location: NSObject, CLLocationManagerDelegate {
        
             let status: CLAuthorizationStatus = CLLocationManager.authorizationStatus()
             
-            if status == CLAuthorizationStatus.NotDetermined {
+            if status == CLAuthorizationStatus.notDetermined {
         
                
                 if #available(iOS 8.0, *) {
@@ -46,12 +46,12 @@ class Location: NSObject, CLLocationManagerDelegate {
             
         } else {
        
-            YNProgressHUD().showText("定位功能未开启", toView: UIApplication.sharedApplication().keyWindow!)
+            YNProgressHUD().showText("定位功能未开启", toView: UIApplication.shared.keyWindow!)
         }
     }
     
     //MARK: - CLLocationManagerDelegate
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let newLocation: CLLocation = locations[locations.startIndex] 
         
@@ -59,7 +59,7 @@ class Location: NSObject, CLLocationManagerDelegate {
         
     }
     
-    func transformFromWGSToGCJ(wgsLoc: CLLocationCoordinate2D)-> CLLocationCoordinate2D {
+    func transformFromWGSToGCJ(_ wgsLoc: CLLocationCoordinate2D)-> CLLocationCoordinate2D {
    
         var adjustLoc: CLLocationCoordinate2D?
         
@@ -85,7 +85,7 @@ class Location: NSObject, CLLocationManagerDelegate {
         return adjustLoc!
     }
     
-    func isLocationOutOfChina(coordinate: CLLocationCoordinate2D)->Bool {
+    func isLocationOutOfChina(_ coordinate: CLLocationCoordinate2D)->Bool {
    
         if (coordinate.longitude < 72.004 || coordinate.longitude > 137.8347 || coordinate.latitude < 0.8293 || coordinate.latitude > 55.8271) {
        
@@ -95,31 +95,31 @@ class Location: NSObject, CLLocationManagerDelegate {
         return false
     }
     
-    func transformLatWithX(x: Double, y: Double)->Double {
+    func transformLatWithX(_ x: Double, y: Double)->Double {
    
         let temp = 0.2 * sqrt(fabs(x))
-        var lat: Double = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + temp
-        lat += (20.0 * sin(6.0 * x * pi) + 20.0 * sin(2.0 * x * pi)) * 2.0 / 3.0
-        lat += (20.0 * sin(y * pi) + 40.0 * sin(y / 3.0 * pi)) * 2.0 / 3.0
-        
-        lat += (160.0 * sin(y / 12.0 * pi) + 3320 * sin(y * pi / 30.0)) * 2.0 / 3.0
-        
+        let lat: Double = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + temp
+//        lat += (20.0 * sin(6.0 * x * pi) + 20.0 * sin(2.0 * x * pi)) * 2.0 / 3.0
+//        lat += (20.0 * sin(y * pi) + 40.0 * sin(y / 3.0 * pi)) * 2.0 / 3.0
+//        
+//        lat += (160.0 * sin(y / 12.0 * pi) + 3320 * sin(y * pi / 30.0)) * 2.0 / 3.0
+//        
         return lat
     }
     
-    func transformLonWithX(x: Double, y: Double)->Double {
+    func transformLonWithX(_ x: Double, y: Double)->Double {
         
         let temp = 0.1 * sqrt(fabs(x))
-        var lon: Double = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + temp
+        let lon: Double = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + temp
         
-        lon += (20.0 * sin(6.0 * x * pi) + 20.0 * sin(2.0 * x * pi)) * 2.0 / 3.0
-        lon += (20.0 * sin(x * pi) + 40.0 * sin(x / 3.0 * pi)) * 2.0 / 3.0
-        lon += (150.0 * sin(x / 12.0 * pi) + 300.0 * sin(x / 30.0 * pi)) * 2.0 / 3.0
+//        lon += (20.0 * sin(6.0 * x * pi) + 20.0 * sin(2.0 * x * pi)) * 2.0 / 3.0
+//        lon += (20.0 * sin(x * pi) + 40.0 * sin(x / 3.0 * pi)) * 2.0 / 3.0
+//        lon += (150.0 * sin(x / 12.0 * pi) + 300.0 * sin(x / 30.0 * pi)) * 2.0 / 3.0
         return lon
         
     }
     
-    private lazy var locationManager: CLLocationManager = {
+    fileprivate lazy var locationManager: CLLocationManager = {
         
         var tempLm: CLLocationManager = CLLocationManager()
         tempLm.pausesLocationUpdatesAutomatically = true

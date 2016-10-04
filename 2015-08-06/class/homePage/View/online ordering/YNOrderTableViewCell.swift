@@ -68,8 +68,8 @@ class YNOrderTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
-        self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        self.contentView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
         self.contentView.addSubview(businessImageView)
         self.contentView.addSubview(businessTitleLabel)
@@ -105,24 +105,47 @@ class YNOrderTableViewCell: UITableViewCell {
    
         if let tempImage = dataModel!.image {
             
-            let url: NSURL? = NSURL(string: tempImage)
+            let url: URL? = URL(string: tempImage)
             
             if let tempUrl = url {
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                
+                
+                
+                
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
                     
-                    let imageData: NSData? = NSData(contentsOfURL: tempUrl)
+                    
+                    let imageData: Data? = try? Data(contentsOf: tempUrl)
                     
                     if let tempData = imageData {
                         
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        DispatchQueue.main.async(execute: { () -> Void in
                             
                             self.businessImageView.image = UIImage(data: tempData)
                         })
                         
                     }
-                    
-                })
+                        
+                   
+                }
+
+                
+                
+//                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
+//                    
+//                    let imageData: Data? = try? Data(contentsOf: tempUrl)
+//                    
+//                    if let tempData = imageData {
+//                        
+//                        DispatchQueue.main.async(execute: { () -> Void in
+//                            
+//                            self.businessImageView.image = UIImage(data: tempData)
+//                        })
+//                        
+//                    }
+//                    
+//                })
                 
                 
             } else {
@@ -134,11 +157,11 @@ class YNOrderTableViewCell: UITableViewCell {
 
     }
     
-    func setLevel(level: Int) {
+    func setLevel(_ level: Int) {
         
-        for var i = 0; i < ratingButtons.count; ++i {
+        for i in 0 ..< ratingButtons.count {
             
-            ratingButtons[i].selected = i < level
+            ratingButtons[i].isSelected = i < level
        
         }
     }
@@ -184,7 +207,7 @@ class YNOrderTableViewCell: UITableViewCell {
     }
     
     //设置后面4个星星button的位置
-    func addLevelButtonLayout(view: UIView, toView: UIView) {
+    func addLevelButtonLayout(_ view: UIView, toView: UIView) {
 
         Layout().addTopConstraint(view, toView: toView, multiplier: 1, constant: 0)
         Layout().addBottomConstraint(view, toView: toView, multiplier: 1, constant: 0)
@@ -195,12 +218,12 @@ class YNOrderTableViewCell: UITableViewCell {
     }
     
     //初始化一个星星button
-    func buttonWithNormalImage(normalImage: String, selectedImage: String)-> UIButton {
+    func buttonWithNormalImage(_ normalImage: String, selectedImage: String)-> UIButton {
         
         let button: UIButton = UIButton()
-        button.userInteractionEnabled = false
-        button.setImage(UIImage(named: normalImage), forState: UIControlState.Normal)
-        button.setImage(UIImage(named: selectedImage), forState: UIControlState.Selected)
+        button.isUserInteractionEnabled = false
+        button.setImage(UIImage(named: normalImage), for: UIControlState())
+        button.setImage(UIImage(named: selectedImage), for: UIControlState.selected)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         self.ratingButtons += [button]
@@ -209,17 +232,17 @@ class YNOrderTableViewCell: UITableViewCell {
     }
     
     //MARK: - private UI
-    private let kImageViewWH: CGFloat = 18
+    fileprivate let kImageViewWH: CGFloat = 18
     
-    private lazy var businessImageView: UIImageView = {
+    fileprivate lazy var businessImageView: UIImageView = {
         
         var tempImageView = UIImageView()
-        tempImageView.contentMode = UIViewContentMode.ScaleToFill
+        tempImageView.contentMode = UIViewContentMode.scaleToFill
         tempImageView.translatesAutoresizingMaskIntoConstraints = false
         return tempImageView
         
         }()
-    private lazy var businessTitleLabel: UILabel = {
+    fileprivate lazy var businessTitleLabel: UILabel = {
         
         var tempLabel = UILabel()
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -227,47 +250,47 @@ class YNOrderTableViewCell: UITableViewCell {
         
         }()
     
-    private var rating = 0
-    private var ratingButtons = [UIButton]()
+    fileprivate var rating = 0
+    fileprivate var ratingButtons = [UIButton]()
     
-    private lazy var levelButton1: UIButton = {
+    fileprivate lazy var levelButton1: UIButton = {
         
         return self.buttonWithNormalImage("level_normal", selectedImage: "level_selected")
         }()
-    private lazy var levelButton2: UIButton = {
+    fileprivate lazy var levelButton2: UIButton = {
         
         return self.buttonWithNormalImage("level_normal", selectedImage: "level_selected")
         }()
-    private lazy var levelButton3: UIButton = {
+    fileprivate lazy var levelButton3: UIButton = {
         
         return self.buttonWithNormalImage("level_normal", selectedImage: "level_selected")
         }()
-    private lazy var levelButton4: UIButton = {
+    fileprivate lazy var levelButton4: UIButton = {
         
         return self.buttonWithNormalImage("level_normal", selectedImage: "level_selected")
         }()
-    private lazy var levelButton5: UIButton = {
+    fileprivate lazy var levelButton5: UIButton = {
         
         return self.buttonWithNormalImage("level_normal", selectedImage: "level_selected")
         }()
     
-    private lazy var addressLabel: UILabel = {
+    fileprivate lazy var addressLabel: UILabel = {
         
         var tempLabel: UILabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
         tempLabel.numberOfLines = 0
-        tempLabel.textColor = UIColor.lightGrayColor()
+        tempLabel.textColor = UIColor.lightGray
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         
         }()
     
-    private lazy var distanceLabel: UILabel = {
+    fileprivate lazy var distanceLabel: UILabel = {
         
         var tempLabel: UILabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(11)
-        tempLabel.textAlignment = NSTextAlignment.Left
-        tempLabel.textColor = UIColor.lightGrayColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 11)
+        tempLabel.textAlignment = NSTextAlignment.left
+        tempLabel.textColor = UIColor.lightGray
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         return tempLabel
         

@@ -26,8 +26,8 @@ class YNTypeTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.backgroundColor = UIColor.clearColor()
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.backgroundColor = UIColor.clear
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         
          self.setupInterface()
     }
@@ -38,16 +38,16 @@ class YNTypeTableViewCell: UITableViewCell {
         
         if data!.selected {
             
-            self.backgroundColor = UIColor.whiteColor()
-            self.indictorView.hidden = false
+            self.backgroundColor = UIColor.white
+            self.indictorView.isHidden = false
             self.typeLabel.textColor = kStyleColor
             
         } else {
             
-            self.backgroundColor = UIColor.clearColor()
-            self.indictorView.hidden = true
+            self.backgroundColor = UIColor.clear
+            self.indictorView.isHidden = true
             
-            self.typeLabel.textColor = UIColor.blackColor()
+            self.typeLabel.textColor = UIColor.black
         }
         
 
@@ -55,12 +55,12 @@ class YNTypeTableViewCell: UITableViewCell {
        
             self.numberLabel.text = "\(data!.selectedNumber)"
             
-            self.numberLabel.hidden = false
+            self.numberLabel.isHidden = false
 
             
         } else {
        
-            self.numberLabel.hidden = true
+            self.numberLabel.isHidden = true
         }
         
     }
@@ -79,35 +79,35 @@ class YNTypeTableViewCell: UITableViewCell {
     }
     
     //MARK: - private property
-    private lazy var iconImageView: UIImageView = {
+    fileprivate lazy var iconImageView: UIImageView = {
         
         var tempImageView = UIImageView()
-        tempImageView.contentMode = UIViewContentMode.ScaleToFill
+        tempImageView.contentMode = UIViewContentMode.scaleToFill
         tempImageView.translatesAutoresizingMaskIntoConstraints = false
         return tempImageView
         
         }()
     
-    private lazy var typeLabel: UILabel = {
+    fileprivate lazy var typeLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(14)
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
         tempLabel.textColor = UIColor(red: 76/255.0, green: 76/255.0, blue: 76/255.0, alpha: 1)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
-        tempLabel.textAlignment = NSTextAlignment.Left
+        tempLabel.textAlignment = NSTextAlignment.left
         return tempLabel
         }()
     
-    private lazy var numberLabel: UILabel = {
+    fileprivate lazy var numberLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(10)
-        tempLabel.textColor = UIColor.whiteColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 10)
+        tempLabel.textColor = UIColor.white
         tempLabel.backgroundColor = kStyleColor
         tempLabel.sizeToFit()
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.layer.cornerRadius = 3
-        tempLabel.textAlignment = NSTextAlignment.Center
+        tempLabel.textAlignment = NSTextAlignment.center
         tempLabel.clipsToBounds = true
         tempLabel.adjustsFontSizeToFitWidth = true
         
@@ -115,16 +115,16 @@ class YNTypeTableViewCell: UITableViewCell {
         
         }()
 
-    private lazy var indictorView: UIView = {
+    fileprivate lazy var indictorView: UIView = {
    
         var tempView = UIView()
         tempView.backgroundColor = kStyleColor
-        tempView.hidden = true
+        tempView.isHidden = true
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
     }()
     
-    private lazy var separatorView: UIView = {
+    fileprivate lazy var separatorView: UIView = {
         
         var tempView = UIView()
         tempView.backgroundColor = UIColor(red: 220/255.0, green: 220/255.0, blue: 223/255.0, alpha: 1)

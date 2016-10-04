@@ -13,7 +13,7 @@ class YNMealTimeOrOtherCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         setupInterface()
         setupLayout()
     }
@@ -51,31 +51,31 @@ class YNMealTimeOrOtherCell: UITableViewCell {
     }
     
     //MARK: - private proporty
-    private lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(15)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 15)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "备注"
         return tempLabel
         }()
     
-    private lazy var detailLabel: UILabel = {
+    fileprivate lazy var detailLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(13)
+        tempLabel.font = UIFont.systemFont(ofSize: 13)
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "添加备注"
-        tempLabel.textColor = UIColor.blackColor()
-        tempLabel.textAlignment = NSTextAlignment.Right
+        tempLabel.textColor = UIColor.black
+        tempLabel.textAlignment = NSTextAlignment.right
         return tempLabel
         }()
     
-    private lazy var indicatorImageView: UIImageView = {
+    fileprivate lazy var indicatorImageView: UIImageView = {
         
         var tempView = UIImageView(image: UIImage(named: "icon_cell_rightArrow")!)
-        tempView.contentMode = UIViewContentMode.ScaleAspectFit
+        tempView.contentMode = UIViewContentMode.scaleAspectFit
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()

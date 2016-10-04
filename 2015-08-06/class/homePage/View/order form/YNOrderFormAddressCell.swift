@@ -14,7 +14,7 @@ class YNOrderFormAddressCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        self.selectionStyle = UITableViewCellSelectionStyle.none
         
         setupInterface()
         setupLayout()
@@ -81,64 +81,64 @@ class YNOrderFormAddressCell: UITableViewCell {
         self.contentView.addSubview(indicatorImageView)
     }
     
-    private lazy var userNameLabel: UILabel = {
+    fileprivate lazy var userNameLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(14)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "程亚男"
         return tempLabel
         }()
     
-    private lazy var userGenderLabel: UILabel = {
+    fileprivate lazy var userGenderLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(14)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "女士"
         return tempLabel
         }()
     
-    private lazy var userPhoneNumberLabel: UILabel = {
+    fileprivate lazy var userPhoneNumberLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(14)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "18790295312"
         return tempLabel
         }()
-    private lazy var userAddressLabel: UILabel = {
+    fileprivate lazy var userAddressLabel: UILabel = {
         
         var tempLabel = UILabel()
-        tempLabel.font = UIFont.systemFontOfSize(14)
-        tempLabel.textColor = UIColor.blackColor()
+        tempLabel.font = UIFont.systemFont(ofSize: 14)
+        tempLabel.textColor = UIColor.black
         tempLabel.translatesAutoresizingMaskIntoConstraints = false
         tempLabel.text = "古德佳苑7号楼2单元35室"
         tempLabel.numberOfLines = 2
         return tempLabel
         }()
     
-    private lazy var topImageView: UIImageView = {
+    fileprivate lazy var topImageView: UIImageView = {
         
         var tempView = UIImageView()
         tempView.backgroundColor = UIColor(patternImage: UIImage(named: "address_line_bg")!)
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
-    private lazy var bottomImageView: UIImageView = {
+    fileprivate lazy var bottomImageView: UIImageView = {
         
         var tempView = UIImageView()
         tempView.backgroundColor = UIColor(patternImage: UIImage(named: "address_line_bg")!)
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()
-    private lazy var indicatorImageView: UIImageView = {
+    fileprivate lazy var indicatorImageView: UIImageView = {
         
         var tempView = UIImageView(image: UIImage(named: "icon_cell_rightArrow")!)
-        tempView.contentMode = UIViewContentMode.ScaleAspectFit
+        tempView.contentMode = UIViewContentMode.scaleAspectFit
         tempView.translatesAutoresizingMaskIntoConstraints = false
         return tempView
         }()

@@ -41,7 +41,7 @@ class YNPorthouseType {
         
         if let tempData = dataDict {
             
-            for var i = 0; i < tempData.count; ++i {
+            for i in 0 ..< tempData.count {
            
                 let data = YNPorterhouseDish(dict: tempData[i])
                 data.secondIndex = i

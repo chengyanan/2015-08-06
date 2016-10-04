@@ -12,7 +12,7 @@ class YNOrderSuccessViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         
         self.title = "订餐成功"
